@@ -2,7 +2,7 @@
 Tags: google analytics, tracking, light weight, simple, easy, free
 Requires at least: 3.8.0
 Tested up to: 4.1.1
-Stable tag: 0.1
+Stable tag: 0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -11,16 +11,14 @@ The most simplified Google Analytics Plugin for WordPress.
 
 == Description ==
 
-Track your WordPress website with Google Analytics .
+Track your WordPress website with Google Analytics service.
 
-This plugin has not been submitted to WordPress Plugin Directory yet.
-It is in beta stage, please use this plugin at your own risk.
-I will update the plugin as soon as i got some free time.
 
 = Some Features =
 * Simplest user interface
 * Most light weight plugin
 * Support Universal Google and Classic Analytics
+* Using untouched and latest tracking code by Google
 * Choose where to place your tracking code
 * Control code priority
 * Choose to disable tracking if user logged in
@@ -43,6 +41,23 @@ I will update the plugin as soon as i got some free time.
 
 == Frequently Asked Questions ==
 
+
+= What is different with this plugin ? =
+
+WordPress plugin directory already have many of these kind of plugins.
+But not all are optimized for performance.
+Most of them lacks some features, while some of them have unused features.
+This plugin was developed to provide most used feature in one place without compromising the speed.
+So give it a try , i am sure you will not regret for your decision.
+
+
+= Tracking code not shown up in front end =
+
+There may be several reasons for this.
+* Check if tracking is not disabled for current logged in user.
+* Try to flush/delete your site cache.
+* Try switching to the default WordPress theme.
+* Make sure you have entered a valid tracking ID.
 
 = Changes does not reflect after saving settings ? =
 
@@ -67,14 +82,15 @@ Just go [here](https://support.google.com/analytics/answer/1032385?hl=en).
 
 = Did you test it with old version of WordPress ? =
 
-No, tested with v4.1+ (latest as of now) only. So i recommend you to upgrade to latest WordPress today.
+No, tested with v4.1+ (latest as of now) only.
+So i recommend you to upgrade to latest WordPress today.
 
 
 = Can i modify this plugin ? =
 
 Yes you can. But you can't make money by selling this. You can ask for donation.
 
-= Is Google Analytics is free. =
+= Is Google Analytics service free. =
 
 Yes, There is paid version of Google Analytics also.
 Read more [here](https://developers.google.com/analytics/devguides/collection/analyticsjs/limits-quotas).
@@ -94,6 +110,9 @@ It just a matter of a second. It will cost not more than 10 KB.
 
 == Changelog ==
 
+= 0.2 =
+* Updated docs and adjustments
+* Submitted to WordPress plugin directory
 
 = 0.1 =
 * First beta

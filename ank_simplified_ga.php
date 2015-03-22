@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Ank Simplified GA
-Plugin URI: http://ank91.github.io/
+Plugin URI: https://github.com/ank91/ank-simplified-ga
 Description: Simple, light weight, and non-bloated WordPress Google Analytics Plugin.
-Version: 0.1
+Version: 0.2
 Author: Ankur Kumar
 Author URI: http://ank91.github.io/
 License: GPL2
@@ -14,7 +14,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 /* no direct access*/
 if (!defined('ABSPATH')) exit;
 
-define('ASGA_PLUGIN_VER', '0.1');
+define('ASGA_PLUGIN_VER', '0.2');
 define('ASGA_BASE_FILE',__FILE__);
 
 class Ank_Simplified_GA
@@ -54,15 +54,15 @@ class Ank_Simplified_GA
     function print_js_code()
     {
         //check if to proceed
-        if(!$this->is_tracking_possible()) return;
+        if (!$this->is_tracking_possible()) return;
 
         $options = $this->asga_options;
         //get tracking id
         $ga_id = $options['ga_id'];
         //decide sub-domain
-        $domain=$options['ga_domain'];
-        if(empty($domain)||$domain==='') $domain='auto';
-        $gaq=array();
+        $domain = $options['ga_domain'];
+        if (empty($domain) || $domain === '') $domain = 'auto';
+        $gaq = array();
         global $wp_query;
 
         if ($options['ua_enabled'] == 1) {
@@ -73,10 +73,10 @@ class Ank_Simplified_GA
             if ($options['anonymise_ip'] == 1) {
                 $gaq[] = "'set', 'anonymizeIp', true";
             }
-            if ( $options['displayfeatures']==1 ) {
+            if ($options['displayfeatures'] == 1) {
                 $gaq[] = "'require', 'displayfeatures'";
             }
-            if ( $options['ga_ela']==1 ) {
+            if ($options['ga_ela'] == 1) {
                 $gaq[] = "'require', 'linkid', 'linkid.js'";
             }
             if (is_404() && $options['log_404'] == 1) {
@@ -91,13 +91,13 @@ class Ank_Simplified_GA
 
         } else {
             //classic ga is enabled
-            $ga_src="('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
+            $ga_src = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
 
-            if ( $options['displayfeatures']==1 ) {
-                $ga_src="('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js'";
+            if ($options['displayfeatures'] == 1) {
+                $ga_src = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js'";
             }
             $gaq[] = "'_setAccount', '" . esc_attr($ga_id) . "'";
-            if ($domain!=='auto') {
+            if ($domain !== 'auto') {
                 $gaq[] = "'_setDomainName', '" . esc_attr($domain) . "'";
             }
             // enable SSL data
@@ -106,9 +106,9 @@ class Ank_Simplified_GA
             if ($options['anonymise_ip'] == 1) {
                 $gaq[] = "'_gat._anonymizeIp'";
             }
-            $plugin_url='';
-            if ( $options['ga_ela']==1 ) {
-                $plugin_url="var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';\n";
+            $plugin_url = '';
+            if ($options['ga_ela'] == 1) {
+                $plugin_url = "var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';\n";
                 $gaq[] = "['_require', 'inpage_linkid', pluginUrl]";
             }
 
@@ -147,14 +147,14 @@ class Ank_Simplified_GA
 
 
             //If the user's role has been set not to track, return
-            if (is_user_logged_in()) {
-                $role = array_shift(wp_get_current_user()->roles);
-                if (1 == $options['ignore_role_' . $role]) {
-                    echo '<!-- GA Tracking is disabled for you -->';
-                    return false;
-                }
-
+        if (is_user_logged_in()) {
+            $role = array_shift(wp_get_current_user()->roles);
+            if (1 == $options['ignore_role_' . $role]) {
+                echo '<!-- GA Tracking is disabled for you -->';
+                return false;
             }
+
+        }
             return true;
         }
 
