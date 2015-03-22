@@ -13,9 +13,9 @@ class ASGA_Admin_Class
 {
 
     /*store plugin option page slug,so that we can change it with ease */
-    private $plugin_slug='asga_options_page';
+    private $plugin_slug = 'asga_options_page';
     /*store database option field name to avoid confusion */
-    private  $option_name='asga_options';
+    private $option_name = 'asga_options';
 
      function __construct()
     {
@@ -40,19 +40,19 @@ class ASGA_Admin_Class
     function add_default_options()
     {
         //if options already exists then return early
-        if(get_option('asga_options')) return;
-        $defaults=array(
-            'plugin_ver'=>ASGA_PLUGIN_VER,
-            'ga_id'=>'',
-            'js_location'=>1, //header
-            'js_priority'=>20, //default is 20
-            'log_404'=>0,
-            'log_search'=>0,
-            'ua_enabled'=>1, //UA is enabled by default
-            'displayfeatures'=>0,
-            'ga_ela'=>0,
-            'anonymise_ip'=>0,
-            'ga_domain' =>''
+        if (get_option('asga_options')) return;
+        $defaults = array(
+            'plugin_ver' => ASGA_PLUGIN_VER,
+            'ga_id' => '',
+            'js_location' => 1, //header
+            'js_priority' => 20, //default is 20
+            'log_404' => 0,
+            'log_search' => 0,
+            'ua_enabled' => 1, //UA is enabled by default
+            'displayfeatures' => 0,
+            'ga_ela' => 0,
+            'anonymise_ip' => 0,
+            'ga_domain' => ''
         );
         global $wp_roles;
         //store roles as well
@@ -63,7 +63,7 @@ class ASGA_Admin_Class
         update_option('asga_options',$defaults);
     }
 
-    /*register our settings, using setting api*/
+    /*register our settings, using WP setting api*/
     function ASGA_admin_init() {
         register_setting('asga_plugin_options', $this->option_name, array($this,'ASGA_validate_options'));
     }
@@ -106,34 +106,34 @@ class ASGA_Admin_Class
     function ASGA_validate_options($in)
     {
 
-        $out=array();
+        $out = array();
         //always store plugin version to db
-        $out['plugin_ver']=ASGA_PLUGIN_VER;
+        $out['plugin_ver'] = ASGA_PLUGIN_VER;
         //start handle form data
 
         // Get the actual tracking ID
-        if ( preg_match( '#UA-[\d-]+#', $in['ga_id'], $matches ) )
+        if (preg_match('#UA-[\d-]+#', $in['ga_id'], $matches))
             $out['ga_id'] = $matches[0];
         else
             $out['ga_id'] = '';
 
         //warn user that the entered id is not valid
-        if(empty($out['ga_id'])||$out['ga_id']===''){
-            add_settings_error( 'asga_options', 'ga_id', 'Your GA tracking ID seems invalid.' );
+        if (empty($out['ga_id']) || $out['ga_id'] === '') {
+            add_settings_error('asga_options', 'ga_id', 'Your GA tracking ID seems invalid.');
         }
 
-        $out['js_location']=absint($in['js_location']);
-        $out['js_priority']=absint($in['js_priority']);
+        $out['js_location'] = absint($in['js_location']);
+        $out['js_priority'] = absint($in['js_priority']);
 
-        $out['ga_domain']=esc_attr($in['ga_domain']);
+        $out['ga_domain'] = esc_attr($in['ga_domain']);
 
-        $checkbox_items=array('ua_enabled','anonymise_ip','displayfeatures','ga_ela','log_404','log_search');
+        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search');
         global $wp_roles;
-        foreach( $wp_roles->roles as $role => $role_info ) {
+        foreach ($wp_roles->roles as $role => $role_info) {
             $checkbox_items[] = 'ignore_role_' . $role;
         }
-        foreach( $checkbox_items as $checkbox_item ) {
-            if ( isset( $in[$checkbox_item] ) && '1' == $in[$checkbox_item] )
+        foreach ($checkbox_items as $checkbox_item) {
+            if (isset($in[$checkbox_item]) && '1' == $in[$checkbox_item])
                 $out[$checkbox_item] = 1;
             else
                 $out[$checkbox_item] = 0;
@@ -152,7 +152,7 @@ class ASGA_Admin_Class
         }
         ?>
     <div class="wrap">
-        <h2><i class="dashicons dashicons-chart-bar" style="vertical-align: middle"></i> Ank Simplified GA</h2>
+        <h2><i class="dashicons dashicons-chart-bar" style="vertical-align: middle"></i> Ank Simplified GA <small>(v<?php echo ASGA_PLUGIN_VER; ?>)</small></h2>
         <form action="<?php echo admin_url('options.php') ?>" method="post" id="asga_form">
             <?php
             //always get fresh options from db
@@ -248,15 +248,16 @@ class ASGA_Admin_Class
             </table>
 <?php submit_button('Save Options')?>
         </form>
-        <p>Developed by- <a target="_blank" href="http://ank91.github.io/">Ankur Kumar</a></p>
+        <p>Developed by- <a target="_blank" href="http://ank91.github.io/">Ankur Kumar</a> |
+            Fork on <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a> </p>
     </div> <!-- .wrap-->
     <?php
         //debugging information shows options saved in database
-        if(isset($_GET['debug'])||WP_DEBUG==true){
+        if (isset($_GET['debug']) || WP_DEBUG == true) {
             echo '<hr><p><h5>Showing Debugging Info:</h5>';
             var_dump($options);
             echo '</p><hr>';
-      }?>
+        }?>
     <?php
     }
 
@@ -305,7 +306,7 @@ class ASGA_Admin_Class
                     'A brief FAQ is available on plugin&apos;s official website. '.
                     'OR click <a href="#" target="_blank">here</a> for more.<br>'.
                     'Support is only available on WordPress Forums, click <a href="#" target="_blank">here</a> to ask anything about this plugin.<br>'.
-                    'You can also browse the source code of this  plugin on <a href="#" target="_blank">GitHub</a>. '.
+                    'You can also browse the source code of this  plugin on <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a>. '.
                     '</p>'
 
             )

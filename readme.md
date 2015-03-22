@@ -16,4 +16,4 @@ The most simplified WordPress Google Analytics Plugin.
 * Anonymize IPs
 * Don't track anything inside wp-admin by default
 
-> Stable version comming soon.
+> Stable version coming soon.
