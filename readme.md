@@ -5,7 +5,8 @@ The most simplified WordPress Google Analytics Plugin.
 ##Some Implemented Features
 * Simplest user interface
 * Most light weight plugin
-* Support Universal Google and Classic Analytics both
+* Support Universal Google and Classic Analytics
+* Using untouched and latest tracking code by Google
 * Choose where to place your tracking code
 * Control code priority
 * Choose to disable tracking if user logged in
@@ -16,4 +17,5 @@ The most simplified WordPress Google Analytics Plugin.
 * Anonymize IPs
 * Don't track anything inside wp-admin by default
 
-> Stable version coming soon.
+
+
