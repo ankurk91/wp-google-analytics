@@ -13,6 +13,8 @@ The most simplified Google Analytics Plugin for WordPress.
 
 Track your WordPress website with Google Analytics service.
 
+> Fork Here : https://github.com/ank91/ank-simplified-ga
+
 
 = Some Features =
 * Simplest user interface
@@ -32,7 +34,7 @@ Track your WordPress website with Google Analytics service.
 
 
 == Installation ==
-1. Search for 'Ank Simplified GA' in GitHub and Download the .zip file & extract it.
+1. Search for 'Ank Simplified GA' in WordPress Plugin Directory and Download the .zip file & extract it.
 2. Upload the folder `ank-simplified-ga` to the `/wp-content/plugins/` directory
 3. Activate the plugin through the 'Plugins List' page in WordPress Admin Area.
 4. Configure this plugin via Settings-->Ank Simplified GA
@@ -95,18 +97,21 @@ Yes you can. But you can't make money by selling this. You can ask for donation.
 Yes, There is paid version of Google Analytics also.
 Read more [here](https://developers.google.com/analytics/devguides/collection/analyticsjs/limits-quotas).
 
+
 = Future Plans ? =
 * I18n for Option Page.
 * More options may be.
-* Support for multisite
+* Support for multi site
 
 == Upgrade Notice ==
 
 No big changes yet in this plugin, so go ahead and upgrade to new version whenever i release.
 It just a matter of a second. It will cost not more than 10 KB.
 
+
 == Screenshots ==
 1. Plugin Option Page Screen
+
 
 == Changelog ==
 
