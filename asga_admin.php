@@ -304,8 +304,8 @@ class ASGA_Admin_Class
                 'title'		=> 'More',
                 'content'	=>'<p><strong>Need more information ?</strong><br>'.
                     'A brief FAQ is available on plugin&apos;s official website. '.
-                    'OR click <a href="#" target="_blank">here</a> for more.<br>'.
-                    'Support is only available on WordPress Forums, click <a href="#" target="_blank">here</a> to ask anything about this plugin.<br>'.
+                    'OR click <a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">here</a> for more.<br>'.
+                    'Support is only available on WordPress Forums, click <a href="http://wordpress.org/support/plugin/ank-simplified-ga" target="_blank">here</a> to ask anything about this plugin.<br>'.
                     'You can also browse the source code of this  plugin on <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a>. '.
                     '</p>'
 
@@ -315,8 +315,8 @@ class ASGA_Admin_Class
         /*add a help sidebar with links */
         $curr_screen->set_help_sidebar(
             '<p><strong>Quick Links</strong></p>' .
-            '<p><a href="#" target="_blank">Plugin FAQ</a></p>' .
-            '<p><a href="#" target="_blank">Plugin Home</a></p>'
+            '<p><a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">Plugin FAQ</a></p>' .
+            '<p><a href="https://github.com/ank91/ank-simplified-ga" target="_blank">Plugin Home</a></p>'
         );
     }
 
