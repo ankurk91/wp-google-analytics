@@ -1,8 +1,8 @@
 === Ank Simplified GA ===
-Tags: google analytics, tracking, light weight, simple, easy, free
+Tags: google analytics, tracking, light weight, simple, easy, free , multisite
 Requires at least: 3.8.0
-Tested up to: 4.1.1
-Stable tag: 0.2
+Tested up to: 4.2
+Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -23,13 +23,15 @@ Track your WordPress website with Google Analytics service.
 * Using untouched and latest tracking code by Google
 * Choose where to place your tracking code
 * Control code priority
-* Choose to disable tracking if user logged in
+* Choose to disable tracking if user logged-in
 * Track 404 and Searched items
 * Sub-domain tracking
 * Demographics & Interest Reports
 * Enhanced Link Attribution
 * Anonymize IPs
 * Don't track anything inside wp-admin by default
+* Support multi-site
+* Disable tracking when Network Admin is logged-in
 
 
 
@@ -84,7 +86,7 @@ Just go [here](https://support.google.com/analytics/answer/1032385?hl=en).
 
 = Did you test it with old version of WordPress ? =
 
-No, tested with v4.1+ (latest as of now) only.
+No, tested with v4.1 and up only.
 So i recommend you to upgrade to latest WordPress today.
 
 
@@ -101,7 +103,7 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 = Future Plans ? =
 * I18n for Option Page.
 * More options may be.
-* Support for multi site
+
 
 == Upgrade Notice ==
 
@@ -114,6 +116,11 @@ It just a matter of a second. It will cost not more than 10 KB.
 
 
 == Changelog ==
+
+= 0.3 =
+* Multi-site support
+* More stable and secure
+* Tested with WordPress v4.2
 
 = 0.2 =
 * Updated docs and adjustments

@@ -1,5 +1,5 @@
 # Ank-Simplified-GA
-The most simplified WordPress Google Analytics Plugin.
+The most simplified WordPress Google Analytics Plugin with multi-site support.
 
 - - -
 
@@ -29,6 +29,8 @@ The most simplified WordPress Google Analytics Plugin.
 * Enhanced Link Attribution
 * Anonymize IPs
 * Don't track anything inside wp-admin by default
+* Support multi-site
+* Disable tracking when Network Admin is logged-in
 
 
 - - -
