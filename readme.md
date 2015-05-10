@@ -22,7 +22,7 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 * Using untouched and latest tracking code by Google
 * Choose where to place your tracking code
 * Control code priority
-* Choose to disable tracking if user logged in
+* Choose to disable tracking if user logged-in
 * Track 404 and Searched items
 * Sub-domain tracking
 * Demographics & Interest Reports
@@ -34,6 +34,7 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 
 
 - - -
+
 ## Change Log
 Change log is available [here](https://wordpress.org/plugins/ank-simplified-ga/changelog/)
 
@@ -41,4 +42,4 @@ Change log is available [here](https://wordpress.org/plugins/ank-simplified-ga/c
 -----
 
 
-**Created By: *Ankur Kumar* &copy; 2015**
+**Created By: *Ankur Kumar* **

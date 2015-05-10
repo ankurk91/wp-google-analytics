@@ -92,7 +92,7 @@ So i recommend you to upgrade to latest WordPress today.
 
 = Can i modify this plugin ? =
 
-Yes you can. But you can't make money by selling this. You can ask for donation.
+Yes you can. Do whatever you want do .
 
 = Is Google Analytics service free. =
 
