@@ -42,4 +42,4 @@ Change log is available [here](https://wordpress.org/plugins/ank-simplified-ga/c
 -----
 
 
-**Created By: *Ankur Kumar* **
+**Created By: *Ank91* **
