@@ -2,7 +2,6 @@
 /*
  * Settings Page for "Ank Simplified GA" Plugin
  * Lets keep admin area code here
- * This class can run independently without the front-end class
  */
 
 /* No direct access */
@@ -12,7 +11,7 @@ if (!defined('ASGA_BASE_FILE')) wp_die('What ?');
 class ASGA_Admin_Class
 {
 
-    protected static $instance = false;
+    protected static $instance = null;
     /*store plugin option page slug,so that we can change it with ease */
     private $plugin_slug = 'asga_options_page';
     /*store database option field name to avoid confusion */
@@ -20,7 +19,8 @@ class ASGA_Admin_Class
 
     function __construct()
     {
-        if ( is_null( self::$instance ) ) {
+        // If instance is null, create it. Prevent creating multiple instances of this class
+        if (is_null(self::$instance)) {
             self::$instance = $this;
         }
         /*to save default options upon activation*/
@@ -35,14 +35,20 @@ class ASGA_Admin_Class
         /* Add settings link under admin->settings menu */
         add_action('admin_menu', array($this, 'add_to_settings_menu'));
 
+        /* Show warning if debug mode is on  */
+        add_action('admin_notices', array($this, 'show_admin_notice'));
+
     }
+
     /**
      * Function to instantiate our class and make it a singleton
      */
     public static function get_instance()
     {
-        if (!self::$instance)
-            self::$instance = new self;
+
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
+        }
 
         return self::$instance;
     }
@@ -58,7 +64,7 @@ class ASGA_Admin_Class
         update_option($this->option_name, $this->getDefaultOptions());
     }
 
-    /*Register our settings, using WP setting api*/
+    /*Register our settings, using WP settings API*/
     function ASGA_admin_init()
     {
         register_setting('asga_plugin_options', $this->option_name, array($this, 'ASGA_validate_options'));
@@ -70,7 +76,7 @@ class ASGA_Admin_Class
      *
      * @param $links
      * @param $file
-     * @return array Links array
+     * @return array  Links array
      */
     function add_plugin_actions_links($links, $file)
     {
@@ -133,7 +139,8 @@ class ASGA_Admin_Class
             'displayfeatures' => 0,
             'ga_ela' => 0,
             'anonymise_ip' => 0,
-            'ga_domain' => ''
+            'ga_domain' => '',
+            'debug_mode' => 0
         );
         //store roles as well
         foreach ($this->getAllRoles() as $role => $role_info) {
@@ -156,26 +163,22 @@ class ASGA_Admin_Class
         //always store plugin version to db
         $out['plugin_ver'] = ASGA_PLUGIN_VER;
 
-        //start handle form data
-
         // Get the actual tracking ID
-        if (preg_match('#UA-[\d-]+#', (string)$in['ga_id'], $matches))
-            $out['ga_id'] = $matches[0];
-        else
+        if (!preg_match('|^UA-\d{4,}-\d+$|', (string)$in['ga_id'])) {
             $out['ga_id'] = '';
-
-        //warn user that the entered id is not valid
-        if (empty($out['ga_id'])) {
+            //warn user that the entered id is not valid
             add_settings_error($this->option_name, 'ga_id', 'Your GA tracking ID seems invalid. Please check.');
+        } else {
+            $out['ga_id'] = esc_attr($in['ga_id']);
         }
 
         $out['js_location'] = absint($in['js_location']);
-        $out['js_priority'] = ($in['js_priority']=='') ? 10 : absint($in['js_priority']);
+        $out['js_priority'] = ($in['js_priority'] == '') ? 10 : absint($in['js_priority']);
 
         $out['ga_domain'] = esc_attr($in['ga_domain']);
 
-        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search');
-
+        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search','debug_mode');
+         //add rolls to checkbox_items array
         foreach ($this->getAllRoles() as $role => $role_info) {
             $checkbox_items[] = 'ignore_role_' . $role;
         }
@@ -192,7 +195,6 @@ class ASGA_Admin_Class
 
     /**
      * Function will print our option page form
-     * @initiated by add_submenu_page
      */
      function ASGA_Options_Page()
     {
@@ -201,36 +203,31 @@ class ASGA_Admin_Class
         }
         ?>
         <div class="wrap">
-            <h2><i class="dashicons dashicons-chart-bar" style="vertical-align: middle"></i> Ank Simplified GA <small>(v<?php echo ASGA_PLUGIN_VER; ?>)</small> </h2>
+            <h2><i class="dashicons dashicons-chart-bar" style="vertical-align: middle"></i> Ank Simplified Google Analytics <small>(v<?php echo ASGA_PLUGIN_VER; ?>)</small> </h2>
             <form action="<?php echo admin_url('options.php') ?>" method="post" id="asga_form">
                 <?php
-                //always get fresh options from db
-                $options = get_option($this->option_name);
-                //if options not exists in db then init with defaults , also always append default options to existing options
-                $options = empty($options) ? $this->getDefaultOptions() : $options + $this->getDefaultOptions();
-                //wp inbuilt nonce field etc
+                $options = $this->getSafeOptions();
+                //wp inbuilt nonce field , etc
                 settings_fields('asga_plugin_options');
                 ?>
                 <table class="form-table">
                     <tr>
-                        <th scope="row">Google Analytics tracking ID:</th>
-                        <td><input type="text" placeholder="UA-XXXXXX-X" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>" required="" aria-required="true"> <br>
-
-                            <p class="description">Paste your Google Analytics <a href="https://support.google.com/analytics/answer/1032385?hl=en">tracking ID</a> (e.g. "UA-XXXXXX-X")</p>
+                        <th scope="row">Google Analytics tracking ID :</th>
+                        <td><input type="text" placeholder="UA-XXXXXXXX-X" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>" required="" aria-required="true"> <br>
+                            <p class="description">Paste your Google Analytics <a target="_blank" href="https://support.google.com/analytics/answer/1032385">tracking ID</a> (e.g. "UA-XXXXXXXX-X")</p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Enable Universal GA:</th>
+                        <th scope="row">Enable Universal GA :</th>
                         <td><label><input type="checkbox" name="asga_options[ua_enabled]" value="1" <?php checked($options['ua_enabled'], 1) ?>>Enable Universal Google Analytics</label>
-
-                            <p class="description">Un-check this, If you are using Classic GA . OR <a href="https://support.google.com/analytics/answer/3450662?hl=en" target="_blank">upgrade</a>. </p>
+                            <p class="description">Un-check this, If you are using Classic GA . OR <a href="https://support.google.com/analytics/answer/3450662" target="_blank">upgrade</a>. </p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Set domain:</th>
+                        <th scope="row">Set domain :</th>
                         <td><input type="text" placeholder="auto" name="asga_options[ga_domain]" value="<?php echo esc_attr($options['ga_domain']); ?>">
                             <?php
-                            //print sub-domain url on screen
+                            //print sub-domain url on screen , when multi-site is enabled
                             if(!is_main_site()){
                                 printf('<p class="description">%s</p>',get_blogaddress_by_id(get_current_blog_id())) ;
                             }
@@ -239,30 +236,29 @@ class ASGA_Admin_Class
                     </tr>
                     <tr>
                         <th scope="row">Enable Display Advertising :</th>
-                        <td><label><input type="checkbox" name="asga_options[displayfeatures]" value="1" <?php checked($options['displayfeatures'], 1) ?>>Check to enable <a href="https://support.google.com/analytics/answer/2444872?hl=en">Read More</a></label>
+                        <td><label><input type="checkbox" name="asga_options[displayfeatures]" value="1" <?php checked($options['displayfeatures'], 1) ?>>Check to enable <a target="_blank" href="https://support.google.com/analytics/answer/3450482">Read More</a></label>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">Enhanced Link Attribution :</th>
-                        <td><label><input type="checkbox" name="asga_options[ga_ela]" value="1" <?php checked($options['ga_ela'], 1) ?>>Check to Enable <a target="_blank" href="https://support.google.com/analytics/answer/2558867?hl=en">Read More</a> </label>
+                        <td><label><input type="checkbox" name="asga_options[ga_ela]" value="1" <?php checked($options['ga_ela'], 1) ?>>Check to Enable <a target="_blank" href="https://support.google.com/analytics/answer/2558867">Read more</a> </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Anonymize IP's:</th>
-                        <td><label><input type="checkbox" name="asga_options[anonymise_ip]" value="1" <?php checked($options['anonymise_ip'], 1) ?>>Anonymize IP <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank">Read more</a></label>
+                        <th scope="row">Anonymize IP's :</th>
+                        <td><label><input type="checkbox" name="asga_options[anonymise_ip]" value="1" <?php checked($options['anonymise_ip'], 1) ?>>Anonymize IP <a href="https://support.google.com/analytics/answer/2763052" target="_blank">Read more</a></label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Code Location:</th>
+                        <th scope="row">Code Location :</th>
                         <td>
-                            <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;Place in document head</label><br>
+                            <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;Place in document header</label><br>
                             <label><input type="radio" name="asga_options[js_location]" value="2" <?php checked($options['js_location'], 2) ?>>&ensp;Place in document footer</label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Action Priority:</th>
+                        <th scope="row">Action Priority :</th>
                         <td><input type="number" min="0" max="999" placeholder="10" name="asga_options[js_priority]" value="<?php echo esc_attr($options['js_priority']); ?>">
-
                             <p class="description">0 means highest priority, default is 10</p>
                         </td>
                     </tr>
@@ -280,20 +276,27 @@ class ASGA_Admin_Class
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Event Tracking:</th>
+                        <th scope="row">Event Tracking :</th>
                         <td>
                             <?php
                             $events = array(
                                 'log_404' => 'Log 404 errors as events',
                                 'log_search' => 'Log searched items'
                             );
-                            //loop through array
+                            //loop through each event item
                             foreach ($events as $event => $label) {
                                 echo '<label>';
                                 echo '<input type="checkbox" name="asga_options[' . $event . ']" value="1" ' . checked($options[$event], 1, 0) . '/>';
                                 echo '&ensp;' . $label . '</label><br>';
                             }
                             ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Troubleshoot :</th>
+                        <td><label><input type="checkbox" name="asga_options[debug_mode]" value="1" <?php checked($options['debug_mode'], 1) ?>>Enable Debugging mode for admins <a target="_blank" href="https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug">Read more</a> </label>
+
+                            <p class="description">This should only be used temporarily or during development, don't forget to disable it in production.</p>
                         </td>
                     </tr>
                 </table>
@@ -371,5 +374,56 @@ class ASGA_Admin_Class
         );
     }
 
-} //end class
+    /**
+     * Show a warning notice on all screens if debug mode is on
+     */
+    function show_admin_notice()
+    {   //notice will be shown to admin user only
+        if ($this->check_admin_notice()) {
+             ?>
+            <div id="asga_message" class="notice notice-warning is-dismissible">
+                <p>Google Analytics debug mode is on. Don't leave this option enabled in production.
+                    <?php
+                    //don't show settings link when user is on our options page
+                    if (strpos(get_current_screen()->id, $this->plugin_slug) === false) { ?>
+                        <a title="Go to settings page" href="<?php echo admin_url('options-general.php?page=' . $this->plugin_slug); ?>">Settings</a>
+                    <?php } ?>
+                </p>
+            </div>
+        <?php
+        }
+    }
 
+    /**
+     * Check if to show admin notice or not
+     * @return bool
+     */
+    private function check_admin_notice()
+    {
+        $options = $this->getSafeOptions();
+        //id ga id is not set return early
+        if (empty($options['ga_id'])) return false;
+        //if current user is not admin then return early
+        if (!current_user_can('manage_options')) return false;
+        //if debug mode is off return early
+        if ($options['debug_mode'] == 0) return false;
+        //else return true
+        return true;
+
+    }
+
+    /**
+     * Get fail safe options
+     * @return array
+     */
+    private function getSafeOptions()
+    {
+        //get fresh options from db
+        $options = get_option($this->option_name);
+        //if options not exists in db then init with defaults , also always append default options to existing options
+        $options = empty($options) ? $this->getDefaultOptions() : $options + $this->getDefaultOptions();
+        return $options;
+
+    }
+
+} //end class
