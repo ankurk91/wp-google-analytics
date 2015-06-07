@@ -1,10 +1,10 @@
-<!--Classic GA Tracking start-->
+<!--Classic GA Tracking start<?php if($debug_mode){?>, Debugging is on<?php }?>-->
 <script type="text/javascript">
 var _gaq = _gaq || [];
 <?php
 echo $plugin_url;
 foreach($gaq as $item){
-echo '	_gaq.push([' . $item . "]);\n";
+echo "_gaq.push([" . $item . "]);\n";
 }
 ?>
 (function() {

@@ -1,8 +1,8 @@
 === Ank Simplified GA ===
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite
 Requires at least: 3.8.0
-Tested up to: 4.2
-Stable tag: 0.3
+Tested up to: 4.2.2
+Stable tag: 0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -30,8 +30,9 @@ Track your WordPress website with Google Analytics service.
 * Enhanced Link Attribution
 * Anonymize IPs
 * Don't track anything inside wp-admin by default
-* Support multi-site
+* Supports multi-site
 * Disable tracking when Network Admin is logged-in
+* Debugging mode
 
 
 
@@ -58,10 +59,11 @@ So give it a try , i am sure you will not regret for your decision.
 = Tracking code not shown up in front end =
 
 There may be several reasons for this.
+* Make sure you have entered a valid tracking ID.
 * Check if tracking is not disabled for current logged in user.
 * Try to flush/delete your site cache.
 * Try switching to the default WordPress theme.
-* Make sure you have entered a valid tracking ID.
+
 
 = Changes does not reflect after saving settings ? =
 
@@ -79,10 +81,23 @@ Uses a Single Row, stored in array for faster access.
 No worry! It will remove its traces from database upon uninstall.
 It will also disable tracking by remove code from front-end.
 
-= Where to find my Tracking ID ? =
+= Where to find my GA Tracking ID ? =
 
-Just go [here](https://support.google.com/analytics/answer/1032385?hl=en).
+Just go [here](https://support.google.com/analytics/answer/1032385).
 
+= Am i using Classic or Universal GA ?
+
+[This](https://support.google.com/analytics/answer/4457764) might help.
+
+= What is debugging mode, How do i use it ? =
+
+Debugging mode allows you to troubleshot problems with Google Analytics web tracking.
+Once you enable this mode. Open up your site homepage and press F12 to open developer tools,
+now switch to console tab to see detailed messages.
+You can read more about troubleshooting [here](https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug)
+
+Don't forget to disable this mode in production.
+This mode is only available for administrators only when they are logged-in to WordPress dashboard.
 
 = Did you test it with old version of WordPress ? =
 
@@ -92,7 +107,7 @@ So i recommend you to upgrade to latest WordPress today.
 
 = Can i modify this plugin ? =
 
-Yes you can. Do whatever you want do .
+Yes you can. Do whatever you want do.
 
 = Is Google Analytics service free. =
 
@@ -116,6 +131,10 @@ It just a matter of a second. It will cost not more than 10 KB.
 
 
 == Changelog ==
+
+= 0.4 =
+* Debugging mode
+* Updated docs
 
 = 0.3 =
 * Multi-site support

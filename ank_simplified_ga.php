@@ -3,7 +3,7 @@
 Plugin Name: Ank Simplified GA
 Plugin URI: https://github.com/ank91/ank-simplified-ga
 Description: Simple, light weight, and non-bloated WordPress Google Analytics Plugin.
-Version: 0.3
+Version: 0.4
 Author: Ankur Kumar
 Author URI: http://ank91.github.io/
 License: GPL2
@@ -14,18 +14,19 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 /* No direct access*/
 if (!defined('ABSPATH')) exit;
 
-define('ASGA_PLUGIN_VER', '0.3');
-define('ASGA_BASE_FILE',__FILE__);
+define('ASGA_PLUGIN_VER', '0.4');
+define('ASGA_BASE_FILE', __FILE__);
 
 class Ank_Simplified_GA
 {
-    protected static $instance = false;
+    protected static $instance = null;
     private $option_name = 'asga_options';
     private $asga_options = array();
 
     private function __construct()
     {
-        if ( is_null( self::$instance ) ) {
+        // If instance is null, create it. Prevent creating multiple instances of this class
+        if (is_null(self::$instance)) {
             self::$instance = $this;
         }
         //store all options in a local array
@@ -40,13 +41,16 @@ class Ank_Simplified_GA
         else
             add_action('wp_footer', array($this, 'print_js_code'), $js_priority);
     }
+
     /**
      * Function to instantiate our class and make it a singleton
      */
     public static function get_instance()
     {
-        if (!self::$instance)
-            self::$instance = new self;
+
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
+        }
 
         return self::$instance;
     }
@@ -54,13 +58,14 @@ class Ank_Simplified_GA
     /**
      * Prepare and print javascript code to front end
      */
-     function print_js_code()
+    function print_js_code()
     {
+        $options = $this->asga_options;
 
         //check if to proceed
-        if (!$this->is_tracking_possible()) return;
+        if (!$this->is_tracking_possible($options)) return;
 
-        $options = $this->asga_options;
+
         //get tracking id
         $ga_id = $options['ga_id'];
         //decide sub-domain
@@ -68,6 +73,8 @@ class Ank_Simplified_GA
         if (empty($domain)) $domain = 'auto';
         $gaq = array();
         global $wp_query;
+        //check for debug mode
+        $debug_mode = $this->check_debug_mode($options);
 
         if ($options['ua_enabled'] == 1) {
             //if universal is enabled
@@ -77,6 +84,7 @@ class Ank_Simplified_GA
             if ($options['anonymise_ip'] == 1) {
                 $gaq[] = "'set', 'anonymizeIp', true";
             }
+            // Enable demographics and interests reports
             if ($options['displayfeatures'] == 1) {
                 $gaq[] = "'require', 'displayfeatures'";
             }
@@ -96,9 +104,17 @@ class Ank_Simplified_GA
         } else {
             //classic ga is enabled
             $ga_src = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
-
+            if ($debug_mode == true) {
+                //Did u notice additional /u in url ?
+                //@source https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug
+                $ga_src = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js'";
+            }
+            //@source https://support.google.com/analytics/answer/2444872
             if ($options['displayfeatures'] == 1) {
                 $ga_src = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js'";
+                if ($debug_mode == true) {
+                    $ga_src = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc_debug.js'";
+                }
             }
             $gaq[] = "'_setAccount', '" . esc_attr($ga_id) . "'";
             if ($domain !== 'auto') {
@@ -129,23 +145,36 @@ class Ank_Simplified_GA
 
     }
 
+    /**
+     * Check if to enable debugging mode
+     * @param $options - Options array
+     * @return bool
+     */
+    private function check_debug_mode($options)
+    {
+        //debug mode is for admins only
+        if (current_user_can('manage_options')) {
+            if ($options['debug_mode'] == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Function determines whether to print tracking code or not
+     * @param array $options
      * @return bool
      */
-    private function is_tracking_possible()
+    private function is_tracking_possible($options)
     {
         if (is_preview()) {
             echo '<!-- GA Tracking is disabled in preview mode -->';
             return false;
         }
 
-        $options = $this->asga_options;
-
-        $ga_id = $options['ga_id'];
         //if GA id is not set return early with a message
-        if (empty($ga_id)) {
+        if (empty($options['ga_id'])) {
             echo '<!-- GA ID is not set -->';
             return false;
         }
@@ -183,7 +212,7 @@ if (is_admin()) {
     global $ASGA_Admin_Class;
     $ASGA_Admin_Class = ASGA_Admin_Class::get_instance();
 } else {
-    /*Init front end part*/
+    /*init front end part*/
     global $ank_simplified_ga;
     $ank_simplified_ga = Ank_Simplified_GA::get_instance();
 }
