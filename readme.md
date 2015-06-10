@@ -5,6 +5,7 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 [![WordPress Compatibility ](https://img.shields.io/wordpress/v/ank-simplified-ga.svg?style=flat-square)](https://wordpress.org/plugins/ank-simplified-ga)
 [![WordPress plugin version](https://img.shields.io/wordpress/plugin/v/ank-simplified-ga.svg?style=flat-square)](https://wordpress.org/plugins/ank-simplified-ga)
 [![WordPress rating](https://img.shields.io/wordpress/plugin/r/ank-simplified-ga.svg?style=flat-square)](https://wordpress.org/plugins/ank-simplified-ga)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ank91/ank-simplified-ga/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 - - -
 
 >**You can also download the Latest version from [here](https://wordpress.org/plugins/ank-simplified-ga)**
