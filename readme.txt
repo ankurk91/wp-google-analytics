@@ -52,6 +52,7 @@ Track your WordPress website with Google Analytics service.
 WordPress plugin directory already have many of these kind of plugins.
 But not all are optimized for performance.
 Most of them lacks some features, while some of them have unused features.
+
 This plugin was developed to provide most used feature in one place without compromising the speed.
 So give it a try , i am sure you will not regret for your decision.
 
@@ -69,17 +70,20 @@ There may be several reasons for this.
 = Changes does not reflect after saving settings ? =
 
 Are you using some Cache/Performance plugin (eg:WP Super Cache/W3 Total Cache) ?
+
 Then flush your WP cache after saving settings.
 
 = Where does it store settings and options ? =
 
 WP Database->wp-options->asga_options.
+
 Uses a Single Row, stored in array for faster access.
 
 
 = What if i uninstall/remove this plugin? =
 
 No worry! It will remove its traces from database upon uninstall.
+
 It will also disable tracking by remove code from front-end.
 
 = Where to find my GA Tracking ID ? =
@@ -114,6 +118,7 @@ Yes you can. Do whatever you want do.
 = Is Google Analytics service free. =
 
 Yes, There is paid version of Google Analytics also.
+
 Read more [here](https://developers.google.com/analytics/devguides/collection/analyticsjs/limits-quotas).
 
 
@@ -125,6 +130,7 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 == Upgrade Notice ==
 
 No big changes yet in this plugin, so go ahead and upgrade to new version whenever i release.
+
 It just a matter of a second. It will cost not more than 10 KB.
 
 
