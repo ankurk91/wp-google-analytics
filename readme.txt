@@ -59,6 +59,7 @@ So give it a try , i am sure you will not regret for your decision.
 = Tracking code not shown up in front end =
 
 There may be several reasons for this.
+
 * Make sure you have entered a valid tracking ID.
 * Check if tracking is not disabled for current logged in user.
 * Try to flush/delete your site cache.
@@ -85,7 +86,7 @@ It will also disable tracking by remove code from front-end.
 
 Just go [here](https://support.google.com/analytics/answer/1032385).
 
-= Am i using Classic or Universal GA ?
+= Am i using Classic or Universal GA ? =
 
 [This](https://support.google.com/analytics/answer/4457764) might help.
 
@@ -94,6 +95,7 @@ Just go [here](https://support.google.com/analytics/answer/1032385).
 Debugging mode allows you to troubleshot problems with Google Analytics web tracking.
 Once you enable this mode. Open up your site homepage and press F12 to open developer tools,
 now switch to console tab to see detailed messages.
+
 You can read more about troubleshooting [here](https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug)
 
 Don't forget to disable this mode in production.
