@@ -40,6 +40,7 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 
 ### Links
 * Change log is available [here](https://wordpress.org/plugins/ank-simplified-ga/changelog/)
+
 * FAQ is available [here](https://wordpress.org/plugins/ank-simplified-ga/faq/)
 
 
