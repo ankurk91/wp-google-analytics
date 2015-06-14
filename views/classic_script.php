@@ -1,4 +1,4 @@
-<!--Classic GA Tracking start<?php if($debug_mode){?>, Debugging is on<?php }?>-->
+<!--Classic GA Tracking start<?php if($debug_mode===true){?>, Debugging is on<?php }?>-->
 <script type="text/javascript">
 var _gaq = _gaq || [];
 <?php

@@ -44,6 +44,11 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 * FAQ is available [here](https://wordpress.org/plugins/ank-simplified-ga/faq/)
 
 
+### TO DO
+* Outgoing link and downloads tracking
+* Login and register tracking
+* Custom tracker
+
 -----
 
 

@@ -76,6 +76,7 @@ class Ank_Simplified_GA
         //check for debug mode
         $debug_mode = $this->check_debug_mode($options);
 
+
         if ($options['ua_enabled'] == 1) {
             //if universal is enabled
 
@@ -103,6 +104,7 @@ class Ank_Simplified_GA
 
         } else {
             //classic ga is enabled
+
             $ga_src = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
             if ($debug_mode == true) {
                 //Did u notice additional /u in url ?
@@ -153,6 +155,7 @@ class Ank_Simplified_GA
     private function check_debug_mode($options)
     {
         //debug mode is for admins only
+        //todo check for multi-site admin as well
         if (current_user_can('manage_options')) {
             if ($options['debug_mode'] == 1) {
                 return true;
@@ -201,19 +204,19 @@ class Ank_Simplified_GA
         return true;
     }
 
-
 } //end class
 
 
 if (is_admin()) {
     /* Load admin part only if we are inside wp-admin */
-    require(trailingslashit(dirname(__FILE__)) . "asga_admin.php");
+    require(trailingslashit(dirname(__FILE__)) . "asga-admin.php");
     //init admin class
     global $ASGA_Admin_Class;
     $ASGA_Admin_Class = ASGA_Admin_Class::get_instance();
-} else {
+}
+else {
     /*init front end part*/
-    global $ank_simplified_ga;
-    $ank_simplified_ga = Ank_Simplified_GA::get_instance();
+    global $Ank_Simplified_GA;
+    $Ank_Simplified_GA = Ank_Simplified_GA::get_instance();
 }
 
