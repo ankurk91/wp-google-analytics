@@ -33,10 +33,13 @@ Track your WordPress website with Google Analytics service.
 * Supports multi-site
 * Disable tracking when Network Admin is logged-in
 * Debugging mode
+* Track outgoing link as events
+* Track downloads as events
 
 
 
 == Installation ==
+0. Remove existing Google Analytics plugin or disable them.
 1. Search for 'Ank Simplified GA' in WordPress Plugin Directory and Download the .zip file & extract it.
 2. Upload the folder `ank-simplified-ga` to the `/wp-content/plugins/` directory
 3. Activate the plugin through the 'Plugins List' page in WordPress Admin Area.
@@ -100,10 +103,16 @@ Debugging mode allows you to troubleshot problems with Google Analytics web trac
 Once you enable this mode. Open up your site homepage and press F12 to open developer tools,
 now switch to console tab to see detailed messages.
 
+You can also use [this](https://chrome.google.com/extensions/detail/jnkmfdileelhofjcijamephohjechhna) Google Chrome extension for easy debugging.
+
 You can read more about troubleshooting [here](https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug)
 
 Don't forget to disable this mode in production.
 This mode is only available for administrators only when they are logged-in to WordPress dashboard.
+
+= How does it work for multi-site ? =
+
+You need to configure the plugin for each of sub-site individually.
 
 = Did you test it with old version of WordPress ? =
 
@@ -139,6 +148,11 @@ It just a matter of a second. It will cost not more than 10 KB.
 
 
 == Changelog ==
+
+= 0.5 =
+* Track outgoing links
+* Track file downloads
+* New tabbed interface
 
 = 0.4 =
 * Debugging mode
