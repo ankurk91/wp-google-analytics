@@ -62,7 +62,7 @@ class Ank_Simplified_GA
     {
         $options = $this->asga_options;
 
-        //check if to proceed
+        //check if to proceed or not
         if (!$this->is_tracking_possible($options)) return;
 
 
@@ -75,20 +75,27 @@ class Ank_Simplified_GA
         global $wp_query;
         //check for debug mode
         $debug_mode = $this->check_debug_mode($options);
+        //flag
+        $user_engagement = absint($options['log_user_engagement']);
 
 
         if ($options['ua_enabled'] == 1) {
             //if universal is enabled
 
             $gaq[] = "'create', '" . esc_attr($ga_id) . "', '" . esc_attr($domain) . "'";
-            $gaq[] = "'set', 'forceSSL', true";
+
+            if($options['force_ssl']==1){
+                $gaq[] = "'set', 'forceSSL', true";
+            }
+
             if ($options['anonymise_ip'] == 1) {
                 $gaq[] = "'set', 'anonymizeIp', true";
             }
-            // Enable demographics and interests reports
+            /* Enable demographics and interests reports */
             if ($options['displayfeatures'] == 1) {
                 $gaq[] = "'require', 'displayfeatures'";
             }
+            /* Enhanced Link Attribution */
             if ($options['ga_ela'] == 1) {
                 $gaq[] = "'require', 'linkid', 'linkid.js'";
             }
@@ -122,15 +129,18 @@ class Ank_Simplified_GA
             if ($domain !== 'auto') {
                 $gaq[] = "'_setDomainName', '" . esc_attr($domain) . "'";
             }
-            // enable SSL data
-            $gaq[] = "'_gat._forceSSL'";
-            // Anonymous data
+
+            if($options['force_ssl']==1){
+                $gaq[] = "'_gat._forceSSL'";
+            }
+
+
             if ($options['anonymise_ip'] == 1) {
                 $gaq[] = "'_gat._anonymizeIp'";
             }
-            $plugin_url = '';
+            $ela_plugin_url = '';
             if ($options['ga_ela'] == 1) {
-                $plugin_url = "var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';\n";
+                $ela_plugin_url = "var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';\n";
                 $gaq[] = "['_require', 'inpage_linkid', pluginUrl]";
             }
 

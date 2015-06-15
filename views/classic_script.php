@@ -2,11 +2,13 @@
 <script type="text/javascript">
 var _gaq = _gaq || [];
 <?php
-echo $plugin_url;
+echo $ela_plugin_url;
 foreach($gaq as $item){
 echo "_gaq.push([" . $item . "]);\n";
 }
-?>
+if($user_engagement==1){ ?>
+setTimeout(function(){_gaq.push(['_trackEvent','Page Read',document.location.href,document.referrer])},15E3);
+<?php } ?>
 (function() {
 var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 ga.src = <?php echo $ga_src; ?>;

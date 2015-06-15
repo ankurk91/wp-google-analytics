@@ -132,15 +132,19 @@ class ASGA_Admin_Class
             'plugin_ver' => ASGA_PLUGIN_VER,
             'ga_id' => '',
             'js_location' => 1, //default to header
+            'js_load_later' => 0, //normal loading
             'js_priority' => 10,
             'log_404' => 0,
             'log_search' => 0,
+            'log_user_engagement' => 0,
             'ua_enabled' => 1, //UA is enabled by default
             'displayfeatures' => 0,
             'ga_ela' => 0,
             'anonymise_ip' => 0,
             'ga_domain' => '',
-            'debug_mode' => 0
+            'debug_mode' => 0,
+            'force_ssl' => 1,
+
         );
         //store roles as well
         foreach ($this->getAllRoles() as $role => $role_info) {
@@ -172,22 +176,27 @@ class ASGA_Admin_Class
             $out['ga_id'] = esc_html($in['ga_id']);
         }
 
-        $out['js_location'] = absint($in['js_location']);
+        $radio_items = array('js_location','js_load_later');
+
+        foreach($radio_items as $item){
+            $out[$item] = absint($in[$item]);
+        }
+
         $out['js_priority'] = ($in['js_priority'] == '') ? 10 : absint($in['js_priority']);
 
         $out['ga_domain'] = esc_html($in['ga_domain']);
 
-        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search','debug_mode');
+        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search','log_user_engagement','debug_mode','force_ssl');
          //add rolls to checkbox_items array
         foreach ($this->getAllRoles() as $role => $role_info) {
             $checkbox_items[] = 'ignore_role_' . $role;
         }
 
-        foreach ($checkbox_items as $checkbox_item) {
-            if (isset($in[$checkbox_item]) && '1' == $in[$checkbox_item])
-                $out[$checkbox_item] = 1;
+        foreach ($checkbox_items as $item) {
+            if (isset($in[$item]) && '1' == $in[$item])
+                $out[$item] = 1;
             else
-                $out[$checkbox_item] = 0;
+                $out[$item] = 0;
         }
 
         return $out;
@@ -224,7 +233,7 @@ class ASGA_Admin_Class
                    <table class="form-table">
                    <tr>
                        <th scope="row">Google Analytics tracking ID :</th>
-                       <td><input type="text" placeholder="UA-XXXXXXXX-X" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>" required="" aria-required="true"> <br>
+                       <td><input type="text" placeholder="UA-XXXXXXXX-X" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>"> <br>
                            <p class="description">Paste your Google Analytics <a target="_blank" href="https://support.google.com/analytics/answer/1032385">tracking ID</a> (e.g. "<code>UA-XXXXXXXX-X</code>")</p>
                        </td>
                    </tr>
@@ -266,10 +275,26 @@ class ASGA_Admin_Class
                            </td>
                        </tr>
                        <tr>
+                           <th scope="row">Force SSL :</th>
+                           <td><label><input type="checkbox" name="asga_options[force_ssl]" value="1" <?php checked($options['force_ssl'], 1) ?>>Force SSL </label>
+                           </td>
+                       </tr>
+                       <tr>
                            <th scope="row">Code Location :</th>
                            <td>
+                               <fieldset>
                                <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;Place in document header</label><br>
                                <label><input type="radio" name="asga_options[js_location]" value="2" <?php checked($options['js_location'], 2) ?>>&ensp;Place in document footer</label>
+                               </fieldset>
+                           </td>
+                       </tr>
+                       <tr>
+                           <th scope="row">Code Execution :</th>
+                           <td>
+                               <fieldset>
+                                   <label><input type="radio" name="asga_options[js_load_later]" value="0" <?php checked($options['js_load_later'], 0) ?>>&ensp;Immediately</label><br>
+                                   <label><input type="radio" name="asga_options[js_load_later]" value="1" <?php checked($options['js_load_later'], 1) ?>>&ensp;On page load</label>
+                               </fieldset>
                            </td>
                        </tr>
                        <tr>
@@ -297,11 +322,12 @@ class ASGA_Admin_Class
                    <table class="form-table">
                        <tr>
                            <th scope="row">Event Tracking :</th>
-                           <td>
+                           <td><fieldset>
                                <?php
                                $events = array(
                                    'log_404' => 'Log 404 errors as events',
                                    'log_search' => 'Log searched items as page views',
+                                   'log_user_engagement' => 'Log user engagement as events'
                                );
                                //loop through each event item
                                foreach ($events as $event => $label) {
@@ -309,7 +335,7 @@ class ASGA_Admin_Class
                                    echo '<input type="checkbox" name="asga_options[' . $event . ']" value="1" ' . checked($options[$event], 1, 0) . '/>';
                                    echo '&ensp;' . $label . '</label><br>';
                                }
-                               ?>
+                               ?></fieldset>
                            </td>
                        </tr>
                    </table>
