@@ -150,8 +150,6 @@ It just a matter of a second. It will cost not more than 10 KB.
 == Changelog ==
 
 = 0.5 =
-* Track outgoing links
-* Track file downloads
 * New tabbed interface
 
 = 0.4 =
