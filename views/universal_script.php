@@ -11,6 +11,8 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 foreach($gaq as $item){
     echo 'ga('.$item.');'."\n";
 }
-?>
+if($user_engagement==1){ ?>
+setTimeout(function(){ga('send','event','Page Read',document.location.href,document.referrer)},15E3);
+<?php } ?>
 </script>
 <!--GA Tracking ends-->

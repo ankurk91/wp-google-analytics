@@ -8,7 +8,7 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 
 - - -
 
->**You can also download the Latest version from [here](https://wordpress.org/plugins/ank-simplified-ga)**
+>**Download the Latest working copy from [here](https://wordpress.org/plugins/ank-simplified-ga)**
 
 - - -
 ## Requirements
@@ -36,6 +36,7 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 * Debugging mode
 
 
+
 - - -
 
 ### Links
@@ -44,10 +45,15 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 * FAQ is available [here](https://wordpress.org/plugins/ank-simplified-ga/faq/)
 
 
-### TO DO
+### TO DO List
+* Tabbed interface
 * Outgoing link and downloads tracking
-* Login and register tracking
+* Login and register page tracking
 * Custom tracker
+* Force SSL
+* Lazy execution of tracking code
+* Log user engagement
+* Custom variables
 
 -----
 
