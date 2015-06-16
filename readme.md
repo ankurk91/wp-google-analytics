@@ -46,14 +46,11 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 
 
 ### TO DO List
-* Tabbed interface
 * Outgoing link and downloads tracking
 * Login and register page tracking
-* Custom tracker
-* Force SSL
-* Lazy execution of tracking code
-* Log user engagement
+* Custom trackers
 * Custom variables
+* Store processed code in transient for faster loading
 
 -----
 

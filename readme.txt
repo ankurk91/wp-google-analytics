@@ -1,8 +1,8 @@
-=== Ank Simplified GA ===
+=== Ank Simplified Google Analytics ===
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite
 Requires at least: 3.8.0
 Tested up to: 4.2.2
-Stable tag: 0.4
+Stable tag: 0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -150,7 +150,11 @@ It just a matter of a second. It will cost not more than 10 KB.
 == Changelog ==
 
 = 0.5 =
+* Plugin name changed to 'Ank Simplified Google Analytics'
 * New tabbed interface
+* Force SSL
+* User engagement tracking
+* Control tracking code execution
 
 = 0.4 =
 * Debugging mode
