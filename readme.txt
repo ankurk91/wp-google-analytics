@@ -152,6 +152,9 @@ It just a matter of a second. It will cost not more than 10 KB.
 
 == Changelog ==
 
+= 0.6 =
+* Cache processed js code for faster access
+
 = 0.5 =
 * Plugin name changed to 'Ank Simplified Google Analytics'
 * New tabbed interface

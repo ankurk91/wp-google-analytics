@@ -22,6 +22,8 @@ class Ank_Simplified_GA
     protected static $instance = null;
     private $option_name = 'asga_options';
     private $asga_options = array();
+    /*transient name*/
+    private $transient_name = 'ank_simplified_ga_js';
 
     private function __construct()
     {
@@ -60,6 +62,10 @@ class Ank_Simplified_GA
      */
     function print_js_code()
     {
+        //check if transient data exists and use instead
+        if($this->get_transient_js()) return;
+
+        //get database options
         $options = $this->asga_options;
 
         //check if to proceed or not
@@ -108,7 +114,8 @@ class Ank_Simplified_GA
                 $gaq[] = "'send','pageview'";
             }
 
-            require('views/universal_script.php');
+           ob_start();
+           require('views/universal_script.php');
 
         } else {
             //classic ga is enabled
@@ -154,8 +161,11 @@ class Ank_Simplified_GA
                 $gaq[] = "'_trackPageview'";
             }
 
+            ob_start();
             require('views/classic_script.php');
         }
+
+        $this->set_transient_js(ob_get_clean());
 
     }
 
@@ -213,6 +223,25 @@ class Ank_Simplified_GA
         }
 
         return true;
+    }
+
+    private function get_transient_js()
+    {
+        if (($transient_js = get_transient($this->transient_name)) !== false) {
+            //replace string to detect caching
+            echo str_replace('Tracking start','Tracking start, caching in on',$transient_js);
+            return true;
+        }
+        return false;
+    }
+
+    private function set_transient_js($buffer)
+    {
+        //echo buffered data to front-end
+        echo $buffer;
+        //cache code to database for 24 hours
+        set_transient($this->transient_name, $buffer, 86400);
+
     }
 
 } //end class
