@@ -144,7 +144,10 @@ It just a matter of a second. It will cost not more than 10 KB.
 
 
 == Screenshots ==
-1. Plugin Option Page Screen
+1. General Options
+2. Advanced Options
+3. Tracking Option
+4. Troubleshooting
 
 
 == Changelog ==

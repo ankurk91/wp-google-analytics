@@ -57,4 +57,4 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 -----
 
 
-**Created By: *Ank91* **
+**Created By: Ank91 **
