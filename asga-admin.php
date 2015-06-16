@@ -16,6 +16,8 @@ class Ank_Simplified_GA_Admin
     private $plugin_slug = 'asga_options_page';
     /*store database option field name to avoid confusion */
     private $option_name = 'asga_options';
+    /*transient name*/
+    private $transient_name = 'ank_simplified_ga_js';
 
     function __construct()
     {
@@ -58,6 +60,9 @@ class Ank_Simplified_GA_Admin
      */
     function add_default_options()
     {
+        //delete transient upon activation or update
+        $this->delete_transient_js();
+
         //if options already exists then return early
         if (get_option($this->option_name)!==false) return;
 
@@ -198,7 +203,8 @@ class Ank_Simplified_GA_Admin
             else
                 $out[$item] = 0;
         }
-
+        //delete transient upon change in settings
+        $this->delete_transient_js();
         return $out;
     }
 
@@ -493,6 +499,13 @@ class Ank_Simplified_GA_Admin
         $options = empty($options) ? $this->get_default_options() : $options + $this->get_default_options();
         return $options;
 
+    }
+
+    /**
+     * Delete cache version of tracking code
+     */
+    private function delete_transient_js(){
+        delete_transient($this->transient_name);
     }
 
 } //end class
