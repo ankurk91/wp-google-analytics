@@ -33,8 +33,8 @@ Track your WordPress website with Google Analytics service.
 * Supports multi-site
 * Disable tracking when Network Admin is logged-in
 * Debugging mode
-* Track outgoing link as events
-* Track downloads as events
+* Force SSL
+* Track user engagement
 
 
 

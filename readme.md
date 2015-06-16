@@ -34,6 +34,8 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 * Supports multi-site
 * Disable tracking when Network Admin is logged-in
 * Debugging mode
+* Force SSL
+* Track user engagement
 
 
 
