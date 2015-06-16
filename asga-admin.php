@@ -8,7 +8,7 @@
 if (!defined('ABSPATH')) exit;
 if (!defined('ASGA_BASE_FILE')) wp_die('What ?');
 
-class ASGA_Admin_Class
+class Ank_Simplified_GA_Admin
 {
 
     protected static $instance = null;
@@ -59,7 +59,7 @@ class ASGA_Admin_Class
     function add_default_options()
     {
         //if options already exists then return early
-        if (get_option($this->option_name)) return;
+        if (get_option($this->option_name)!==false) return;
 
         update_option($this->option_name, $this->getDefaultOptions());
     }
@@ -96,7 +96,7 @@ class ASGA_Admin_Class
      */
     function add_to_settings_menu()
     {
-        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified GA', 'Ank Simplified GA', 'manage_options', $this->plugin_slug, array($this, 'ASGA_options_page'));
+        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', 'Ank Simplified GA', 'manage_options', $this->plugin_slug, array($this, 'ASGA_options_page'));
         /*add help stuff via tab*/
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
         /*we can load additional css/js to our option page here */
@@ -107,7 +107,7 @@ class ASGA_Admin_Class
      * Return all roles plus superAdmin if multi-site is enabled
      * @return array
      */
-    private function getAllRoles()
+    private function get_all_roles()
     {
         global $wp_roles;
         if (!isset($wp_roles)) {
@@ -126,7 +126,7 @@ class ASGA_Admin_Class
      * Return default options for this plugin
      * @return array
      */
-    private function getDefaultOptions()
+    private function get_default_options()
     {
         $defaults = array(
             'plugin_ver' => ASGA_PLUGIN_VER,
@@ -147,7 +147,7 @@ class ASGA_Admin_Class
 
         );
         //store roles as well
-        foreach ($this->getAllRoles() as $role => $role_info) {
+        foreach ($this->get_all_roles() as $role => $role_info) {
             $defaults = array_merge($defaults, array('ignore_role_' . $role => 0));
         }
         return $defaults;
@@ -188,7 +188,7 @@ class ASGA_Admin_Class
 
         $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search','log_user_engagement','debug_mode','force_ssl');
          //add rolls to checkbox_items array
-        foreach ($this->getAllRoles() as $role => $role_info) {
+        foreach ($this->get_all_roles() as $role => $role_info) {
             $checkbox_items[] = 'ignore_role_' . $role;
         }
 
@@ -223,11 +223,11 @@ class ASGA_Admin_Class
             </h2><!--.nav-tab-wrapper-->
 
             <form action="<?php echo admin_url('options.php') ?>" method="post" id="asga_form">
-                <?php
-                $options = $this->getSafeOptions();
+            <?php
+                $options = $this->get_safe_options();
                 //wp inbuilt nonce field , etc
                 settings_fields('asga_plugin_options');
-                ?>
+            ?>
             <div class="tab-wrapper">
                <div id="ga-general" class="tab-content">
                    <table class="form-table">
@@ -307,7 +307,7 @@ class ASGA_Admin_Class
                            <th scope="row">Disable Tracking when :</th>
                            <td>
                                <?php
-                               foreach ($this->getAllRoles() as $id => $label) {
+                               foreach ($this->get_all_roles() as $id => $label) {
                                    echo '<label>';
                                    echo '<input type="checkbox" name="asga_options[ignore_role_' . $id . ']" value="1" ' . checked($options['ignore_role_' . $id], 1, 0) . '/>';
                                    echo '&ensp;' . esc_attr($label) . ' is logged in';
@@ -469,7 +469,7 @@ class ASGA_Admin_Class
      */
     private function check_admin_notice()
     {
-        $options = $this->getSafeOptions();
+        $options = $this->get_safe_options();
         //id ga id is not set return early
         if (empty($options['ga_id'])) return false;
         //if current user is not admin then return early
@@ -485,12 +485,12 @@ class ASGA_Admin_Class
      * Get fail safe options
      * @return array
      */
-    private function getSafeOptions()
+    private function get_safe_options()
     {
         //get fresh options from db
         $options = get_option($this->option_name);
         //if options not exists in db then init with defaults , also always append default options to existing options
-        $options = empty($options) ? $this->getDefaultOptions() : $options + $this->getDefaultOptions();
+        $options = empty($options) ? $this->get_default_options() : $options + $this->get_default_options();
         return $options;
 
     }
