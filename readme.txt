@@ -35,6 +35,7 @@ Track your WordPress website with Google Analytics service.
 * Debugging mode
 * Force SSL
 * Track user engagement
+* Transient processed code for faster processing
 
 
 
@@ -146,14 +147,15 @@ It just a matter of a second. It will cost not more than 10 KB.
 == Screenshots ==
 1. General Options
 2. Advanced Options
-3. Tracking Option
-4. Troubleshooting
+3. Tracking Options
+4. Troubleshooting Options
 
 
 == Changelog ==
 
 = 0.6 =
 * Cache processed js code for faster access
+* More docs coming soon
 
 = 0.5 =
 * Plugin name changed to 'Ank Simplified Google Analytics'

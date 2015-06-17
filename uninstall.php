@@ -12,11 +12,10 @@ if ( !defined( 'WP_UNINSTALL_PLUGIN' ) )
 
 $option_name = 'asga_options' ;
 $transient_name = 'ank_simplified_ga_ja';
+
 /*
  * lets remove the database entry created by this plugin
  */
-
-
 
 if ( !is_multisite() )
 {
