@@ -3,7 +3,7 @@
 Plugin Name: Ank Simplified Google Analytics
 Plugin URI: https://github.com/ank91/ank-simplified-ga
 Description: Simple, light weight, and non-bloated WordPress Google Analytics Plugin.
-Version: 0.5
+Version: 0.6
 Author: Ankur Kumar
 Author URI: http://ank91.github.io/
 License: GPL2
@@ -14,7 +14,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 /* No direct access*/
 if (!defined('ABSPATH')) exit;
 
-define('ASGA_PLUGIN_VER', '0.5');
+define('ASGA_PLUGIN_VER', '0.6');
 define('ASGA_BASE_FILE', __FILE__);
 
 class Ank_Simplified_GA
@@ -62,7 +62,7 @@ class Ank_Simplified_GA
      */
     function print_js_code()
     {
-        //check if transient data exists and use instead
+        //check if transient data exists and use it instead
         if($this->get_transient_js()) return;
 
         //get database options
@@ -71,25 +71,25 @@ class Ank_Simplified_GA
         //check if to proceed or not
         if (!$this->is_tracking_possible($options)) return;
 
-
         //get tracking id
-        $ga_id = $options['ga_id'];
+        $ga_id = esc_attr($options['ga_id']);
         //decide sub-domain
-        $domain = $options['ga_domain'];
-        if (empty($domain)) $domain = 'auto';
-        $gaq = array();
-        global $wp_query;
+        $domain = empty($options['ga_domain']) ? 'auto' : esc_attr($options['ga_domain']);
+
         //check for debug mode
         $debug_mode = $this->check_debug_mode($options);
-        //this flag will be used in view
+        //these flags will be used in view
         $user_engagement = absint($options['log_user_engagement']);
         $js_load_later = absint($options['js_load_later']);
+
+        $gaq = array();
+        global $wp_query;
 
 
         if ($options['ua_enabled'] == 1) {
             //if universal is enabled
 
-            $gaq[] = "'create', '" . esc_attr($ga_id) . "', '" . esc_attr($domain) . "'";
+            $gaq[] = "'create', '" . $ga_id . "', '" . $domain . "'";
 
             if($options['force_ssl']==1){
                 $gaq[] = "'set', 'forceSSL', true";
@@ -106,6 +106,7 @@ class Ank_Simplified_GA
             if ($options['ga_ela'] == 1) {
                 $gaq[] = "'require', 'linkid', 'linkid.js'";
             }
+
             if (is_404() && $options['log_404'] == 1) {
                 $gaq[] = "'send','event','404',document.location.href,document.referrer";
             } elseif ($wp_query->is_search && $options['log_search'] == 1) {
@@ -133,10 +134,10 @@ class Ank_Simplified_GA
                     $ga_src = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc_debug.js'";
                 }
             }
-            $gaq[] = "'_setAccount', '" . esc_attr($ga_id) . "'";
+            $gaq[] = "'_setAccount', '" . $ga_id . "'";
 
             if ($domain !== 'auto') {
-                $gaq[] = "'_setDomainName', '" . esc_attr($domain) . "'";
+                $gaq[] = "'_setDomainName', '" . $domain . "'";
             }
 
             if($options['force_ssl']==1){
@@ -147,7 +148,7 @@ class Ank_Simplified_GA
                 $gaq[] = "'_gat._anonymizeIp'";
             }
 
-            $ela_plugin_url = '';
+            $ela_plugin_url = ''; //init with empty url
             if ($options['ga_ela'] == 1) {
                 $ela_plugin_url = "var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';\n";
                 $gaq[] = "['_require', 'inpage_linkid', pluginUrl]";
@@ -165,7 +166,9 @@ class Ank_Simplified_GA
             require('views/classic_script.php');
         }
 
-        $this->set_transient_js(ob_get_clean());
+        //echo buffered code and save it
+        echo $buffer = ob_get_clean();
+        $this->set_transient_js($buffer);
 
     }
 
@@ -225,20 +228,28 @@ class Ank_Simplified_GA
         return true;
     }
 
+    /**
+     * Get tracking code from database, cached version
+     * @return bool
+     */
     private function get_transient_js()
     {
         if (($transient_js = get_transient($this->transient_name)) !== false) {
             //replace string to detect caching
-            echo str_replace('Tracking start','Tracking start, caching in on',$transient_js);
+            echo str_replace('Tracking start', 'Tracking start, caching in on', $transient_js);
             return true;
         }
+        //send false if cached version not found
         return false;
     }
 
+    /**
+     * Save buffered tracking code to database
+     * @param $buffer
+     *
+     */
     private function set_transient_js($buffer)
     {
-        //echo buffered data to front-end
-        echo $buffer;
         //cache code to database for 24 hours
         set_transient($this->transient_name, $buffer, 86400);
 
