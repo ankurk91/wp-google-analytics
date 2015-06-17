@@ -12,7 +12,7 @@ class Ank_Simplified_GA_Admin
 {
 
     protected static $instance = null;
-    /*store plugin option page slug,so that we can change it with ease */
+    /*store plugin option page slug, so that we can change it with ease */
     private $plugin_slug = 'asga_options_page';
     /*store database option field name to avoid confusion */
     private $option_name = 'asga_options';
@@ -26,10 +26,10 @@ class Ank_Simplified_GA_Admin
             self::$instance = $this;
         }
         /*to save default options upon activation*/
-        register_activation_hook(plugin_basename(ASGA_BASE_FILE), array($this, 'add_default_options'));
+        register_activation_hook(plugin_basename(ASGA_BASE_FILE), array($this, 'do_upon_plugin_activation'));
 
         /*for register setting*/
-        add_action('admin_init', array($this, 'ASGA_admin_init'));
+        add_action('admin_init', array($this, 'register_plugin_settings'));
 
         /*settings link on plugin listing page*/
         add_filter('plugin_action_links_' . plugin_basename(ASGA_BASE_FILE), array($this, 'add_plugin_actions_links'), 10, 2);
@@ -58,7 +58,7 @@ class Ank_Simplified_GA_Admin
     /*
      * Save default settings upon plugin activation
      */
-    function add_default_options()
+    function do_upon_plugin_activation()
     {
         //delete transient upon activation or update
         $this->delete_transient_js();
@@ -66,11 +66,11 @@ class Ank_Simplified_GA_Admin
         //if options already exists then return early
         if (get_option($this->option_name)!==false) return;
 
-        update_option($this->option_name, $this->getDefaultOptions());
+        update_option($this->option_name, $this->get_default_options());
     }
 
     /*Register our settings, using WP settings API*/
-    function ASGA_admin_init()
+    function register_plugin_settings()
     {
         register_setting('asga_plugin_options', $this->option_name, array($this, 'ASGA_validate_options'));
     }
@@ -136,13 +136,13 @@ class Ank_Simplified_GA_Admin
         $defaults = array(
             'plugin_ver' => ASGA_PLUGIN_VER,
             'ga_id' => '',
-            'js_location' => 1, //default to header
-            'js_load_later' => 0, //normal loading
+            'js_location' => 1,
+            'js_load_later' => 0,
             'js_priority' => 10,
             'log_404' => 0,
             'log_search' => 0,
             'log_user_engagement' => 0,
-            'ua_enabled' => 1, //UA is enabled by default
+            'ua_enabled' => 1,
             'displayfeatures' => 0,
             'ga_ela' => 0,
             'anonymise_ip' => 0,
