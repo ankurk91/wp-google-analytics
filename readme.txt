@@ -2,7 +2,7 @@
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite
 Requires at least: 3.8.0
 Tested up to: 4.2.2
-Stable tag: 0.6
+Stable tag: 0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -68,7 +68,7 @@ There may be several reasons for this.
 * Make sure you have entered a valid tracking ID.
 * Check if tracking is not disabled for current logged in user.
 * Try to flush/delete your site cache.
-* Try switching to the default WordPress theme.
+* Try re-installing the plugin.
 
 
 = Changes does not reflect after saving settings ? =
@@ -104,8 +104,6 @@ Debugging mode allows you to troubleshot problems with Google Analytics web trac
 Once you enable this mode. Open up your site homepage and press F12 to open developer tools,
 now switch to console tab to see detailed messages.
 
-You can also use [this](https://chrome.google.com/extensions/detail/jnkmfdileelhofjcijamephohjechhna) Google Chrome extension for easy debugging.
-
 You can read more about troubleshooting [here](https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug)
 
 Don't forget to disable this mode in production.
@@ -120,10 +118,6 @@ You need to configure the plugin for each of sub-site individually.
 No, tested with v4.1 and up only.
 So i recommend you to upgrade to latest WordPress today.
 
-
-= Can i modify this plugin ? =
-
-Yes you can. Do whatever you want do.
 
 = Is Google Analytics service free. =
 
@@ -152,6 +146,9 @@ It just a matter of a second. It will cost not more than 10 KB.
 
 
 == Changelog ==
+
+= 0.7 =
+* Improved upgrade paths
 
 = 0.6 =
 * Cache processed js code for faster access

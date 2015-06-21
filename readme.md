@@ -22,9 +22,7 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 ### TO DO List
 * OAuth implementation
 * Outgoing link and downloads tracking
-* Login and register page tracking
 * Custom trackers
-* Custom variables
 * In-page Tooltip help system
 
 -----
