@@ -40,6 +40,9 @@ class Ank_Simplified_GA_Admin
         /* Show warning if debug mode is on  */
         add_action('admin_notices', array($this, 'show_admin_notice'));
 
+        //check for database upgrades
+        add_action( 'plugins_loaded', array( $this, 'may_be_upgrade' ) );
+
     }
 
     /**
@@ -138,7 +141,7 @@ class Ank_Simplified_GA_Admin
             'ga_id' => '',
             'js_location' => 1,
             'js_load_later' => 0,
-            'js_priority' => 10,
+            'js_priority' => 20,
             'log_404' => 0,
             'log_search' => 0,
             'log_user_engagement' => 0,
@@ -187,7 +190,7 @@ class Ank_Simplified_GA_Admin
             $out[$item] = absint($in[$item]);
         }
 
-        $out['js_priority'] = ($in['js_priority'] == '') ? 10 : absint($in['js_priority']);
+        $out['js_priority'] = (empty($in['js_priority'])) ? 20 : absint($in['js_priority']);
 
         $out['ga_domain'] = esc_html($in['ga_domain']);
 
@@ -362,7 +365,6 @@ class Ank_Simplified_GA_Admin
                    </table>
                </div>
             </div> <!--.tab-wrapper -->
-
             <?php submit_button('Save Options') ?>
             </form>
             <hr>
@@ -433,7 +435,7 @@ class Ank_Simplified_GA_Admin
                 'title' => 'More',
                 'content' => '<p><strong>Need more information ?</strong><br>' .
                     'A brief FAQ is available to solve your common issues, ' .
-                    'click <a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">here</a> for more.<br>' .
+                    'click <a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">here</a> for read more.<br>' .
                     'Support is only available on WordPress Forums, click <a href="http://wordpress.org/support/plugin/ank-simplified-ga" target="_blank">here</a> to ask anything about this plugin.<br>' .
                     'You can also browse the source code of this  plugin on <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a>. ' .
                     '</p>'
@@ -450,20 +452,14 @@ class Ank_Simplified_GA_Admin
     }
 
     /**
-     * Show a warning notice on all screens if debug mode is on
+     * Show a warning notice if debug mode is on
      */
     function show_admin_notice()
-    {   //notice will be shown to admin user only
+    {
         if ($this->check_admin_notice()) {
              ?>
             <div id="asga_message" class="notice notice-warning is-dismissible">
-                <p><b>Google Analytics debug mode is set to on.</b> Don't leave this option enabled in production.
-                    <?php
-                    //don't show settings link when user is on our options page
-                    if (strpos(get_current_screen()->id, $this->plugin_slug) === false) { ?>
-                        <a title="Go to settings page" href="<?php echo admin_url('options-general.php?page=' . $this->plugin_slug); ?>#top#ga-troubleshoot">Settings</a>
-                    <?php } ?>
-                </p>
+                <p><b>Google Analytics debug mode is set to on.</b> Don't leave this option enabled in production. </p>
             </div>
         <?php
         }
@@ -475,6 +471,9 @@ class Ank_Simplified_GA_Admin
      */
     private function check_admin_notice()
     {
+        //show only for this plugin option page
+        if(strpos(get_current_screen()->id, $this->plugin_slug) === false) return false;
+
         $options = $this->get_safe_options();
         //id ga id is not set return early
         if (empty($options['ga_id'])) return false;
@@ -494,10 +493,10 @@ class Ank_Simplified_GA_Admin
     private function get_safe_options()
     {
         //get fresh options from db
-        $options = get_option($this->option_name);
+        $db_options = get_option($this->option_name);
         //if options not exists in db then init with defaults , also always append default options to existing options
-        $options = empty($options) ? $this->get_default_options() : $options + $this->get_default_options();
-        return $options;
+        $db_options = empty($db_options) ? $this->get_default_options() : array_merge($this->get_default_options(),$db_options);
+        return $db_options;
 
     }
 
@@ -506,6 +505,44 @@ class Ank_Simplified_GA_Admin
      */
     private function delete_transient_js(){
         delete_transient($this->transient_name);
+    }
+
+    /**
+     * Upgrade plugin database options
+     */
+    function may_be_upgrade()
+    {
+        //get fresh options from db
+        $db_options = get_option($this->option_name);
+        //check if we need to proceed , if no return early
+        if ($this->if_proceed_to_upgrade($db_options) === false) return;
+        //get default options
+        $default_options = $this->get_default_options();
+        //merge with db options , preserve old
+        $new_options = (empty($db_options)) ? $default_options : array_merge($default_options, $db_options);
+        //update plugin version
+        $new_options['plugin_ver'] = ASGA_PLUGIN_VER;
+        //write options back to db
+        update_option($this->option_name, $new_options);
+        //delete transient as well
+        $this->delete_transient_js();
+    }
+
+    /**
+     * Check if we need to upgrade database options or not
+     * @param $db_options
+     * @return bool|mixed
+     *
+     */
+    private function if_proceed_to_upgrade($db_options)
+    {
+
+        if (empty($db_options) || !is_array($db_options)) return true;
+
+        if (!isset($db_options['plugin_ver'])) return true;
+
+        return version_compare($db_options['plugin_ver'], ASGA_PLUGIN_VER, '<');
+
     }
 
 } //end class
