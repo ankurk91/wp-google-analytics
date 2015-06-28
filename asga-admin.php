@@ -66,10 +66,12 @@ class Ank_Simplified_GA_Admin
         //delete transient upon activation or update
         $this->delete_transient_js();
 
-        //if options already exists then return early
-        if (get_option($this->option_name)!==false) return;
+        //if options not exists then update with defaults
+        if (get_option($this->option_name)==false){
+            update_option($this->option_name, $this->get_default_options());
+        }
 
-        update_option($this->option_name, $this->get_default_options());
+
     }
 
     /*Register our settings, using WP settings API*/
@@ -477,8 +479,6 @@ class Ank_Simplified_GA_Admin
         $options = $this->get_safe_options();
         //id ga id is not set return early
         if (empty($options['ga_id'])) return false;
-        //if current user is not admin then return early
-        if (!current_user_can('manage_options')) return false;
         //if debug mode is off return early
         if ($options['debug_mode'] == 0) return false;
         //else return true

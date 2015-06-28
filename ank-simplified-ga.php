@@ -61,8 +61,6 @@ class Ank_Simplified_GA
      */
     function print_js_code()
     {
-        //check if transient data exists and use it instead
-        if($this->get_transient_js()) return;
 
         //get database options
         $options = $this->asga_options;
@@ -70,10 +68,13 @@ class Ank_Simplified_GA
         //check if to proceed or not
         if (!$this->is_tracking_possible($options)) return;
 
+        //check if transient data exists and use it instead
+        if($this->get_transient_js()) return;
+
         //get tracking id
-        $ga_id = esc_attr($options['ga_id']);
+        $ga_id = esc_js($options['ga_id']);
         //decide sub-domain
-        $domain = empty($options['ga_domain']) ? 'auto' : esc_attr($options['ga_domain']);
+        $domain = empty($options['ga_domain']) ? 'auto' : esc_js($options['ga_domain']);
 
         //check for debug mode
         $debug_mode = $this->check_debug_mode($options);
@@ -178,7 +179,7 @@ class Ank_Simplified_GA
      */
     private function check_debug_mode($options)
     {
-        //debug mode is for logged-in admins/network admins only
+        //debug mode is only for logged-in admins/network admins
         if (current_user_can('manage_options') || is_super_admin()) {
             if ($options['debug_mode'] == 1) {
                 return true;
