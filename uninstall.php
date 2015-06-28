@@ -1,5 +1,4 @@
 <?php
-
 /*
 *   uninstall.php file for this Plugin
 *   This file will be used to remove all traces of this plugin when uninstalled
@@ -7,14 +6,14 @@
 
 // Make sure that we are uninstalling
 if ( !defined( 'WP_UNINSTALL_PLUGIN' ) )
-    exit();
+    exit;
 
 
 $option_name = 'asga_options' ;
-$transient_name = 'ank_simplified_ga_js';
+$transient_name = 'asga_js_cache';
 
 /*
- * lets remove the database entry created by this plugin
+ * lets remove the database entry(s) created by this plugin
  */
 
 if ( !is_multisite() )
