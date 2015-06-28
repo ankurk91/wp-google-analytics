@@ -189,7 +189,7 @@ class Ank_Simplified_GA_Admin
         if (!preg_match('|^UA-\d{4,}-\d+$|', (string)$in['ga_id'])) {
             $out['ga_id'] = '';
             //warn user that the entered id is not valid
-            add_settings_error($this->option_name, 'ga_id', 'Your GA tracking ID seems invalid. Please check.');
+            add_settings_error($this->option_name, 'ga_id', 'Your GA tracking ID seems invalid. Please validate.');
         } else {
             $out['ga_id'] = esc_html($in['ga_id']);
         }
@@ -237,7 +237,7 @@ class Ank_Simplified_GA_Admin
             <h2 class="nav-tab-wrapper" id="ga-tabs">
                 <a class="nav-tab" id="ga-general-tab" href="#top#ga-general">General</a>
                 <a class="nav-tab" id="ga-advanced-tab" href="#top#ga-advanced">Advanced</a>
-                <a class="nav-tab" id="ga-events-tab" href="#top#ga-events">Event Tracking</a>
+                <a class="nav-tab" id="ga-events-tab" href="#top#ga-events">Tracking</a>
                 <a class="nav-tab" id="ga-troubleshoot-tab" href="#top#ga-troubleshoot">Troubleshoot</a>
             </h2><!--.nav-tab-wrapper-->
 
@@ -257,9 +257,13 @@ class Ank_Simplified_GA_Admin
                        </td>
                    </tr>
                    <tr>
-                       <th scope="row">Enable Universal GA :</th>
-                       <td><label><input type="checkbox" name="asga_options[ua_enabled]" value="1" <?php checked($options['ua_enabled'], 1) ?>>Enable Universal Google Analytics</label>
-                           <p class="description">Un-check this, If you are using Classic GA . OR <a href="https://support.google.com/analytics/answer/3450662" target="_blank">upgrade</a>. </p>
+                       <th scope="row">Universal/Classic:</th>
+                       <td>
+                           <select name="asga_options[ua_enabled]">
+                               <option value="1" <?php selected($options['ua_enabled'], 1) ?>>Universal (analytics.js)</option>
+                               <option value="0" <?php selected($options['ua_enabled'], 0) ?>>Classic (ga.js)</option>
+                           </select>
+                           <p class="description">Classic vs Universal, <a href="https://support.google.com/analytics/answer/3450662" target="_blank">read more</a>. </p>
                        </td>
                    </tr>
                    <tr>
@@ -318,21 +322,8 @@ class Ank_Simplified_GA_Admin
                        </tr>
                        <tr>
                            <th scope="row">Action Priority :</th>
-                           <td><input type="number" min="0" max="999" placeholder="10" name="asga_options[js_priority]" value="<?php echo esc_attr($options['js_priority']); ?>">
-                               <p class="description">0 means highest priority, default is 10</p>
-                           </td>
-                       </tr>
-                       <tr>
-                           <th scope="row">Disable Tracking when :</th>
-                           <td>
-                               <?php
-                               foreach ($this->get_all_roles() as $id => $label) {
-                                   echo '<label>';
-                                   echo '<input type="checkbox" name="asga_options[ignore_role_' . $id . ']" value="1" ' . checked($options['ignore_role_' . $id], 1, 0) . '/>';
-                                   echo '&ensp;' . esc_attr($label) . ' is logged in';
-                                   echo '</label><br />';
-                               }
-                               ?>
+                           <td><input type="number" min="0" max="999" placeholder="20" name="asga_options[js_priority]" value="<?php echo esc_attr($options['js_priority']); ?>">
+                               <p class="description">0 means highest priority</p>
                            </td>
                        </tr>
                    </table>
@@ -357,6 +348,19 @@ class Ank_Simplified_GA_Admin
                                ?></fieldset>
                            </td>
                        </tr>
+                       <tr>
+                           <th scope="row">Stop Analytics when :</th>
+                           <td>
+                               <?php
+                               foreach ($this->get_all_roles() as $id => $label) {
+                                   echo '<label>';
+                                   echo '<input type="checkbox" name="asga_options[ignore_role_' . $id . ']" value="1" ' . checked($options['ignore_role_' . $id], 1, 0) . '/>';
+                                   echo '&ensp;' . esc_attr($label) . ' is logged in';
+                                   echo '</label><br />';
+                               }
+                               ?>
+                           </td>
+                       </tr>
                    </table>
                </div>
                <div id="ga-troubleshoot" class="tab-content">
@@ -375,13 +379,13 @@ class Ank_Simplified_GA_Admin
                    </table>
                </div>
             </div> <!--.tab-wrapper -->
-            <?php submit_button('Save Options') ?>
+            <?php submit_button() ?>
             </form>
             <hr>
             <p>
                 Developed by- <a target="_blank" href="http://ank91.github.io/">Ankur Kumar</a> |
                 Fork on <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a> |
-                Rate this on <a href="https://wordpress.org/support/view/plugin-reviews/ank-simplified-ga?filter=5" target="_blank">WordPress</a>
+                ★ Rate this on <a href="https://wordpress.org/support/view/plugin-reviews/ank-simplified-ga?filter=5" target="_blank">WordPress</a>
             </p>
         </div> <!-- .wrap-->
         <script type="text/javascript">
@@ -445,7 +449,7 @@ class Ank_Simplified_GA_Admin
                 'title' => 'More',
                 'content' => '<p><strong>Need more information ?</strong><br>' .
                     'A brief FAQ is available to solve your common issues, ' .
-                    'click <a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">here</a> for read more.<br>' .
+                    'click <a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">here</a> to read more.<br>' .
                     'Support is only available on WordPress Forums, click <a href="http://wordpress.org/support/plugin/ank-simplified-ga" target="_blank">here</a> to ask anything about this plugin.<br>' .
                     'You can also browse the source code of this  plugin on <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a>. ' .
                     '</p>'
@@ -469,7 +473,7 @@ class Ank_Simplified_GA_Admin
         if ($this->check_admin_notice()) {
              ?>
             <div id="asga_message" class="notice notice-warning is-dismissible">
-                <p><b>Google Analytics debug mode is set to on.</b> Don't leave this option enabled in production. </p>
+                <p><b>Google Analytics debug mode is enabled for this site.Don't forget to disable this option in production. </b></p>
             </div>
         <?php
         }

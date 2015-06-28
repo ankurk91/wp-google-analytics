@@ -35,7 +35,7 @@ Track your WordPress website with Google Analytics service.
 * Debugging mode
 * Force SSL
 * Track user engagement
-* Transient processed code for faster processing
+* Cache tracking code for faster processing
 
 
 
