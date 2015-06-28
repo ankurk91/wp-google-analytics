@@ -11,7 +11,7 @@ if ( !defined( 'WP_UNINSTALL_PLUGIN' ) )
 
 
 $option_name = 'asga_options' ;
-$transient_name = 'ank_simplified_ga_ja';
+$transient_name = 'ank_simplified_ga_js';
 
 /*
  * lets remove the database entry created by this plugin
