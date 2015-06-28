@@ -236,7 +236,7 @@ class Ank_Simplified_GA
     {
         if (($transient_js = get_transient($this->transient_name)) !== false) {
             //replace string to detect caching
-            echo str_replace('Tracking start', 'Tracking start, caching in on', $transient_js);
+            echo str_replace('Tracking start', 'Tracking start, Caching in on', $transient_js);
             return true;
         }
         //send false if cached version not found
