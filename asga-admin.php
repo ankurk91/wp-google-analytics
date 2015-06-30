@@ -42,7 +42,7 @@ class Ank_Simplified_GA_Admin
         /* Show warning if debug mode is on  */
         add_action('admin_notices', array($this, 'show_admin_notice'));
 
-        //check for database upgrades
+        /*check for database upgrades*/
         add_action( 'plugins_loaded', array( $this, 'may_be_upgrade' ) );
 
     }
@@ -252,12 +252,13 @@ class Ank_Simplified_GA_Admin
                    <table class="form-table">
                    <tr>
                        <th scope="row">Google Analytics tracking ID :</th>
-                       <td><input type="text" placeholder="UA-XXXXXXXX-X" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>"> <br>
+                       <td><input type="text" placeholder="UA-XXXXXXXX-X" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>">
+                           <br>
                            <p class="description">Paste your Google Analytics <a target="_blank" href="https://support.google.com/analytics/answer/1032385">tracking ID</a> (e.g. "<code>UA-XXXXXXXX-X</code>")</p>
                        </td>
                    </tr>
                    <tr>
-                       <th scope="row">Universal/Classic:</th>
+                       <th scope="row">Analytics Version:</th>
                        <td>
                            <select name="asga_options[ua_enabled]">
                                <option value="1" <?php selected($options['ua_enabled'], 1) ?>>Universal (analytics.js)</option>
@@ -300,6 +301,7 @@ class Ank_Simplified_GA_Admin
                        <tr>
                            <th scope="row">Force SSL :</th>
                            <td><label><input type="checkbox" name="asga_options[force_ssl]" value="1" <?php checked($options['force_ssl'], 1) ?>>Force SSL </label>
+                           <p class="description">Transmit data over https (secure) connection</p>
                            </td>
                        </tr>
                        <tr>
@@ -506,6 +508,8 @@ class Ank_Simplified_GA_Admin
     {
         //get fresh options from db
         $db_options = get_option($this->option_name);
+        //be fail safe, if not array then array_merge may fail
+        if(!is_array($db_options)) {$db_options=array();}
         //if options not exists in db then init with defaults , also always append default options to existing options
         $db_options = empty($db_options) ? $this->get_default_options() : array_merge($this->get_default_options(),$db_options);
         return $db_options;
