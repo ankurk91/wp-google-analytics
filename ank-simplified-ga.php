@@ -19,7 +19,7 @@ define('ASGA_BASE_FILE', __FILE__);
 
 class Ank_Simplified_GA
 {
-    protected static $instance = null;
+    private static $instances = array();
     private $asga_options = array();
 
     const OPTION_NAME = 'asga_options';
@@ -27,10 +27,7 @@ class Ank_Simplified_GA
 
     private function __construct()
     {
-        // If instance is null, create it. Prevent creating multiple instances of this class
-        if (is_null(self::$instance)) {
-            self::$instance = $this;
-        }
+
         //store all options in a local array
         $this->asga_options = get_option(self::OPTION_NAME);
 
@@ -39,9 +36,9 @@ class Ank_Simplified_GA
 
         //decide where to print code
         if ($this->asga_options['js_location'] == 1)
-            add_action('wp_head', array($this, 'print_js_code'), $js_priority);
+            add_action('wp_head', array($this, 'print_tracking_code'), $js_priority);
         else
-            add_action('wp_footer', array($this, 'print_js_code'), $js_priority);
+            add_action('wp_footer', array($this, 'print_tracking_code'), $js_priority);
     }
 
     /**
@@ -50,17 +47,28 @@ class Ank_Simplified_GA
     public static function get_instance()
     {
 
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
+        $cls = get_called_class();
+        if (!isset(self::$instances[$cls])) {
+            self::$instances[$cls] = new static;
         }
-
-        return self::$instance;
+        return self::$instances[$cls];
     }
+
+    protected function __clone()
+    {
+        //don't not allow clones
+    }
+
+    public function __wakeup()
+    {
+        throw new Exception("Cannot unserialize singleton");
+    }
+
 
     /**
      * Prepare and print javascript code to front end
      */
-    function print_js_code()
+    function print_tracking_code()
     {
 
         //get database options
@@ -259,14 +267,13 @@ class Ank_Simplified_GA
 } //end class
 
 
-if(is_admin()&& ( !defined( 'DOING_AJAX' ) || !DOING_AJAX )) {
+if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
     /* Load admin part only if we are inside wp-admin */
     require(trailingslashit(dirname(__FILE__)) . "asga-admin.php");
     //init admin class
     global $Ank_Simplified_GA_Admin;
     $Ank_Simplified_GA_Admin = Ank_Simplified_GA_Admin::get_instance();
-}
-else {
+} else {
     /*init front end part*/
     global $Ank_Simplified_GA;
     $Ank_Simplified_GA = Ank_Simplified_GA::get_instance();
