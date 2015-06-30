@@ -13,11 +13,11 @@ class Ank_Simplified_GA_Admin
 
     protected static $instance = null;
     /*store plugin option page slug, so that we can change it with ease */
-    private $plugin_slug = 'asga_options_page';
+    const PLUGIN_SLUG = 'asga_options_page';
     /*store database option field name to avoid confusion */
-    private $option_name = 'asga_options';
+    const OPTION_NAME = 'asga_options';
     /*transient name*/
-    private $transient_name = 'asga_js_cache';
+    const TRANSIENT_JS_NAME = 'asga_js_cache';
 
     function __construct()
     {
@@ -69,8 +69,8 @@ class Ank_Simplified_GA_Admin
         $this->delete_transient_js();
 
         //if options not exists then update with defaults
-        if (get_option($this->option_name)==false){
-            update_option($this->option_name, $this->get_default_options());
+        if (get_option(self::OPTION_NAME)==false){
+            update_option(self::OPTION_NAME, $this->get_default_options());
         }
 
     }
@@ -85,7 +85,7 @@ class Ank_Simplified_GA_Admin
     /*Register our settings, using WP settings API*/
     function register_plugin_settings()
     {
-        register_setting('asga_plugin_options', $this->option_name, array($this, 'ASGA_validate_options'));
+        register_setting('asga_plugin_options', self::OPTION_NAME, array($this, 'ASGA_validate_options'));
     }
 
 
@@ -93,13 +93,13 @@ class Ank_Simplified_GA_Admin
      * Adds a 'Settings' link for this plugin on plugin listing page
      *
      * @param $links
-     * @param $file
      * @return array  Links array
      */
-    function add_plugin_actions_links($links, $file)
+    function add_plugin_actions_links($links)
     {
+
         if (current_user_can('manage_options')) {
-            $build_url = add_query_arg('page', $this->plugin_slug, 'options-general.php');
+            $build_url = add_query_arg('page', self::PLUGIN_SLUG, 'options-general.php');
             array_unshift(
                 $links,
                 sprintf('<a href="%s">%s</a>', $build_url, __('Settings'))
@@ -114,7 +114,7 @@ class Ank_Simplified_GA_Admin
      */
     function add_to_settings_menu()
     {
-        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', 'Ank Simplified GA', 'manage_options', $this->plugin_slug, array($this, 'ASGA_options_page'));
+        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', 'Ank Simplified GA', 'manage_options', self::PLUGIN_SLUG, array($this, 'ASGA_options_page'));
         /*add help stuff via tab*/
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
         /*we can load additional css/js to our option page here */
@@ -189,7 +189,7 @@ class Ank_Simplified_GA_Admin
         if (!preg_match('|^UA-\d{4,}-\d+$|', (string)$in['ga_id'])) {
             $out['ga_id'] = '';
             //warn user that the entered id is not valid
-            add_settings_error($this->option_name, 'ga_id', 'Your GA tracking ID seems invalid. Please validate.');
+            add_settings_error(self::OPTION_NAME, 'ga_id', 'Your GA tracking ID seems invalid. Please validate.');
         } else {
             $out['ga_id'] = esc_html($in['ga_id']);
         }
@@ -252,8 +252,7 @@ class Ank_Simplified_GA_Admin
                    <table class="form-table">
                    <tr>
                        <th scope="row">Google Analytics tracking ID :</th>
-                       <td><input type="text" placeholder="UA-XXXXXXXX-X" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>">
-                           <br>
+                       <td><input type="text" placeholder="UA-XXXXXXXX-X" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>"> <br>
                            <p class="description">Paste your Google Analytics <a target="_blank" href="https://support.google.com/analytics/answer/1032385">tracking ID</a> (e.g. "<code>UA-XXXXXXXX-X</code>")</p>
                        </td>
                    </tr>
@@ -488,7 +487,7 @@ class Ank_Simplified_GA_Admin
     private function check_admin_notice()
     {
         //show only for this plugin option page
-        if(strpos(get_current_screen()->id, $this->plugin_slug) === false) return false;
+        if(strpos(get_current_screen()->id, self::PLUGIN_SLUG) === false) return false;
 
         $options = $this->get_safe_options();
         //id ga id is not set return early
@@ -507,7 +506,7 @@ class Ank_Simplified_GA_Admin
     private function get_safe_options()
     {
         //get fresh options from db
-        $db_options = get_option($this->option_name);
+        $db_options = get_option(self::OPTION_NAME);
         //be fail safe, if not array then array_merge may fail
         if(!is_array($db_options)) {$db_options=array();}
         //if options not exists in db then init with defaults , also always append default options to existing options
@@ -520,7 +519,7 @@ class Ank_Simplified_GA_Admin
      * Delete cache version of tracking code
      */
     private function delete_transient_js(){
-        delete_transient($this->transient_name);
+        delete_transient(self::TRANSIENT_JS_NAME);
     }
 
     /**
@@ -529,7 +528,7 @@ class Ank_Simplified_GA_Admin
     function may_be_upgrade()
     {
         //get fresh options from db
-        $db_options = get_option($this->option_name);
+        $db_options = get_option(self::OPTION_NAME);
         //check if we need to proceed , if no return early
         if ($this->can_proceed_to_upgrade($db_options) === false) return;
         //get default options
@@ -539,7 +538,7 @@ class Ank_Simplified_GA_Admin
         //update plugin version
         $new_options['plugin_ver'] = ASGA_PLUGIN_VER;
         //write options back to db
-        update_option($this->option_name, $new_options);
+        update_option(self::OPTION_NAME, $new_options);
         //delete transient as well
         $this->delete_transient_js();
     }
