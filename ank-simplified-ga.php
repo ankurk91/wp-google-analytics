@@ -20,9 +20,10 @@ define('ASGA_BASE_FILE', __FILE__);
 class Ank_Simplified_GA
 {
     protected static $instance = null;
-    private $option_name = 'asga_options';
     private $asga_options = array();
-    private $transient_name = 'asga_js_cache';
+
+    const OPTION_NAME = 'asga_options';
+    const TRANSIENT_JS_NAME = 'asga_js_cache';
 
     private function __construct()
     {
@@ -31,7 +32,7 @@ class Ank_Simplified_GA
             self::$instance = $this;
         }
         //store all options in a local array
-        $this->asga_options = get_option($this->option_name);
+        $this->asga_options = get_option(self::OPTION_NAME);
 
         //get action's priority
         $js_priority = absint($this->asga_options['js_priority']);
@@ -234,7 +235,7 @@ class Ank_Simplified_GA
      */
     private function get_transient_js()
     {
-        if (($transient_js = get_transient($this->transient_name)) !== false) {
+        if (($transient_js = get_transient(self::TRANSIENT_JS_NAME)) !== false) {
             //replace string to detect caching
             echo str_replace('Tracking start', 'Tracking start, Caching in on', $transient_js);
             return true;
@@ -251,7 +252,7 @@ class Ank_Simplified_GA
     private function set_transient_js($buffer)
     {
         //cache code to database for 24 hours
-        set_transient($this->transient_name, $buffer, 86400);
+        set_transient(self::TRANSIENT_JS_NAME, $buffer, 86400);
 
     }
 
