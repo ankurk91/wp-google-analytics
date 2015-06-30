@@ -11,23 +11,20 @@ if (!defined('ASGA_BASE_FILE')) die('What ?');
 class Ank_Simplified_GA_Admin
 {
 
-    protected static $instance = null;
+    private static $instances = array();
     /*store plugin option page slug, so that we can change it with ease */
     const PLUGIN_SLUG = 'asga_options_page';
     /*store database option field name to avoid confusion */
     const OPTION_NAME = 'asga_options';
-    /*transient name*/
+    /*js transient name*/
     const TRANSIENT_JS_NAME = 'asga_js_cache';
 
-    function __construct()
+    private function __construct()
     {
-        // If instance is null, create it. Prevent creating multiple instances of this class
-        if (is_null(self::$instance)) {
-            self::$instance = $this;
-        }
+
         /*to save default options upon activation*/
         register_activation_hook(plugin_basename(ASGA_BASE_FILE), array($this, 'do_upon_plugin_activation'));
-
+        /*delete transients when deactivated*/
         register_deactivation_hook(plugin_basename(ASGA_BASE_FILE), array($this, 'do_upon_plugin_deactivation'));
 
         /*for register setting*/
@@ -53,11 +50,21 @@ class Ank_Simplified_GA_Admin
     public static function get_instance()
     {
 
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
+        $cls = get_called_class();
+        if (!isset(self::$instances[$cls])) {
+            self::$instances[$cls] = new static;
         }
+        return self::$instances[$cls];
+    }
 
-        return self::$instance;
+    protected function __clone()
+    {
+        //don't not allow clones
+    }
+
+    public function __wakeup()
+    {
+        throw new Exception("Cannot unserialize singleton");
     }
 
     /*
@@ -191,7 +198,7 @@ class Ank_Simplified_GA_Admin
             //warn user that the entered id is not valid
             add_settings_error(self::OPTION_NAME, 'ga_id', 'Your GA tracking ID seems invalid. Please validate.');
         } else {
-            $out['ga_id'] = esc_html($in['ga_id']);
+            $out['ga_id'] = sanitize_text_field($in['ga_id']);
         }
 
         $radio_items = array('js_location','js_load_later');
@@ -202,7 +209,7 @@ class Ank_Simplified_GA_Admin
 
         $out['js_priority'] = (empty($in['js_priority'])) ? 20 : absint($in['js_priority']);
 
-        $out['ga_domain'] = esc_html($in['ga_domain']);
+        $out['ga_domain'] = sanitize_text_field($in['ga_domain']);
 
         $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search','log_user_engagement','debug_mode','force_ssl');
          //add rolls to checkbox_items array
