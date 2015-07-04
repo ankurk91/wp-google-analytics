@@ -161,7 +161,6 @@ class Ank_Simplified_GA_Admin
             'js_priority' => 20,
             'log_404' => 0,
             'log_search' => 0,
-            'log_user_engagement' => 0,
             'ua_enabled' => 1,
             'displayfeatures' => 0,
             'ga_ela' => 0,
@@ -211,7 +210,7 @@ class Ank_Simplified_GA_Admin
 
         $out['ga_domain'] = sanitize_text_field($in['ga_domain']);
 
-        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search','log_user_engagement','debug_mode','force_ssl');
+        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search','debug_mode','force_ssl');
          //add rolls to checkbox_items array
         foreach ($this->get_all_roles() as $role => $role_info) {
             $checkbox_items[] = 'ignore_role_' . $role;
@@ -244,7 +243,7 @@ class Ank_Simplified_GA_Admin
             <h2 class="nav-tab-wrapper" id="ga-tabs">
                 <a class="nav-tab" id="ga-general-tab" href="#top#ga-general">General</a>
                 <a class="nav-tab" id="ga-advanced-tab" href="#top#ga-advanced">Advanced</a>
-                <a class="nav-tab" id="ga-events-tab" href="#top#ga-events">Tracking</a>
+                <a class="nav-tab" id="ga-events-tab" href="#top#ga-events">Monitor</a>
                 <a class="nav-tab" id="ga-troubleshoot-tab" href="#top#ga-troubleshoot">Troubleshoot</a>
             </h2><!--.nav-tab-wrapper-->
 
@@ -345,7 +344,6 @@ class Ank_Simplified_GA_Admin
                                $events = array(
                                    'log_404' => 'Log 404 errors as events',
                                    'log_search' => 'Log searched items as page views',
-                                   'log_user_engagement' => 'Log user engagement as events'
                                );
                                //loop through each event item
                                foreach ($events as $event => $label) {
@@ -525,7 +523,8 @@ class Ank_Simplified_GA_Admin
     /**
      * Delete cache version of tracking code
      */
-    private function delete_transient_js(){
+    private function delete_transient_js()
+    {
         delete_transient(self::TRANSIENT_JS_NAME);
     }
 
@@ -554,7 +553,6 @@ class Ank_Simplified_GA_Admin
      * Check if we need to upgrade database options or not
      * @param $db_options
      * @return bool|mixed
-     *
      */
     private function can_proceed_to_upgrade($db_options)
     {
