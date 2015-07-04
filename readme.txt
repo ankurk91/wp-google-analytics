@@ -2,7 +2,7 @@
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite
 Requires at least: 3.8.0
 Tested up to: 4.2.2
-Stable tag: 0.8
+Stable tag: 0.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -34,7 +34,6 @@ Track your WordPress website with Google Analytics service.
 * Disable tracking when Network Admin is logged-in
 * Debugging mode
 * Force SSL
-* Track user engagement
 * Cache tracking code for faster processing
 
 
@@ -141,11 +140,14 @@ It just a matter of a second. It will cost not more than 10 KB.
 == Screenshots ==
 1. General Options
 2. Advanced Options
-3. Tracking Options
+3. Tracking/Monitor Options
 4. Troubleshooting Options
 
 
 == Changelog ==
+
+= 0.8.1 =
+* Track user engagement option removed in favor of [this](http://riveted.parsnip.io/)
 
 = 0.8 =
 * Bug fixes

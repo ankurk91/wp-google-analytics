@@ -3,7 +3,7 @@
 Plugin Name: Ank Simplified Google Analytics
 Plugin URI: https://github.com/ank91/ank-simplified-ga
 Description: Simple, light weight, and non-bloated WordPress Google Analytics Plugin.
-Version: 0.8
+Version: 0.8.1
 Author: Ankur Kumar
 Author URI: http://ank91.github.io/
 License: GPL2
@@ -14,7 +14,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 /* No direct access*/
 if (!defined('ABSPATH')) exit;
 
-define('ASGA_PLUGIN_VER', '0.8');
+define('ASGA_PLUGIN_VER', '0.8.1');
 define('ASGA_BASE_FILE', __FILE__);
 
 class Ank_Simplified_GA
@@ -27,18 +27,9 @@ class Ank_Simplified_GA
 
     private function __construct()
     {
+        $this->set_db_options();
+        $this->init();
 
-        //store all options in a local array
-        $this->asga_options = get_option(self::OPTION_NAME);
-
-        //get action's priority
-        $js_priority = absint($this->asga_options['js_priority']);
-
-        //decide where to print code
-        if ($this->asga_options['js_location'] == 1)
-            add_action('wp_head', array($this, 'print_tracking_code'), $js_priority);
-        else
-            add_action('wp_footer', array($this, 'print_tracking_code'), $js_priority);
     }
 
     /**
@@ -64,7 +55,28 @@ class Ank_Simplified_GA
         throw new Exception("Cannot unserialize singleton");
     }
 
+    /**
+     * Store database options in a local array
+     */
+    private function set_db_options()
+    {
+        $this->asga_options = get_option(self::OPTION_NAME);
+    }
 
+    /**
+     * Init front end part
+     */
+    private function init()
+    {
+        //get action's priority
+        $js_priority = absint($this->asga_options['js_priority']);
+
+        //decide where to print code
+        if ($this->asga_options['js_location'] == 1)
+            add_action('wp_head', array($this, 'print_tracking_code'), $js_priority);
+        else
+            add_action('wp_footer', array($this, 'print_tracking_code'), $js_priority);
+    }
     /**
      * Prepare and print javascript code to front end
      */
@@ -88,7 +100,6 @@ class Ank_Simplified_GA
         //check for debug mode
         $debug_mode = $this->check_debug_mode($options);
         //these flags will be used in view
-        $user_engagement = absint($options['log_user_engagement']);
         $js_load_later = absint($options['js_load_later']);
 
         $gaq = array();
