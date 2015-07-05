@@ -3,7 +3,7 @@
 Plugin Name: Ank Simplified Google Analytics
 Plugin URI: https://github.com/ank91/ank-simplified-ga
 Description: Simple, light weight, and non-bloated WordPress Google Analytics Plugin.
-Version: 0.8.1
+Version: 0.8.2
 Author: Ankur Kumar
 Author URI: http://ank91.github.io/
 License: GPL2
@@ -14,16 +14,15 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 /* No direct access*/
 if (!defined('ABSPATH')) exit;
 
-define('ASGA_PLUGIN_VER', '0.8.1');
-define('ASGA_BASE_FILE', __FILE__);
+define('ASGA_PLUGIN_VER', '0.8.2');
+define('ASGA_BASE_FILE',plugin_basename( __FILE__));
+define('ASGA_OPTION_NAME','asga_options');
+define('ASGA_TRANSIENT_JS_NAME','asga_js_cache');
 
 class Ank_Simplified_GA
 {
     private static $instances = array();
     private $asga_options = array();
-
-    const OPTION_NAME = 'asga_options';
-    const TRANSIENT_JS_NAME = 'asga_js_cache';
 
     private function __construct()
     {
@@ -60,7 +59,7 @@ class Ank_Simplified_GA
      */
     private function set_db_options()
     {
-        $this->asga_options = get_option(self::OPTION_NAME);
+        $this->asga_options = get_option(ASGA_OPTION_NAME);
     }
 
     /**
@@ -126,6 +125,11 @@ class Ank_Simplified_GA
             if ($options['ga_ela'] == 1) {
                 $gaq[] = "'require', 'linkid', 'linkid.js'";
             }
+            if($options['custom_trackers']!==''){
+                $gaq[] = array(
+                    'custom_trackers' => $options['custom_trackers']
+                );
+            }
 
             if (is_404() && $options['log_404'] == 1) {
                 $gaq[] = "'send','event','404',document.location.href,document.referrer";
@@ -172,6 +176,12 @@ class Ank_Simplified_GA
             if ($options['ga_ela'] == 1) {
                 $ela_plugin_url = "var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';\n";
                 $gaq[] = "['_require', 'inpage_linkid', pluginUrl]";
+            }
+
+            if($options['custom_trackers']!==''){
+                $gaq[] = array(
+                    'custom_trackers' => $options['custom_trackers']
+                );
             }
 
             if (is_404() && $options['log_404'] == 1) {
@@ -254,7 +264,7 @@ class Ank_Simplified_GA
      */
     private function get_transient_js()
     {
-        if (($transient_js = get_transient(self::TRANSIENT_JS_NAME)) !== false) {
+        if (($transient_js = get_transient(ASGA_TRANSIENT_JS_NAME)) !== false) {
             //replace string to detect caching
             echo str_replace('Tracking start', 'Tracking start, Caching in on', $transient_js);
             return true;
@@ -271,7 +281,7 @@ class Ank_Simplified_GA
     private function set_transient_js($buffer)
     {
         //cache code to database for 24 hours
-        set_transient(self::TRANSIENT_JS_NAME, $buffer, 86400);
+        set_transient(ASGA_TRANSIENT_JS_NAME, $buffer, 86400);
 
     }
 

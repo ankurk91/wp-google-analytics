@@ -13,11 +13,15 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics<?php echo ($debug_mode === true) ? '_debug':''; ?>.js','ga');
 <?php
 foreach($gaq as $item){
-    echo 'ga('.$item.');'."\n";
+    if(!is_array($item)){
+        echo 'ga('.$item.');'."\n";
+    } else {
+        echo $item['custom_trackers']."\n";
+    }
 }
 if($js_load_later === 1) {?>
 }
 window.addEventListener?window.addEventListener("load",_loadGA,!1):window.attachEvent?window.attachEvent("onload",_loadGA):window.onload=_loadGA;
-<?php }?>
+<?php }  ?>
 </script>
 <!--GA Tracking ends-->

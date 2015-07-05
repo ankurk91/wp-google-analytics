@@ -6,7 +6,7 @@
 
 /* No direct access */
 if (!defined('ABSPATH')) exit;
-if (!defined('ASGA_BASE_FILE')) die('What ?');
+if (!class_exists('Ank_Simplified_GA')) die('What ?');
 
 class Ank_Simplified_GA_Admin
 {
@@ -14,24 +14,21 @@ class Ank_Simplified_GA_Admin
     private static $instances = array();
     /*store plugin option page slug, so that we can change it with ease */
     const PLUGIN_SLUG = 'asga_options_page';
-    /*store database option field name to avoid confusion */
-    const OPTION_NAME = 'asga_options';
-    /*js transient name*/
-    const TRANSIENT_JS_NAME = 'asga_js_cache';
+    const PLUGIN_OPTION_GROUP = 'asga_plugin_options';
 
     private function __construct()
     {
 
         /*to save default options upon activation*/
-        register_activation_hook(plugin_basename(ASGA_BASE_FILE), array($this, 'do_upon_plugin_activation'));
+        register_activation_hook(ASGA_BASE_FILE, array($this, 'do_upon_plugin_activation'));
         /*delete transients when deactivated*/
-        register_deactivation_hook(plugin_basename(ASGA_BASE_FILE), array($this, 'do_upon_plugin_deactivation'));
+        register_deactivation_hook(ASGA_BASE_FILE, array($this, 'do_upon_plugin_deactivation'));
 
         /*for register setting*/
         add_action('admin_init', array($this, 'register_plugin_settings'));
 
         /*settings link on plugin listing page*/
-        add_filter('plugin_action_links_' . plugin_basename(ASGA_BASE_FILE), array($this, 'add_plugin_actions_links'), 10, 2);
+        add_filter('plugin_action_links_' . ASGA_BASE_FILE, array($this, 'add_plugin_actions_links'), 10, 2);
 
         /* Add settings link under admin->settings menu */
         add_action('admin_menu', array($this, 'add_to_settings_menu'));
@@ -76,8 +73,8 @@ class Ank_Simplified_GA_Admin
         $this->delete_transient_js();
 
         //if options not exists then update with defaults
-        if (get_option(self::OPTION_NAME)==false){
-            update_option(self::OPTION_NAME, $this->get_default_options());
+        if (get_option(ASGA_OPTION_NAME)==false){
+            update_option(ASGA_OPTION_NAME, $this->get_default_options());
         }
 
     }
@@ -92,7 +89,7 @@ class Ank_Simplified_GA_Admin
     /*Register our settings, using WP settings API*/
     function register_plugin_settings()
     {
-        register_setting('asga_plugin_options', self::OPTION_NAME, array($this, 'ASGA_validate_options'));
+        register_setting(self::PLUGIN_OPTION_GROUP, ASGA_OPTION_NAME, array($this, 'ASGA_validate_options'));
     }
 
 
@@ -168,6 +165,7 @@ class Ank_Simplified_GA_Admin
             'ga_domain' => '',
             'debug_mode' => 0,
             'force_ssl' => 1,
+            'custom_tracker' => ''
 
         );
         //store roles as well
@@ -195,7 +193,7 @@ class Ank_Simplified_GA_Admin
         if (!preg_match('|^UA-\d{4,}-\d+$|', (string)$in['ga_id'])) {
             $out['ga_id'] = '';
             //warn user that the entered id is not valid
-            add_settings_error(self::OPTION_NAME, 'ga_id', 'Your GA tracking ID seems invalid. Please validate.');
+            add_settings_error(ASGA_OPTION_NAME, 'ga_id', 'Your GA tracking ID seems invalid. Please validate.');
         } else {
             $out['ga_id'] = sanitize_text_field($in['ga_id']);
         }
@@ -209,6 +207,8 @@ class Ank_Simplified_GA_Admin
         $out['js_priority'] = (empty($in['js_priority'])) ? 20 : absint($in['js_priority']);
 
         $out['ga_domain'] = sanitize_text_field($in['ga_domain']);
+
+        $out['custom_trackers'] = trim($in['custom_trackers']);
 
         $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search','debug_mode','force_ssl');
          //add rolls to checkbox_items array
@@ -244,6 +244,7 @@ class Ank_Simplified_GA_Admin
                 <a class="nav-tab" id="ga-general-tab" href="#top#ga-general">General</a>
                 <a class="nav-tab" id="ga-advanced-tab" href="#top#ga-advanced">Advanced</a>
                 <a class="nav-tab" id="ga-events-tab" href="#top#ga-events">Monitor</a>
+                <a class="nav-tab" id="ga-control-tab" href="#top#ga-control">Control</a>
                 <a class="nav-tab" id="ga-troubleshoot-tab" href="#top#ga-troubleshoot">Troubleshoot</a>
             </h2><!--.nav-tab-wrapper-->
 
@@ -251,7 +252,7 @@ class Ank_Simplified_GA_Admin
             <?php
                 $options = $this->get_safe_options();
                 //wp inbuilt nonce field , etc
-                settings_fields('asga_plugin_options');
+                settings_fields(self::PLUGIN_OPTION_GROUP);
             ?>
             <div class="tab-wrapper">
                <div id="ga-general" class="tab-content">
@@ -310,27 +311,9 @@ class Ank_Simplified_GA_Admin
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row">Code Location :</th>
-                           <td>
-                               <fieldset>
-                               <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;Place in document header</label><br>
-                               <label><input type="radio" name="asga_options[js_location]" value="2" <?php checked($options['js_location'], 2) ?>>&ensp;Place in document footer</label>
-                               </fieldset>
-                           </td>
-                       </tr>
-                       <tr>
-                           <th scope="row">Code Execution :</th>
-                           <td>
-                               <fieldset>
-                                   <label><input type="radio" name="asga_options[js_load_later]" value="0" <?php checked($options['js_load_later'], 0) ?>>&ensp;Immediately</label><br>
-                                   <label><input type="radio" name="asga_options[js_load_later]" value="1" <?php checked($options['js_load_later'], 1) ?>>&ensp;On page load</label>
-                               </fieldset>
-                           </td>
-                       </tr>
-                       <tr>
-                           <th scope="row">Action Priority :</th>
-                           <td><input type="number" min="0" max="999" placeholder="20" name="asga_options[js_priority]" value="<?php echo esc_attr($options['js_priority']); ?>">
-                               <p class="description">0 means highest priority</p>
+                           <th scope="row">Custom Trackers :</th>
+                           <td><textarea placeholder="Please don't not include &lt;script&gt tags" rows="5" cols="35" name="asga_options[custom_trackers]" style="resize: vertical;max-height: 300px;"><?php echo stripslashes($options['custom_trackers']) ?></textarea>
+                           <p class="description">To be added before the <code>pageview</code> call.</p>
                            </td>
                        </tr>
                    </table>
@@ -369,6 +352,34 @@ class Ank_Simplified_GA_Admin
                        </tr>
                    </table>
                </div>
+               <div id="ga-control" class="tab-content">
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">Code Location :</th>
+                            <td>
+                                <fieldset>
+                                    <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;Place in document header</label><br>
+                                    <label><input type="radio" name="asga_options[js_location]" value="2" <?php checked($options['js_location'], 2) ?>>&ensp;Place in document footer</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Code Execution :</th>
+                            <td>
+                                <fieldset>
+                                    <label><input type="radio" name="asga_options[js_load_later]" value="0" <?php checked($options['js_load_later'], 0) ?>>&ensp;Immediately</label><br>
+                                    <label><input type="radio" name="asga_options[js_load_later]" value="1" <?php checked($options['js_load_later'], 1) ?>>&ensp;On page load</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Action Priority :</th>
+                            <td><input type="number" min="0" max="999" placeholder="20" name="asga_options[js_priority]" value="<?php echo esc_attr($options['js_priority']); ?>">
+                                <p class="description">0 means highest priority</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                <div id="ga-troubleshoot" class="tab-content">
                    <table class="form-table">
                        <tr>
@@ -400,13 +411,21 @@ class Ank_Simplified_GA_Admin
                 ga_tabs.find('a').click(function() {
                     ga_tabs.find('a').removeClass('nav-tab-active');
                     $('div.tab-content').removeClass('active');
-                    $('#' + $(this).attr('id').replace('-tab', '')).addClass('active');
+                    var id = $(this).attr('id').replace('-tab', '');
+                    $('#' + id).addClass('active');
                     $(this).addClass('nav-tab-active');
+                    set_redirect_url(id);
                 });
                 var activeTab = window.location.hash.replace('#top#', '');
                 if (activeTab === '') activeTab = $('div.tab-content').attr('id');
                 $('#' + activeTab).addClass('active');
                 $('#' + activeTab + '-tab').addClass('nav-tab-active');
+                set_redirect_url(activeTab);
+                function set_redirect_url(url){
+                   var input=$("form#asga_form").find('input:hidden:nth-child(4)');
+                   var split = input.val().split('?',1);
+                   input.val(split[0]+'?page=asga_options_page#top#'+url);
+                }
             })(jQuery);
         </script>
     <?php
@@ -511,7 +530,7 @@ class Ank_Simplified_GA_Admin
     private function get_safe_options()
     {
         //get fresh options from db
-        $db_options = get_option(self::OPTION_NAME);
+        $db_options = get_option(ASGA_OPTION_NAME);
         //be fail safe, if not array then array_merge may fail
         if(!is_array($db_options)) {$db_options=array();}
         //if options not exists in db then init with defaults , also always append default options to existing options
@@ -525,7 +544,7 @@ class Ank_Simplified_GA_Admin
      */
     private function delete_transient_js()
     {
-        delete_transient(self::TRANSIENT_JS_NAME);
+        delete_transient(ASGA_TRANSIENT_JS_NAME);
     }
 
     /**
@@ -534,7 +553,7 @@ class Ank_Simplified_GA_Admin
     function may_be_upgrade()
     {
         //get fresh options from db
-        $db_options = get_option(self::OPTION_NAME);
+        $db_options = get_option(ASGA_OPTION_NAME);
         //check if we need to proceed , if no return early
         if ($this->can_proceed_to_upgrade($db_options) === false) return;
         //get default options
@@ -544,7 +563,7 @@ class Ank_Simplified_GA_Admin
         //update plugin version
         $new_options['plugin_ver'] = ASGA_PLUGIN_VER;
         //write options back to db
-        update_option(self::OPTION_NAME, $new_options);
+        update_option(ASGA_OPTION_NAME, $new_options);
         //delete transient as well
         $this->delete_transient_js();
     }
