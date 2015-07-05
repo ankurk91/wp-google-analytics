@@ -6,10 +6,14 @@ function _loadGA(){
 <?php } ?>
 var _gaq = _gaq || [];
 <?php
-echo $ela_plugin_url;
-foreach($gaq as $item){
-echo "_gaq.push([" . $item . "]);\n";
-}
+  echo $ela_plugin_url;
+  foreach($gaq as $item){
+    if(!is_array($item)){
+     echo "_gaq.push([" . $item . "]);\n";
+    } else{
+     echo $item['custom_trackers']."\n";
+    }
+  }
 ?>
 (function() {
 var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
