@@ -266,7 +266,7 @@ class Ank_Simplified_GA_Admin
                        </td>
                    </tr>
                    <tr>
-                       <th scope="row">Analytics Version:</th>
+                       <th scope="row">Analytics version:</th>
                        <td>
                            <select name="asga_options[ua_enabled]">
                                <option value="1" <?php selected($options['ua_enabled'], 1) ?>>Universal (analytics.js)</option>
@@ -302,13 +302,13 @@ class Ank_Simplified_GA_Admin
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row">Allow Linker :</th>
-                           <td><label><input type="checkbox" name="asga_options[allow_linker]" value="1" <?php checked($options['allow_linker'], 1) ?>>Check to Enable  </label>
+                           <th scope="row">Cross-domain user tracking :</th>
+                           <td><label><input type="checkbox" name="asga_options[allow_linker]" value="1" <?php checked($options['allow_linker'], 1) ?>>Check to Enable <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiDomainDirectory#_gat.GA_Tracker_._setAllowLinker">Read More</a> </label>
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row">Allow Anchor :</th>
-                           <td><label><input type="checkbox" name="asga_options[allow_anchor]" value="1" <?php checked($options['allow_anchor'], 1) ?>>Check to Enable  </label>
+                           <th scope="row">Campaign tracking :</th>
+                           <td><label><input type="checkbox" name="asga_options[allow_anchor]" value="1" <?php checked($options['allow_anchor'], 1) ?>>Check to Enable <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiCampaignTracking#_gat.GA_Tracker_._setAllowAnchor">Read More</a> </label>
                            </td>
                        </tr>
                        <tr>
@@ -323,7 +323,7 @@ class Ank_Simplified_GA_Admin
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row">Custom Trackers :</th>
+                           <th scope="row">Custom trackers :</th>
                            <td><textarea placeholder="Please don't not include &lt;script&gt tags" rows="5" cols="35" name="asga_options[custom_trackers]" style="resize: vertical;max-height: 300px;"><?php echo stripslashes($options['custom_trackers']) ?></textarea>
                            <p class="description">To be added before the <code>pageview</code> call.</p>
                            </td>
@@ -333,7 +333,7 @@ class Ank_Simplified_GA_Admin
                <div id="ga-events" class="tab-content">
                    <table class="form-table">
                        <tr>
-                           <th scope="row">Event Tracking :</th>
+                           <th scope="row">Event tracking :</th>
                            <td><fieldset>
                                <?php
                                $events = array(
@@ -350,7 +350,7 @@ class Ank_Simplified_GA_Admin
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row">Stop Analytics when :</th>
+                           <th scope="row">Stop analytics when :</th>
                            <td>
                                <?php
                                foreach ($this->get_all_roles() as $id => $label) {
@@ -367,7 +367,7 @@ class Ank_Simplified_GA_Admin
                <div id="ga-control" class="tab-content">
                     <table class="form-table">
                         <tr>
-                            <th scope="row">Code Location :</th>
+                            <th scope="row">Code location :</th>
                             <td>
                                 <fieldset>
                                     <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;Place in document header</label><br>
@@ -376,7 +376,7 @@ class Ank_Simplified_GA_Admin
                             </td>
                         </tr>
                         <tr>
-                            <th scope="row">Code Execution :</th>
+                            <th scope="row">Code execution :</th>
                             <td>
                                 <fieldset>
                                     <label><input type="radio" name="asga_options[js_load_later]" value="0" <?php checked($options['js_load_later'], 0) ?>>&ensp;Immediately</label><br>
@@ -385,7 +385,7 @@ class Ank_Simplified_GA_Admin
                             </td>
                         </tr>
                         <tr>
-                            <th scope="row">Action Priority :</th>
+                            <th scope="row">Action priority :</th>
                             <td><input type="number" min="0" max="999" placeholder="20" name="asga_options[js_priority]" value="<?php echo esc_attr($options['js_priority']); ?>">
                                 <p class="description">0 means highest priority</p>
                             </td>
@@ -395,7 +395,7 @@ class Ank_Simplified_GA_Admin
                <div id="ga-troubleshoot" class="tab-content">
                    <table class="form-table">
                        <tr>
-                           <th scope="row">Troubleshoot :</th>
+                           <th scope="row">Debug mode :</th>
                            <td><label><input type="checkbox" name="asga_options[debug_mode]" value="1" <?php checked($options['debug_mode'], 1) ?>>Enable Debugging mode for admins <a target="_blank" href="https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug">Read more</a> </label>
 
                                <p class="description">This should only be used temporarily or during development, don't forget to disable it in production.</p>
@@ -493,7 +493,7 @@ class Ank_Simplified_GA_Admin
         if ($this->check_admin_notice()) {
              ?>
             <div id="asga_message" class="notice notice-warning is-dismissible">
-                <p><b>Google Analytics debug mode is enabled for this site.Don't forget to disable this option in production. </b></p>
+                <p><b>Google Analytics debug mode is enabled for this site. Don't forget to disable this option in production. </b></p>
             </div>
         <?php
         }
