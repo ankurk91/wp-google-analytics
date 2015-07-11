@@ -3,7 +3,7 @@
 Plugin Name: Ank Simplified Google Analytics
 Plugin URI: https://github.com/ank91/ank-simplified-ga
 Description: Simple, light weight, and non-bloated WordPress Google Analytics Plugin.
-Version: 0.8.2
+Version: 0.8.3
 Author: Ankur Kumar
 Author URI: http://ank91.github.io/
 License: GPL2
@@ -14,10 +14,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 /* No direct access*/
 if (!defined('ABSPATH')) exit;
 
-define('ASGA_PLUGIN_VER', '0.8.2');
-define('ASGA_BASE_FILE',plugin_basename( __FILE__));
-define('ASGA_OPTION_NAME','asga_options');
-define('ASGA_TRANSIENT_JS_NAME','asga_js_cache');
+define('ASGA_PLUGIN_VER', '0.8.3');
+define('ASGA_BASE_FILE', plugin_basename(__FILE__));
+define('ASGA_OPTION_NAME', 'asga_options');
+define('ASGA_TRANSIENT_JS_NAME', 'asga_js_cache');
 
 class Ank_Simplified_GA
 {
@@ -76,6 +76,7 @@ class Ank_Simplified_GA
         else
             add_action('wp_footer', array($this, 'print_tracking_code'), $js_priority);
     }
+
     /**
      * Prepare and print javascript code to front end
      */
@@ -108,7 +109,15 @@ class Ank_Simplified_GA
         if ($options['ua_enabled'] == 1) {
             //if universal is enabled
 
-            $gaq[] = "'create', '" . $ga_id . "', '" . $domain . "'";
+            if ($options['allow_linker'] == 1 && $options['allow_anchor'] != 1) {
+                $gaq[] = "'create', '" . $ga_id . "', '" . $domain . "', {'allowLinker': true}";
+            } else {
+                if ($options['allow_anchor'] == 1 && $options['allow_anchor'] == 1) {
+                    $gaq[] = "'create', '" . $ga_id . "', '" . $domain . "', {'allowLinker': true,'allowAnchor': true}";
+                } else {
+                    $gaq[] = "'create', '" . $ga_id . "', '" . $domain . "'";
+                }
+            }
 
             if ($options['force_ssl'] == 1) {
                 $gaq[] = "'set', 'forceSSL', true";
@@ -125,7 +134,7 @@ class Ank_Simplified_GA
             if ($options['ga_ela'] == 1) {
                 $gaq[] = "'require', 'linkid', 'linkid.js'";
             }
-            if($options['custom_trackers']!==''){
+            if ($options['custom_trackers'] !== '') {
                 $gaq[] = array(
                     'custom_trackers' => $options['custom_trackers']
                 );
@@ -164,6 +173,14 @@ class Ank_Simplified_GA
                 $gaq[] = "'_setDomainName', '" . $domain . "'";
             }
 
+            if ($options['allow_linker'] == 1) {
+                $gaq[] = "'_setAllowLinker', true";
+            }
+
+            if ($options['allow_anchor'] == 1) {
+                $gaq[] = "'_setAllowAnchor', true";
+            }
+
             if ($options['force_ssl'] == 1) {
                 $gaq[] = "'_gat._forceSSL'";
             }
@@ -178,7 +195,7 @@ class Ank_Simplified_GA
                 $gaq[] = "['_require', 'inpage_linkid', pluginUrl]";
             }
 
-            if($options['custom_trackers']!==''){
+            if ($options['custom_trackers'] !== '') {
                 $gaq[] = array(
                     'custom_trackers' => $options['custom_trackers']
                 );

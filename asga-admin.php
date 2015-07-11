@@ -165,7 +165,9 @@ class Ank_Simplified_GA_Admin
             'ga_domain' => '',
             'debug_mode' => 0,
             'force_ssl' => 1,
-            'custom_tracker' => ''
+            'custom_tracker' => '',
+            'allow_linker' => 0 ,
+            'allow_anchor' => 0
 
         );
         //store roles as well
@@ -210,7 +212,7 @@ class Ank_Simplified_GA_Admin
 
         $out['custom_trackers'] = trim($in['custom_trackers']);
 
-        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search','debug_mode','force_ssl');
+        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search','debug_mode','force_ssl','allow_linker','allow_anchor');
          //add rolls to checkbox_items array
         foreach ($this->get_all_roles() as $role => $role_info) {
             $checkbox_items[] = 'ignore_role_' . $role;
@@ -297,6 +299,16 @@ class Ank_Simplified_GA_Admin
                        <tr>
                            <th scope="row">Enhanced Link Attribution :</th>
                            <td><label><input type="checkbox" name="asga_options[ga_ela]" value="1" <?php checked($options['ga_ela'], 1) ?>>Check to Enable <a target="_blank" href="https://support.google.com/analytics/answer/2558867">Read more</a> </label>
+                           </td>
+                       </tr>
+                       <tr>
+                           <th scope="row">Allow Linker :</th>
+                           <td><label><input type="checkbox" name="asga_options[allow_linker]" value="1" <?php checked($options['allow_linker'], 1) ?>>Check to Enable  </label>
+                           </td>
+                       </tr>
+                       <tr>
+                           <th scope="row">Allow Anchor :</th>
+                           <td><label><input type="checkbox" name="asga_options[allow_anchor]" value="1" <?php checked($options['allow_anchor'], 1) ?>>Check to Enable  </label>
                            </td>
                        </tr>
                        <tr>
@@ -406,27 +418,10 @@ class Ank_Simplified_GA_Admin
             </p>
         </div> <!-- .wrap-->
         <script type="text/javascript">
-            (function ($) {
-                var ga_tabs = $('h2#ga-tabs');
-                ga_tabs.find('a').click(function() {
-                    ga_tabs.find('a').removeClass('nav-tab-active');
-                    $('div.tab-content').removeClass('active');
-                    var id = $(this).attr('id').replace('-tab', '');
-                    $('#' + id).addClass('active');
-                    $(this).addClass('nav-tab-active');
-                    set_redirect_url(id);
-                });
-                var activeTab = window.location.hash.replace('#top#', '');
-                if (activeTab === '') activeTab = $('div.tab-content').attr('id');
-                $('#' + activeTab).addClass('active');
-                $('#' + activeTab + '-tab').addClass('nav-tab-active');
-                set_redirect_url(activeTab);
-                function set_redirect_url(url){
-                   var input=$("form#asga_form").find('input:hidden:nth-child(4)');
-                   var split = input.val().split('?',1);
-                   input.val(split[0]+'?page=asga_options_page#top#'+url);
-                }
-            })(jQuery);
+            <?php
+            $is_min = ( WP_DEBUG == 1) ? '' : '.min';
+            echo file_get_contents(__DIR__."/js/asga-admin".$is_min.".js") ;
+             ?>
         </script>
     <?php
     } //end function
