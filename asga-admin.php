@@ -165,7 +165,7 @@ class Ank_Simplified_GA_Admin
             'ga_domain' => '',
             'debug_mode' => 0,
             'force_ssl' => 1,
-            'custom_tracker' => '',
+            'custom_trackers' => '',
             'allow_linker' => 0 ,
             'allow_anchor' => 0
 
@@ -238,9 +238,10 @@ class Ank_Simplified_GA_Admin
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
         ?>
-        <style type="text/css"> .tab-content{display: none} .tab-content.active{display: block} </style>
+        <style type="text/css"> .tab-content{display: none} .tab-content.active{display: block} pre.xdebug-var-dump{max-height: 200px;overflow: auto;border:1px solid #e2e2e2;padding:5px; } </style>
         <div class="wrap">
-            <h2>Ank Simplified Google Analytics <small>(v<?php echo ASGA_PLUGIN_VER; ?>)</small> </h2>
+            <h2>Ank Simplified Google Analytics
+                <small>(v<?php echo ASGA_PLUGIN_VER; ?>)</small> </h2>
 
             <h2 class="nav-tab-wrapper" id="ga-tabs">
                 <a class="nav-tab" id="ga-general-tab" href="#top#ga-general">General</a>
@@ -281,7 +282,7 @@ class Ank_Simplified_GA_Admin
                            <?php
                            //print sub-domain url on screen , when multi-site is enabled
                            if(!is_main_site()){
-                               printf('<p class="description">%s</p>',get_blogaddress_by_id(get_current_blog_id())) ;
+                               printf('<p class="description"><code>%s</code></p>',get_blogaddress_by_id(get_current_blog_id())) ;
                            }
                            ?>
                        </td>
@@ -404,6 +405,10 @@ class Ank_Simplified_GA_Admin
                        <tr>
                            <th scope="row">Debug database options :</th>
                            <td><?php var_dump($options); ?></td>
+                       </tr>
+                       <tr>
+                           <th scope="row">Debug transient cache :</th>
+                           <td><?php var_dump(get_transient(ASGA_TRANSIENT_JS_NAME)); ?></td>
                        </tr>
                    </table>
                </div>

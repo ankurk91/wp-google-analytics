@@ -2,7 +2,7 @@
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite
 Requires at least: 3.8.0
 Tested up to: 4.2.2
-Stable tag: 0.8.3
+Stable tag: 0.8.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -55,7 +55,7 @@ Track your WordPress website with Google Analytics service.
 
 WordPress plugin directory already have many of these kind of plugins.
 But not all are optimized for performance.
-Most of them lacks some features, while some of them have unused features.
+Most of them lacks some features, while some of them cover unused features.
 
 This plugin was developed to provide most used feature in one place without compromising the speed.
 So give it a try , i am sure you will not regret for your decision.
@@ -147,6 +147,10 @@ It just a matter of a second. It will cost not more than 10 KB.
 
 
 == Changelog ==
+
+= 0.8.4 =
+* More debugging options
+* Fixed bugs
 
 = 0.8.3 =
 * Some new options added
