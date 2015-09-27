@@ -1,8 +1,8 @@
 === Ank Simplified Google Analytics ===
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite
 Requires at least: 3.8.0
-Tested up to: 4.2.2
-Stable tag: 0.8.4
+Tested up to: 4.2.5
+Stable tag: 0.8.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -13,7 +13,7 @@ The most simplified Google Analytics Plugin for WordPress.
 
 Track your WordPress website with Google Analytics service.
 
-> Fork Here : https://github.com/ank91/ank-simplified-ga
+> Translators welcome : https://github.com/ank91/ank-simplified-ga
 
 
 = Some Features =
@@ -24,18 +24,19 @@ Track your WordPress website with Google Analytics service.
 * Choose where to place your tracking code
 * Control code priority
 * Choose to disable tracking if user logged-in
-* Track 404 and Searched items
+* Track 404 pages and searched items
 * Sub-domain tracking
+* Don't track anything inside wp-admin by default
+* Cache tracking code for faster processing
+* Custom Trackers
 * Demographics & Interest Reports
 * Enhanced Link Attribution
 * Anonymize IPs
-* Don't track anything inside wp-admin by default
 * Supports multi-site
 * Disable tracking when Network Admin is logged-in
 * Debugging mode
 * Force SSL
-* Cache tracking code for faster processing
-* Custom Trackers
+
 
 
 
@@ -107,6 +108,7 @@ now switch to console tab to see detailed messages.
 You can read more about troubleshooting [here](https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug)
 
 Don't forget to disable this mode in production.
+
 This mode is only available for administrators only when they are logged-in to WordPress dashboard.
 
 = How does it work for multi-site ? =
@@ -127,7 +129,7 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 
 
 = Future Plans ? =
-* I18n for Option Page.
+* OAuth
 * More options may be.
 
 
@@ -147,6 +149,11 @@ It just a matter of a second. It will cost not more than 10 KB.
 
 
 == Changelog ==
+
+= 0.8.5 =
+* Plugin is now translation ready
+* Fixed typos
+* Tested up to WordPress v4.2.5
 
 = 0.8.4 =
 * More debugging options
