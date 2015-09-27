@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ank Simplified GA\n"
 "Report-Msgid-Bugs-To: https://github.com/ank91/ank-simplified-ga/issues\n"
-"POT-Creation-Date: 2015-09-27 11:31+0530\n"
-"PO-Revision-Date: 2015-09-27 11:20+0530\n"
+"POT-Creation-Date: 2015-09-27 18:48+0530\n"
+"PO-Revision-Date: 2015-09-27 18:48+0530\n"
 "Last-Translator: ank91\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -14,15 +14,19 @@ msgstr ""
 "X-Generator: Poedit 1.8.5\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
 "_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
 "esc_html_x:1,2c\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: asga-admin.php\n"
 
 #: asga-admin.php:115
 msgid "Settings"
+msgstr ""
+
+#: asga-admin.php:147
+msgid "Network Admin"
 msgstr ""
 
 #: asga-admin.php:204
@@ -78,19 +82,19 @@ msgid "Analytics version"
 msgstr ""
 
 #: asga-admin.php:278
-msgid "Universal (analytics.js)"
+msgid "Universal"
 msgstr ""
 
 #: asga-admin.php:279
-msgid "Classic (ga.js)"
+msgid "Classic"
 msgstr ""
 
 #: asga-admin.php:281
 msgid "Classic vs Universal"
 msgstr ""
 
-#: asga-admin.php:281
-msgid "read more"
+#: asga-admin.php:281 asga-admin.php:307 asga-admin.php:322 asga-admin.php:405
+msgid "Read more"
 msgstr ""
 
 #: asga-admin.php:285
@@ -123,10 +127,6 @@ msgstr ""
 
 #: asga-admin.php:307 asga-admin.php:312 asga-admin.php:317
 msgid "Check to Enable"
-msgstr ""
-
-#: asga-admin.php:307 asga-admin.php:322 asga-admin.php:405
-msgid "Read more"
 msgstr ""
 
 #: asga-admin.php:311
@@ -179,10 +179,6 @@ msgstr ""
 
 #: asga-admin.php:359
 msgid "Stop analytics when"
-msgstr ""
-
-#: asga-admin.php:365
-msgid "is logged in"
 msgstr ""
 
 #: asga-admin.php:376
