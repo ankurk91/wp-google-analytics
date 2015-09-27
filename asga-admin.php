@@ -67,8 +67,8 @@ class Ank_Simplified_GA_Admin
 
     function load_text_domain()
     {
-        $plugin_dir = basename(dirname(__FILE__)) . '/lang/';
-        load_plugin_textdomain('asga', false, $plugin_dir);
+        $lang_dir = basename(dirname(__FILE__)) . '/languages/';
+        load_plugin_textdomain('ank-simplified-ga', false, $lang_dir);
     }
     /*
      * Save default settings upon plugin activation
@@ -112,7 +112,7 @@ class Ank_Simplified_GA_Admin
             $build_url = add_query_arg('page', self::PLUGIN_SLUG, 'options-general.php');
             array_unshift(
                 $links,
-                sprintf('<a href="%s">%s</a>', $build_url, __('Settings'))
+                sprintf('<a href="%s">%s</a>', $build_url, __('Settings',ASGA_TEXT_DOMAIN))
             );
         }
 
@@ -144,7 +144,7 @@ class Ank_Simplified_GA_Admin
         $role_list = $wp_roles->get_names();
         //append a custom role if multi-site is enabled
         if (is_multisite()) {
-            $role_list['networkAdmin'] = 'Network Admin';
+            $role_list['networkAdmin'] = __('Network Admin', ASGA_TEXT_DOMAIN);
         }
 
         return $role_list;
@@ -201,7 +201,7 @@ class Ank_Simplified_GA_Admin
         if (!preg_match('|^UA-\d{4,}-\d+$|', (string)$in['ga_id'])) {
             $out['ga_id'] = '';
             //warn user that the entered id is not valid
-            add_settings_error(ASGA_OPTION_NAME, 'ga_id', __('Your GA tracking ID seems invalid. Please validate.','asga'));
+            add_settings_error(ASGA_OPTION_NAME, 'ga_id', __('Your GA tracking ID seems invalid. Please validate.', ASGA_TEXT_DOMAIN));
         } else {
             $out['ga_id'] = sanitize_text_field($in['ga_id']);
         }
@@ -241,19 +241,19 @@ class Ank_Simplified_GA_Admin
      function ASGA_options_page()
     {
         if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.'));
+            wp_die(__('You do not have sufficient permissions to access this page.', ASGA_TEXT_DOMAIN));
         }
         ?>
         <style type="text/css"> .tab-content{display: none} .tab-content.active{display: block} pre.xdebug-var-dump{max-height: 200px;overflow: auto;border:1px solid #e2e2e2;padding:5px; } </style>
         <div class="wrap">
-            <h2><?php _e('Ank Simplified Google Analytics','asga') ?><small>(v<?php echo ASGA_PLUGIN_VER; ?>)</small> </h2>
+            <h2><?php _e('Ank Simplified Google Analytics',ASGA_TEXT_DOMAIN) ?><small>(v<?php echo ASGA_PLUGIN_VER; ?>)</small> </h2>
 
             <h2 class="nav-tab-wrapper" id="ga-tabs">
-                <a class="nav-tab" id="ga-general-tab" href="#top#ga-general"><?php _e('General','asga') ?></a>
-                <a class="nav-tab" id="ga-advanced-tab" href="#top#ga-advanced"><?php _e('Advanced','asga') ?></a>
-                <a class="nav-tab" id="ga-events-tab" href="#top#ga-events"><?php _e('Monitor','asga') ?></a>
-                <a class="nav-tab" id="ga-control-tab" href="#top#ga-control"><?php _e('Control','asga') ?></a>
-                <a class="nav-tab" id="ga-troubleshoot-tab" href="#top#ga-troubleshoot"><?php _e('Troubleshoot','asga') ?></a>
+                <a class="nav-tab" id="ga-general-tab" href="#top#ga-general"><?php _e('General',ASGA_TEXT_DOMAIN) ?></a>
+                <a class="nav-tab" id="ga-advanced-tab" href="#top#ga-advanced"><?php _e('Advanced',ASGA_TEXT_DOMAIN) ?></a>
+                <a class="nav-tab" id="ga-events-tab" href="#top#ga-events"><?php _e('Monitor',ASGA_TEXT_DOMAIN) ?></a>
+                <a class="nav-tab" id="ga-control-tab" href="#top#ga-control"><?php _e('Control',ASGA_TEXT_DOMAIN) ?></a>
+                <a class="nav-tab" id="ga-troubleshoot-tab" href="#top#ga-troubleshoot"><?php _e('Troubleshoot',ASGA_TEXT_DOMAIN) ?></a>
             </h2><!--.nav-tab-wrapper-->
 
             <form action="<?php echo admin_url('options.php') ?>" method="post" id="asga_form">
@@ -266,23 +266,23 @@ class Ank_Simplified_GA_Admin
                <div id="ga-general" class="tab-content">
                    <table class="form-table">
                    <tr>
-                       <th scope="row"><?php _e('Google Analytics tracking ID','asga') ?> :</th>
+                       <th scope="row"><?php _e('Google Analytics tracking ID',ASGA_TEXT_DOMAIN) ?> :</th>
                        <td><input type="text" placeholder="UA-XXXXXXXX-X" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>"> <br>
-                           <p class="description"><?php _e('Paste your Google Analytics','asga') ?> <a target="_blank" href="https://support.google.com/analytics/answer/1032385"><?php _e('tracking ID','asga') ?></a> (<?php _e('e.g.','asga') ?> "<code>UA-XXXXXXXX-X</code>")</p>
+                           <p class="description"><?php _e('Paste your Google Analytics',ASGA_TEXT_DOMAIN) ?> <a target="_blank" href="https://support.google.com/analytics/answer/1032385"><?php _e('tracking ID',ASGA_TEXT_DOMAIN) ?></a> (<?php _e('e.g.',ASGA_TEXT_DOMAIN) ?> "<code>UA-XXXXXXXX-X</code>")</p>
                        </td>
                    </tr>
                    <tr>
-                       <th scope="row"><?php _e('Analytics version','asga') ?>:</th>
+                       <th scope="row"><?php _e('Analytics version',ASGA_TEXT_DOMAIN) ?>:</th>
                        <td>
                            <select name="asga_options[ua_enabled]">
-                               <option value="1" <?php selected($options['ua_enabled'], 1) ?>><?php _e('Universal (analytics.js)','asga') ?></option>
-                               <option value="0" <?php selected($options['ua_enabled'], 0) ?>><?php _e('Classic (ga.js)','asga') ?></option>
+                               <option value="1" <?php selected($options['ua_enabled'], 1) ?>><?php _e('Universal',ASGA_TEXT_DOMAIN) ?> (analytics.js)</option>
+                               <option value="0" <?php selected($options['ua_enabled'], 0) ?>><?php _e('Classic',ASGA_TEXT_DOMAIN) ?> (ga.js)</option>
                            </select>
-                           <p class="description"><?php _e('Classic vs Universal','asga') ?>, <a href="https://support.google.com/analytics/answer/3450662" target="_blank"><?php _e('read more','asga') ?></a>. </p>
+                           <p class="description"><?php _e('Classic vs Universal',ASGA_TEXT_DOMAIN) ?>, <a href="https://support.google.com/analytics/answer/3450662" target="_blank"><?php _e('Read more',ASGA_TEXT_DOMAIN) ?></a>. </p>
                        </td>
                    </tr>
                    <tr>
-                       <th scope="row"><?php _e('Set domain','asga') ?> :</th>
+                       <th scope="row"><?php _e('Set domain',ASGA_TEXT_DOMAIN) ?> :</th>
                        <td><input type="text" placeholder="auto" name="asga_options[ga_domain]" value="<?php echo esc_attr($options['ga_domain']); ?>">
                            <?php
                            //print sub-domain url on screen , when multi-site is enabled
@@ -297,41 +297,41 @@ class Ank_Simplified_GA_Admin
                <div id="ga-advanced" class="tab-content">
                    <table class="form-table">
                        <tr>
-                           <th scope="row"><?php _e('Demographics and Interest Reports','asga') ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[displayfeatures]" value="1" <?php checked($options['displayfeatures'], 1) ?>><?php _e('Check to enable','asga') ?> <a target="_blank" href="https://support.google.com/analytics/answer/3450482"><?php _e('Read More','asga') ?></a></label>
-                               <p class="description"><a target="_blank" href="https://support.google.com/analytics/answer/2611268"><?php _e('Remarketing','asga') ?></a> | <a target="_blank" href="https://support.google.com/analytics/answer/2799357"><?php _e('Demographics and Interest Reporting','asga') ?></a></p>
+                           <th scope="row"><?php _e('Demographics and Interest Reports',ASGA_TEXT_DOMAIN) ?> :</th>
+                           <td><label><input type="checkbox" name="asga_options[displayfeatures]" value="1" <?php checked($options['displayfeatures'], 1) ?>><?php _e('Check to enable',ASGA_TEXT_DOMAIN) ?> <a target="_blank" href="https://support.google.com/analytics/answer/3450482"><?php _e('Read More',ASGA_TEXT_DOMAIN) ?></a></label>
+                               <p class="description"><a target="_blank" href="https://support.google.com/analytics/answer/2611268"><?php _e('Remarketing',ASGA_TEXT_DOMAIN) ?></a> | <a target="_blank" href="https://support.google.com/analytics/answer/2799357"><?php _e('Demographics and Interest Reporting',ASGA_TEXT_DOMAIN) ?></a></p>
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row"><?php _e('Enhanced Link Attribution','asga') ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[ga_ela]" value="1" <?php checked($options['ga_ela'], 1) ?>><?php _e('Check to Enable','asga') ?> <a target="_blank" href="https://support.google.com/analytics/answer/2558867"><?php _e('Read more','asga') ?></a> </label>
+                           <th scope="row"><?php _e('Enhanced Link Attribution',ASGA_TEXT_DOMAIN) ?> :</th>
+                           <td><label><input type="checkbox" name="asga_options[ga_ela]" value="1" <?php checked($options['ga_ela'], 1) ?>><?php _e('Check to Enable',ASGA_TEXT_DOMAIN) ?> <a target="_blank" href="https://support.google.com/analytics/answer/2558867"><?php _e('Read more',ASGA_TEXT_DOMAIN) ?></a> </label>
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row"><?php _e('Cross-domain user tracking','asga') ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[allow_linker]" value="1" <?php checked($options['allow_linker'], 1) ?>><?php _e('Check to Enable','asga') ?>  <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiDomainDirectory#_gat.GA_Tracker_._setAllowLinker"><?php _e('Read More','asga') ?> </a> </label>
+                           <th scope="row"><?php _e('Cross-domain user tracking',ASGA_TEXT_DOMAIN) ?> :</th>
+                           <td><label><input type="checkbox" name="asga_options[allow_linker]" value="1" <?php checked($options['allow_linker'], 1) ?>><?php _e('Check to Enable',ASGA_TEXT_DOMAIN) ?>  <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiDomainDirectory#_gat.GA_Tracker_._setAllowLinker"><?php _e('Read More',ASGA_TEXT_DOMAIN) ?> </a> </label>
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row"><?php _e('Campaign tracking','asga') ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[allow_anchor]" value="1" <?php checked($options['allow_anchor'], 1) ?>><?php _e('Check to Enable','asga') ?> <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiCampaignTracking#_gat.GA_Tracker_._setAllowAnchor"><?php _e('Read More','asga') ?></a> </label>
+                           <th scope="row"><?php _e('Campaign tracking',ASGA_TEXT_DOMAIN) ?> :</th>
+                           <td><label><input type="checkbox" name="asga_options[allow_anchor]" value="1" <?php checked($options['allow_anchor'], 1) ?>><?php _e('Check to Enable',ASGA_TEXT_DOMAIN) ?> <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiCampaignTracking#_gat.GA_Tracker_._setAllowAnchor"><?php _e('Read More',ASGA_TEXT_DOMAIN) ?></a> </label>
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row"><?php _e('Anonymize IP','asga') ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[anonymise_ip]" value="1" <?php checked($options['anonymise_ip'], 1) ?>><?php _e('Anonymize IP','asga') ?> <a href="https://support.google.com/analytics/answer/2763052" target="_blank"><?php _e('Read more','asga') ?></a></label>
+                           <th scope="row"><?php _e('Anonymize IP',ASGA_TEXT_DOMAIN) ?> :</th>
+                           <td><label><input type="checkbox" name="asga_options[anonymise_ip]" value="1" <?php checked($options['anonymise_ip'], 1) ?>><?php _e('Anonymize IP',ASGA_TEXT_DOMAIN) ?> <a href="https://support.google.com/analytics/answer/2763052" target="_blank"><?php _e('Read more',ASGA_TEXT_DOMAIN) ?></a></label>
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row"><?php _e('Force SSL','asga') ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[force_ssl]" value="1" <?php checked($options['force_ssl'], 1) ?>><?php _e('Force SSL','asga') ?> </label>
-                           <p class="description"><?php _e('Transmit data over https (secure) connection','asga') ?></p>
+                           <th scope="row"><?php _e('Force SSL',ASGA_TEXT_DOMAIN) ?> :</th>
+                           <td><label><input type="checkbox" name="asga_options[force_ssl]" value="1" <?php checked($options['force_ssl'], 1) ?>><?php _e('Force SSL',ASGA_TEXT_DOMAIN) ?> </label>
+                           <p class="description"><?php _e('Transmit data over https (secure) connection',ASGA_TEXT_DOMAIN) ?></p>
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row"><?php _e('Custom trackers','asga') ?> :</th>
+                           <th scope="row"><?php _e('Custom trackers',ASGA_TEXT_DOMAIN) ?> :</th>
                            <td><textarea placeholder="Please don't not include &lt;script&gt tags" rows="5" cols="35" name="asga_options[custom_trackers]" style="resize: vertical;max-height: 300px;"><?php echo stripslashes($options['custom_trackers']) ?></textarea>
-                           <p class="description"><?php _e('To be added before the','asga') ?> <code><?php _e('pageview','asga') ?></code> <?php _e('call','asga') ?>.</p>
+                           <p class="description"><?php _e('To be added before the',ASGA_TEXT_DOMAIN) ?> <code><?php _e('pageview',ASGA_TEXT_DOMAIN) ?></code> <?php _e('call',ASGA_TEXT_DOMAIN) ?>.</p>
                            </td>
                        </tr>
                    </table>
@@ -339,12 +339,12 @@ class Ank_Simplified_GA_Admin
                <div id="ga-events" class="tab-content">
                    <table class="form-table">
                        <tr>
-                           <th scope="row"><?php _e('Event tracking','asga') ?>  :</th>
+                           <th scope="row"><?php _e('Event tracking',ASGA_TEXT_DOMAIN) ?>  :</th>
                            <td><fieldset>
                                <?php
                                $events = array(
-                                   'log_404' => __('Log 404 errors as events','asga'),
-                                   'log_search' => __('Log searched items as page views','asga')
+                                   'log_404' => __('Log 404 errors as events', ASGA_TEXT_DOMAIN),
+                                   'log_search' => __('Log searched items as page views', ASGA_TEXT_DOMAIN)
                                );
                                //loop through each event item
                                foreach ($events as $event => $label) {
@@ -356,13 +356,13 @@ class Ank_Simplified_GA_Admin
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row"><?php _e('Stop analytics when','asga') ?> :</th>
+                           <th scope="row"><?php _e('Stop analytics when',ASGA_TEXT_DOMAIN) ?> :</th>
                            <td>
                                <?php
                                foreach ($this->get_all_roles() as $id => $label) {
                                    echo '<label>';
                                    echo '<input type="checkbox" name="asga_options[ignore_role_' . $id . ']" value="1" ' . checked($options['ignore_role_' . $id], 1, 0) . '/>';
-                                   echo '&ensp;' . esc_attr($label) . ' '.__('is logged in','asga');
+                                   echo '&ensp;' . esc_attr($label) . ' '.esc_html__('is logged in',ASGA_TEXT_DOMAIN);
                                    echo '</label><br />';
                                }
                                ?>
@@ -373,27 +373,27 @@ class Ank_Simplified_GA_Admin
                <div id="ga-control" class="tab-content">
                     <table class="form-table">
                         <tr>
-                            <th scope="row"><?php _e('Code location','asga') ?> :</th>
+                            <th scope="row"><?php _e('Code location',ASGA_TEXT_DOMAIN) ?> :</th>
                             <td>
                                 <fieldset>
-                                    <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;<?php _e('Place in document header','asga') ?></label><br>
-                                    <label><input type="radio" name="asga_options[js_location]" value="2" <?php checked($options['js_location'], 2) ?>>&ensp;<?php _e('Place in document footer','asga') ?></label>
+                                    <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;<?php _e('Place in document header',ASGA_TEXT_DOMAIN) ?></label><br>
+                                    <label><input type="radio" name="asga_options[js_location]" value="2" <?php checked($options['js_location'], 2) ?>>&ensp;<?php _e('Place in document footer',ASGA_TEXT_DOMAIN) ?></label>
                                 </fieldset>
                             </td>
                         </tr>
                         <tr>
-                            <th scope="row"><?php _e('Code execution','asga') ?> :</th>
+                            <th scope="row"><?php _e('Code execution',ASGA_TEXT_DOMAIN) ?> :</th>
                             <td>
                                 <fieldset>
-                                    <label><input type="radio" name="asga_options[js_load_later]" value="0" <?php checked($options['js_load_later'], 0) ?>>&ensp;<?php _e('Immediately','asga') ?></label><br>
-                                    <label><input type="radio" name="asga_options[js_load_later]" value="1" <?php checked($options['js_load_later'], 1) ?>>&ensp;<?php _e('On page load','asga') ?></label>
+                                    <label><input type="radio" name="asga_options[js_load_later]" value="0" <?php checked($options['js_load_later'], 0) ?>>&ensp;<?php _e('Immediately',ASGA_TEXT_DOMAIN) ?></label><br>
+                                    <label><input type="radio" name="asga_options[js_load_later]" value="1" <?php checked($options['js_load_later'], 1) ?>>&ensp;<?php _e('On page load',ASGA_TEXT_DOMAIN) ?></label>
                                 </fieldset>
                             </td>
                         </tr>
                         <tr>
-                            <th scope="row"><?php _e('Action priority','asga') ?> :</th>
+                            <th scope="row"><?php _e('Action priority',ASGA_TEXT_DOMAIN) ?> :</th>
                             <td><input type="number" min="0" max="999" placeholder="20" name="asga_options[js_priority]" value="<?php echo esc_attr($options['js_priority']); ?>">
-                                <p class="description"><?php _e('0 means highest priority','asga') ?></p>
+                                <p class="description"><?php _e('0 means highest priority',ASGA_TEXT_DOMAIN) ?></p>
                             </td>
                         </tr>
                     </table>
@@ -401,18 +401,18 @@ class Ank_Simplified_GA_Admin
                <div id="ga-troubleshoot" class="tab-content">
                    <table class="form-table">
                        <tr>
-                           <th scope="row"><?php _e('Debug mode','asga') ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[debug_mode]" value="1" <?php checked($options['debug_mode'], 1) ?>><?php _e('Enable debugging mode for administrators','asga') ?> <a target="_blank" href="https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug"><?php _e('Read more','asga') ?></a> </label>
+                           <th scope="row"><?php _e('Debug mode',ASGA_TEXT_DOMAIN) ?> :</th>
+                           <td><label><input type="checkbox" name="asga_options[debug_mode]" value="1" <?php checked($options['debug_mode'], 1) ?>><?php _e('Enable debugging mode for administrators',ASGA_TEXT_DOMAIN) ?> <a target="_blank" href="https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug"><?php _e('Read more',ASGA_TEXT_DOMAIN) ?></a> </label>
 
                                <p class="description"><?php _e("This should only be used temporarily or during development, don't forget to disable it in production",'asga') ?>.</p>
                            </td>
                        </tr>
                        <tr>
-                           <th scope="row"><?php _e('Debug database options','asga') ?> :</th>
+                           <th scope="row"><?php _e('Debug database options',ASGA_TEXT_DOMAIN) ?> :</th>
                            <td><?php var_dump($options); ?></td>
                        </tr>
                        <tr>
-                           <th scope="row"><?php _e('Debug transient cache','asga') ?> :</th>
+                           <th scope="row"><?php _e('Debug transient cache',ASGA_TEXT_DOMAIN) ?> :</th>
                            <td><?php var_dump(get_transient(ASGA_TRANSIENT_JS_NAME)); ?></td>
                        </tr>
                    </table>
@@ -422,9 +422,9 @@ class Ank_Simplified_GA_Admin
             </form>
             <hr>
             <p>
-        <?php _e('Developed by','asga') ?>- <a target="_blank" href="https://ank91.github.io/">Ankur Kumar</a> |
-        <?php _e('Fork on','asga') ?> <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a> |
-                ★ <?php _e('Rate this on','asga') ?> <a href="https://wordpress.org/support/view/plugin-reviews/ank-simplified-ga?filter=5" target="_blank"><?php _e('WordPress') ?></a>
+        <?php _e('Developed by',ASGA_TEXT_DOMAIN) ?>- <a target="_blank" href="https://ank91.github.io/">Ankur Kumar</a> |
+        <?php _e('Fork on',ASGA_TEXT_DOMAIN) ?> <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a> |
+        ★ <?php _e('Rate this on',ASGA_TEXT_DOMAIN) ?> <a href="https://wordpress.org/support/view/plugin-reviews/ank-simplified-ga?filter=5" target="_blank"><?php _e('WordPress') ?></a>
             </p>
         </div> <!-- .wrap-->
         <script type="text/javascript">
