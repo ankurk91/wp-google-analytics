@@ -3,7 +3,7 @@
 Plugin Name: Ank Simplified Google Analytics
 Plugin URI: https://github.com/ank91/ank-simplified-ga
 Description: Simple, light weight, and non-bloated WordPress Google Analytics Plugin.
-Version: 0.8.4
+Version: 0.8.5
 Author: Ankur Kumar
 Author URI: http://ank91.github.io/
 License: GPL2
@@ -14,7 +14,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 /* No direct access*/
 if (!defined('ABSPATH')) exit;
 
-define('ASGA_PLUGIN_VER', '0.8.4');
+define('ASGA_PLUGIN_VER', '0.8.5');
 define('ASGA_BASE_FILE', plugin_basename(__FILE__));
 define('ASGA_OPTION_NAME', 'asga_options');
 define('ASGA_TRANSIENT_JS_NAME', 'asga_js_cache');
@@ -283,7 +283,7 @@ class Ank_Simplified_GA
     {
         if (($transient_js = get_transient(ASGA_TRANSIENT_JS_NAME)) !== false) {
             //replace string to detect caching
-            echo str_replace('Tracking start', 'Tracking start, Caching in on', $transient_js);
+            echo str_replace('Tracking start', 'Tracking start, Caching is on', $transient_js);
             return true;
         }
         //send false if cached version not found
@@ -297,8 +297,8 @@ class Ank_Simplified_GA
      */
     private function set_transient_js($buffer)
     {
-        //cache code to database for 24 hours
-        set_transient(ASGA_TRANSIENT_JS_NAME, $buffer, 86400);
+        //cache code to database for 24x2 hours
+        set_transient(ASGA_TRANSIENT_JS_NAME, $buffer, 86400*2);
 
     }
 
