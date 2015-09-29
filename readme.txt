@@ -1,7 +1,7 @@
 === Ank Simplified Google Analytics ===
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite
 Requires at least: 3.8.0
-Tested up to: 4.2.5
+Tested up to: 4.3.1
 Stable tag: 0.8.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -153,6 +153,7 @@ It just a matter of a second. It will cost not more than 10 KB.
 = 0.8.6 =
 * Fix text domain issues
 * Changed text-domain
+* Tested up to WordPress v4.3.1
 
 = 0.8.5 =
 * Plugin is now translation ready
