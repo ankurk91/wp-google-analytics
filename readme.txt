@@ -2,7 +2,7 @@
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite
 Requires at least: 3.8.0
 Tested up to: 4.3.1
-Stable tag: 0.8.6
+Stable tag: 0.8.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -149,6 +149,11 @@ It just a matter of a second. It will cost not more than 10 KB.
 
 
 == Changelog ==
+
+= 0.8.7 =
+* Fixed translation issues
+* Code organization
+* UI Fixes
 
 = 0.8.6 =
 * Fix text domain issues

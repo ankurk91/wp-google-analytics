@@ -1,0 +1,34 @@
+# https://github.com/github/gitignore
+# https://www.gitignore.io/
+# http://git-scm.com/docs/gitignore
+
+# phpstorm, webstorm
+.idea
+
+# sublime and other ide
+.project
+*.sublime-project
+*.sublime-workspace
+
+# logs
+logs/
+*.log
+
+
+# OS generated files
+.DS_Store
+Thumbs.db
+*~
+.Trashes
+$RECYCLE.BIN/
+
+
+# Windows shortcuts
+*.lnk
+
+# Folder config file
+Desktop.ini
+
+
+
+
