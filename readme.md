@@ -9,7 +9,7 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 
 - - -
 
->**Download the Latest working copy from [here](https://wordpress.org/plugins/ank-simplified-ga)**
+>**[Download](https://wordpress.org/plugins/ank-simplified-ga) the latest working copy**
 
 - - -
 
@@ -20,5 +20,5 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 
 
 ### TO DO List
-* OAuth implementation
-* Options page Tooltip help system
+* OAuth implementation (idea dropped)
+* Options page Tooltip help system (partially done)

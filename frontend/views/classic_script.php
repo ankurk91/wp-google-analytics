@@ -1,3 +1,4 @@
+
 <!--Classic GA Tracking start<?php if($debug_mode === true) {?>, Debugging is on<?php }?>-->
 <script type="text/javascript">
 <?php
@@ -25,4 +26,4 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 window.addEventListener?window.addEventListener("load",_loadGA,!1):window.attachEvent?window.attachEvent("onload",_loadGA):window.onload=_loadGA;
 <?php }?>
 </script>
-<!--GA Tracking ends-->
+<!--GA Tracking ends - <?php echo date('Y-m-d H:i:s') ?>-->
