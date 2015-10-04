@@ -4,10 +4,6 @@
  * Lets keep admin area code here
  */
 
-/* No direct access */
-if (!defined('ABSPATH')) exit;
-if (!class_exists('Ank_Simplified_GA')) die('What ?');
-
 class Ank_Simplified_GA_Admin
 {
 
@@ -18,10 +14,10 @@ class Ank_Simplified_GA_Admin
 
     private function __construct()
     {
-        add_action('plugins_loaded', array($this, 'load_text_domain'));
 
         /*to save default options upon activation*/
         register_activation_hook(ASGA_BASE_FILE, array($this, 'do_upon_plugin_activation'));
+
         /*delete transients when de-activated*/
         register_deactivation_hook(ASGA_BASE_FILE, array($this, 'do_upon_plugin_deactivation'));
 
@@ -39,6 +35,8 @@ class Ank_Simplified_GA_Admin
 
         /*check for database upgrades*/
         add_action('plugins_loaded', array($this, 'may_be_upgrade'));
+
+        add_action('plugins_loaded', array($this, 'load_text_domain'));
 
     }
 
@@ -65,10 +63,9 @@ class Ank_Simplified_GA_Admin
         throw new Exception("Cannot unserialize singleton");
     }
 
-    function load_text_domain()
+    public static function load_text_domain()
     {
-        $lang_dir = basename(dirname(__FILE__)) . '/languages/';
-        load_plugin_textdomain('ank-simplified-ga', false, $lang_dir);
+        load_plugin_textdomain('ank-simplified-ga', false, dirname(ASGA_BASE_FILE) . '/languages/');
     }
     /*
      * Save default settings upon plugin activation
@@ -124,7 +121,7 @@ class Ank_Simplified_GA_Admin
      */
     function add_to_settings_menu()
     {
-        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', 'Ank Simplified GA', 'manage_options', self::PLUGIN_SLUG, array($this, 'ASGA_options_page'));
+        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', '<span style="color:#f29611">Google Analytics</span>', 'manage_options', self::PLUGIN_SLUG, array($this, 'ASGA_options_page'));
         /*add help stuff via tab*/
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
         /*we can load additional css/js to our option page here */
@@ -144,7 +141,7 @@ class Ank_Simplified_GA_Admin
         $role_list = $wp_roles->get_names();
         //append a custom role if multi-site is enabled
         if (is_multisite()) {
-            $role_list['networkAdmin'] = __('Network Admin', ASGA_TEXT_DOMAIN);
+            $role_list['networkAdmin'] = __('Network Administrator', ASGA_TEXT_DOMAIN);
         }
 
         return $role_list;
@@ -246,7 +243,7 @@ class Ank_Simplified_GA_Admin
         ?>
         <style type="text/css"> .tab-content{display: none} .tab-content.active{display: block} pre.xdebug-var-dump{max-height: 200px;overflow: auto;border:1px solid #e2e2e2;padding:5px; } </style>
         <div class="wrap">
-            <h2><?php _e('Ank Simplified Google Analytics',ASGA_TEXT_DOMAIN) ?><small>(v<?php echo ASGA_PLUGIN_VER; ?>)</small> </h2>
+            <h2><?php _e('Ank Simplified Google Analytics',ASGA_TEXT_DOMAIN) ?> <small>: (v<?php echo ASGA_PLUGIN_VER; ?>)</small> </h2>
 
             <h2 class="nav-tab-wrapper" id="ga-tabs">
                 <a class="nav-tab" id="ga-general-tab" href="#top#ga-general"><?php _e('General',ASGA_TEXT_DOMAIN) ?></a>
@@ -267,8 +264,10 @@ class Ank_Simplified_GA_Admin
                    <table class="form-table">
                    <tr>
                        <th scope="row"><?php _e('Google Analytics tracking ID',ASGA_TEXT_DOMAIN) ?> :</th>
-                       <td><input type="text" placeholder="UA-XXXXXXXX-X" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>"> <br>
-                           <p class="description"><?php _e('Paste your Google Analytics',ASGA_TEXT_DOMAIN) ?> <a target="_blank" href="https://support.google.com/analytics/answer/1032385"><?php _e('tracking ID',ASGA_TEXT_DOMAIN) ?></a> (<?php _e('e.g.',ASGA_TEXT_DOMAIN) ?> "<code>UA-XXXXXXXX-X</code>")</p>
+                       <td><input type="text" placeholder="UA-012345678-9" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>">
+                           <a title="Help" target="_blank" href="https://support.google.com/analytics/answer/1032385"><i class="dashicons-before dashicons-editor-help"></i></a>
+                           <br>
+                           <p class="description"><?php _e('Paste your Google Analytics tracking ID e.g.',ASGA_TEXT_DOMAIN) ?> ("<code>UA-XXXXXXXX-X</code>")</p>
                        </td>
                    </tr>
                    <tr>
@@ -278,7 +277,7 @@ class Ank_Simplified_GA_Admin
                                <option value="1" <?php selected($options['ua_enabled'], 1) ?>><?php _e('Universal',ASGA_TEXT_DOMAIN) ?> (analytics.js)</option>
                                <option value="0" <?php selected($options['ua_enabled'], 0) ?>><?php _e('Classic',ASGA_TEXT_DOMAIN) ?> (ga.js)</option>
                            </select>
-                           <p class="description"><?php _e('Classic vs Universal',ASGA_TEXT_DOMAIN) ?>, <a href="https://support.google.com/analytics/answer/3450662" target="_blank"><?php _e('Read more',ASGA_TEXT_DOMAIN) ?></a>. </p>
+                           <a title="Help" href="https://support.google.com/analytics/answer/3450662" target="_blank"><i class="dashicons-before dashicons-editor-help"></i></a>
                        </td>
                    </tr>
                    <tr>
@@ -287,7 +286,7 @@ class Ank_Simplified_GA_Admin
                            <?php
                            //print sub-domain url on screen , when multi-site is enabled
                            if(!is_main_site()){
-                               printf('<p class="description"><code>%s</code></p>',get_blogaddress_by_id(get_current_blog_id())) ;
+                               printf('<br><p class="description"><code>%s</code></p>',get_blogaddress_by_id(get_current_blog_id())) ;
                            }
                            ?>
                        </td>
@@ -298,28 +297,33 @@ class Ank_Simplified_GA_Admin
                    <table class="form-table">
                        <tr>
                            <th scope="row"><?php _e('Demographics and Interest Reports',ASGA_TEXT_DOMAIN) ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[displayfeatures]" value="1" <?php checked($options['displayfeatures'], 1) ?>><?php _e('Check to enable',ASGA_TEXT_DOMAIN) ?> <a target="_blank" href="https://support.google.com/analytics/answer/3450482"><?php _e('Read More',ASGA_TEXT_DOMAIN) ?></a></label>
+                           <td><label><input type="checkbox" name="asga_options[displayfeatures]" value="1" <?php checked($options['displayfeatures'], 1) ?>><?php _e('Check to enable',ASGA_TEXT_DOMAIN) ?>
+                                   <a target="_blank" href="https://support.google.com/analytics/answer/3450482"><i class="dashicons-before dashicons-editor-help"></i></a></label>
                                <p class="description"><a target="_blank" href="https://support.google.com/analytics/answer/2611268"><?php _e('Remarketing',ASGA_TEXT_DOMAIN) ?></a> | <a target="_blank" href="https://support.google.com/analytics/answer/2799357"><?php _e('Demographics and Interest Reporting',ASGA_TEXT_DOMAIN) ?></a></p>
                            </td>
                        </tr>
                        <tr>
                            <th scope="row"><?php _e('Enhanced Link Attribution',ASGA_TEXT_DOMAIN) ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[ga_ela]" value="1" <?php checked($options['ga_ela'], 1) ?>><?php _e('Check to Enable',ASGA_TEXT_DOMAIN) ?> <a target="_blank" href="https://support.google.com/analytics/answer/2558867"><?php _e('Read more',ASGA_TEXT_DOMAIN) ?></a> </label>
+                           <td><label><input type="checkbox" name="asga_options[ga_ela]" value="1" <?php checked($options['ga_ela'], 1) ?>><?php _e('Check to enable',ASGA_TEXT_DOMAIN) ?>
+                                   <a target="_blank" href="https://support.google.com/analytics/answer/2558867"><i class="dashicons-before dashicons-editor-help"></i></a> </label>
                            </td>
                        </tr>
                        <tr>
                            <th scope="row"><?php _e('Cross-domain user tracking',ASGA_TEXT_DOMAIN) ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[allow_linker]" value="1" <?php checked($options['allow_linker'], 1) ?>><?php _e('Check to Enable',ASGA_TEXT_DOMAIN) ?>  <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiDomainDirectory#_gat.GA_Tracker_._setAllowLinker"><?php _e('Read More',ASGA_TEXT_DOMAIN) ?> </a> </label>
+                           <td><label><input type="checkbox" name="asga_options[allow_linker]" value="1" <?php checked($options['allow_linker'], 1) ?>><?php _e('Check to enable',ASGA_TEXT_DOMAIN) ?>
+                                   <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiDomainDirectory#_gat.GA_Tracker_._setAllowLinker"><i class="dashicons-before dashicons-editor-help"></i> </a> </label>
                            </td>
                        </tr>
                        <tr>
                            <th scope="row"><?php _e('Campaign tracking',ASGA_TEXT_DOMAIN) ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[allow_anchor]" value="1" <?php checked($options['allow_anchor'], 1) ?>><?php _e('Check to Enable',ASGA_TEXT_DOMAIN) ?> <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiCampaignTracking#_gat.GA_Tracker_._setAllowAnchor"><?php _e('Read More',ASGA_TEXT_DOMAIN) ?></a> </label>
+                           <td><label><input type="checkbox" name="asga_options[allow_anchor]" value="1" <?php checked($options['allow_anchor'], 1) ?>><?php _e('Check to enable',ASGA_TEXT_DOMAIN) ?>
+                                   <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiCampaignTracking#_gat.GA_Tracker_._setAllowAnchor"><i class="dashicons-before dashicons-editor-help"></i></a> </label>
                            </td>
                        </tr>
                        <tr>
                            <th scope="row"><?php _e('Anonymize IP',ASGA_TEXT_DOMAIN) ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[anonymise_ip]" value="1" <?php checked($options['anonymise_ip'], 1) ?>><?php _e('Anonymize IP',ASGA_TEXT_DOMAIN) ?> <a href="https://support.google.com/analytics/answer/2763052" target="_blank"><?php _e('Read more',ASGA_TEXT_DOMAIN) ?></a></label>
+                           <td><label><input type="checkbox" name="asga_options[anonymise_ip]" value="1" <?php checked($options['anonymise_ip'], 1) ?>><?php _e('Anonymize IP',ASGA_TEXT_DOMAIN) ?>
+                                   <a href="https://support.google.com/analytics/answer/2763052" target="_blank"><i class="dashicons-before dashicons-editor-help"></i></a></label>
                            </td>
                        </tr>
                        <tr>
@@ -402,7 +406,8 @@ class Ank_Simplified_GA_Admin
                    <table class="form-table">
                        <tr>
                            <th scope="row"><?php _e('Debug mode',ASGA_TEXT_DOMAIN) ?> :</th>
-                           <td><label><input type="checkbox" name="asga_options[debug_mode]" value="1" <?php checked($options['debug_mode'], 1) ?>><?php _e('Enable debugging mode for administrators',ASGA_TEXT_DOMAIN) ?> <a target="_blank" href="https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug"><?php _e('Read more',ASGA_TEXT_DOMAIN) ?></a> </label>
+                           <td><label><input type="checkbox" name="asga_options[debug_mode]" value="1" <?php checked($options['debug_mode'], 1) ?>><?php _e('Enable debugging mode for administrators',ASGA_TEXT_DOMAIN) ?>
+                                   <a target="_blank" href="https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug"><i class="dashicons-before dashicons-editor-help"></i></a> </label>
 
                                <p class="description"><?php _e("This should only be used temporarily or during development, don't forget to disable it in production",'asga') ?>.</p>
                            </td>
@@ -503,7 +508,7 @@ class Ank_Simplified_GA_Admin
         if ($this->check_admin_notice()) {
              ?>
             <div id="asga_message" class="notice notice-warning is-dismissible">
-                <p><b><?php _e("Google Analytics debug mode is enabled for this site. Don't forget to disable this option in production.",'asga') ?></b></p>
+                <p><b><?php _e("Google Analytics debug mode is enabled for this site. Don't forget to disable this option in production.",ASGA_TEXT_DOMAIN) ?></b></p>
             </div>
         <?php
         }
