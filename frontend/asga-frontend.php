@@ -73,9 +73,6 @@ class Ank_Simplified_GA
         //check if to proceed or not
         if (!$this->is_tracking_possible($options)) return;
 
-        //check if transient data exists and use it instead
-        if ($this->get_transient_js()) return;
-
         //get tracking id
         $ga_id = esc_js($options['ga_id']);
         //decide sub-domain
@@ -132,7 +129,6 @@ class Ank_Simplified_GA
                 $gaq[] = "'send','pageview'";
             }
 
-            ob_start();
             require(__DIR__.'/views/universal_script.php');
 
         } else {
@@ -193,13 +189,9 @@ class Ank_Simplified_GA
                 $gaq[] = "'_trackPageview'";
             }
 
-            ob_start();
             require(__DIR__.'/views/classic_script.php');
         }
 
-        //echo buffered code and save it
-        echo $buffer = ob_get_clean();
-        $this->set_transient_js($buffer);
 
     }
 
@@ -257,33 +249,6 @@ class Ank_Simplified_GA
         }
 
         return true;
-    }
-
-    /**
-     * Get tracking code from database, cached version
-     * @return bool
-     */
-    private function get_transient_js()
-    {
-        if (($transient_js = get_transient(ASGA_TRANSIENT_JS_NAME)) !== false) {
-            //replace string to detect caching
-            echo str_replace('Tracking start', 'Tracking start, Cached', $transient_js);
-            return true;
-        }
-        //send false if cached version not found
-        return false;
-    }
-
-    /**
-     * Save buffered tracking code to database
-     * @param $buffer
-     *
-     */
-    private function set_transient_js($buffer)
-    {
-        //cache code to database for 48 hours
-        set_transient(ASGA_TRANSIENT_JS_NAME, $buffer, 86400*2);
-
     }
 
 } //end class

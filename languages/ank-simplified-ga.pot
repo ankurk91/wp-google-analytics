@@ -212,10 +212,6 @@ msgstr ""
 msgid "Debug database options"
 msgstr ""
 
-#: asga-admin.php:422
-msgid "Debug transient cache"
-msgstr ""
-
 #: asga-admin.php:432
 msgid "Developed by"
 msgstr ""
