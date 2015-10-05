@@ -18,9 +18,6 @@ class Ank_Simplified_GA_Admin
         /*to save default options upon activation*/
         register_activation_hook(ASGA_BASE_FILE, array($this, 'do_upon_plugin_activation'));
 
-        /*delete transients when de-activated*/
-        register_deactivation_hook(ASGA_BASE_FILE, array($this, 'do_upon_plugin_deactivation'));
-
         /*for register setting*/
         add_action('admin_init', array($this, 'register_plugin_settings'));
 
@@ -72,20 +69,11 @@ class Ank_Simplified_GA_Admin
      */
     function do_upon_plugin_activation()
     {
-        //delete transient upon activation
-        $this->delete_transient_js();
 
         //if options not exists then update with defaults
         if (get_option(ASGA_OPTION_NAME) == false) {
             update_option(ASGA_OPTION_NAME, $this->get_default_options());
         }
-
-    }
-
-    function do_upon_plugin_deactivation()
-    {
-        //delete transient upon activation
-        $this->delete_transient_js();
 
     }
 
@@ -227,8 +215,7 @@ class Ank_Simplified_GA_Admin
             else
                 $out[$item] = 0;
         }
-        //delete transient upon change in settings
-        $this->delete_transient_js();
+
         return $out;
     }
 
@@ -416,10 +403,6 @@ class Ank_Simplified_GA_Admin
                            <th scope="row"><?php _e('Debug database options',ASGA_TEXT_DOMAIN) ?> :</th>
                            <td><?php var_dump($options); ?></td>
                        </tr>
-                       <tr>
-                           <th scope="row"><?php _e('Debug transient cache',ASGA_TEXT_DOMAIN) ?> :</th>
-                           <td><?php var_dump(get_transient(ASGA_TRANSIENT_JS_NAME)); ?></td>
-                       </tr>
                    </table>
                </div>
             </div> <!--.tab-wrapper -->
@@ -550,14 +533,6 @@ class Ank_Simplified_GA_Admin
     }
 
     /**
-     * Delete cache version of tracking code
-     */
-    private function delete_transient_js()
-    {
-        delete_transient(ASGA_TRANSIENT_JS_NAME);
-    }
-
-    /**
      * Upgrade plugin database options
      */
     function may_be_upgrade()
@@ -574,8 +549,7 @@ class Ank_Simplified_GA_Admin
         $new_options['plugin_ver'] = ASGA_PLUGIN_VER;
         //write options back to db
         update_option(ASGA_OPTION_NAME, $new_options);
-        //delete transient as well
-        $this->delete_transient_js();
+
     }
 
     /**
