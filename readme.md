@@ -6,6 +6,7 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 [![WordPress Compatibility ](https://img.shields.io/wordpress/v/ank-simplified-ga.svg?style=flat-square)](https://wordpress.org/plugins/ank-simplified-ga)
 [![WordPress plugin version](https://img.shields.io/wordpress/plugin/v/ank-simplified-ga.svg?style=flat-square)](https://wordpress.org/plugins/ank-simplified-ga)
 [![WordPress rating](https://img.shields.io/wordpress/plugin/r/ank-simplified-ga.svg?style=flat-square)](https://wordpress.org/plugins/ank-simplified-ga)
+[![Build Status](https://travis-ci.org/ank91/ank-simplified-ga.svg)](https://travis-ci.org/ank91/ank-simplified-ga)
 
 - - -
 
@@ -13,12 +14,12 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 
 - - -
 
-### Links
+#### Links
 * Change log is available [here](https://wordpress.org/plugins/ank-simplified-ga/changelog/)
 
 * FAQ is available [here](https://wordpress.org/plugins/ank-simplified-ga/faq/)
 
 
-### TO DO List
+#### TO DO List
 * OAuth implementation (idea dropped)
 * Options page Tooltip help system (partially done)
