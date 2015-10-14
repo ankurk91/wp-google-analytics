@@ -13,22 +13,35 @@
 # logs
 logs/
 *.log
+npm-debug.log*
 
 
 # OS generated files
-.DS_Store
 Thumbs.db
+ehthumbs.db
 *~
-.Trashes
+.*~
+._*
+*.bak
+
+# Recycle bin folder used by different os
+.Trash-*
 $RECYCLE.BIN/
 
 
 # Windows shortcuts
 *.lnk
 
+
 # Folder config file
 Desktop.ini
+.DS_Store
 
 
+# node packages
+# https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
+node_modules/
 
 
+# bower packages
+bower_components/

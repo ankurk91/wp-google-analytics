@@ -1,3 +1,6 @@
+/**
+ * Ank-Simplified-GA
+ */
 (function ($) {
     var ga_tabs = $('h2#ga-tabs');
     ga_tabs.find('a').click(function () {
