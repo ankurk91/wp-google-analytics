@@ -1,7 +1,10 @@
 <?php
-/*
+/**
+ * Class Ank_Simplified_GA_Admin
  * Settings Page for "Ank Simplified GA" Plugin
  * Lets keep admin area code here
+ * @package Ank-Simplified-GA
+ *
  */
 
 class Ank_Simplified_GA_Admin
