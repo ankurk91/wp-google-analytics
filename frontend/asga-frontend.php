@@ -1,8 +1,12 @@
 <?php
-/*
+/**
+ * Class Ank_Simplified_GA
  * Frontend class for "Ank Simplified GA" Plugin
  * This class can run independently without admin class
+ * @package Ank-Simplified-GA
  */
+
+
 class Ank_Simplified_GA
 {
     private static $instances = array();
@@ -78,122 +82,140 @@ class Ank_Simplified_GA
         //decide sub-domain
         $domain = empty($options['ga_domain']) ? 'auto' : esc_js($options['ga_domain']);
 
-        //check for debug mode
-        $debug_mode = $this->check_debug_mode($options);
         //these flags will be used in view
-        $js_load_later = absint($options['js_load_later']);
+        $view_array = array(
+            'gaq' => array()
+        );
 
-        $gaq = array();
+        //check for debug mode
+        $view_array['debug_mode'] = $this->check_debug_mode($options);
+
+        $view_array['js_load_later'] = absint($options['js_load_later']);
+
+        $view_array[] = array(
+            'gaq' => array(
+                'custom_trackers' => array()
+            ));
+
         global $wp_query;
-
 
         if ($options['ua_enabled'] == 1) {
             //if universal is enabled
 
             if ($options['allow_linker'] == 1 && $options['allow_anchor'] != 1) {
-                $gaq[] = "'create', '" . $ga_id . "', '" . $domain . "', {'allowLinker': true}";
+                $view_array['gaq'][] = "'create', '" . $ga_id . "', '" . $domain . "', {'allowLinker': true}";
             } else {
                 if ($options['allow_anchor'] == 1 && $options['allow_anchor'] == 1) {
-                    $gaq[] = "'create', '" . $ga_id . "', '" . $domain . "', {'allowLinker': true,'allowAnchor': true}";
+                    $view_array['gaq'][] = "'create', '" . $ga_id . "', '" . $domain . "', {'allowLinker': true,'allowAnchor': true}";
                 } else {
-                    $gaq[] = "'create', '" . $ga_id . "', '" . $domain . "'";
+                    $view_array['gaq'][] = "'create', '" . $ga_id . "', '" . $domain . "'";
                 }
             }
 
             if ($options['force_ssl'] == 1) {
-                $gaq[] = "'set', 'forceSSL', true";
+                $view_array['gaq'][] = "'set', 'forceSSL', true";
             }
 
             if ($options['anonymise_ip'] == 1) {
-                $gaq[] = "'set', 'anonymizeIp', true";
+                $view_array['gaq'][] = "'set', 'anonymizeIp', true";
             }
             /* Enable demographics and interests reports */
             if ($options['displayfeatures'] == 1) {
-                $gaq[] = "'require', 'displayfeatures'";
+                $view_array['gaq'][] = "'require', 'displayfeatures'";
             }
             /* Enhanced Link Attribution */
             if ($options['ga_ela'] == 1) {
-                $gaq[] = "'require', 'linkid', 'linkid.js'";
+                $view_array['gaq'][] = "'require', 'linkid', 'linkid.js'";
             }
             if ($options['custom_trackers'] !== '') {
-                $gaq[] = array(
+                $view_array['gaq'][] = array(
                     'custom_trackers' => $options['custom_trackers']
                 );
             }
 
             if (is_404() && $options['log_404'] == 1) {
-                $gaq[] = "'send','event','404',document.location.href,document.referrer";
+                $view_array['gaq'][] = "'send','event','404',document.location.href,document.referrer";
             } elseif ($wp_query->is_search && $options['log_search'] == 1) {
-                $gaq[] = "'send','pageview','/?s=" . rawurlencode($wp_query->query_vars['s']) . "'";
+                $view_array['gaq'][] = "'send','pageview','/?s=" . rawurlencode($wp_query->query_vars['s']) . "'";
             } else {
-                $gaq[] = "'send','pageview'";
+                $view_array['gaq'][] = "'send','pageview'";
             }
 
-            require(__DIR__.'/views/universal_script.php');
+            $this->load_view('/views/universal_script.php', $view_array);
 
         } else {
             //classic ga is enabled
 
-            $ga_src = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
-            if ($debug_mode == true) {
+            $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
+            if ($view_array['debug_mode'] == true) {
                 //Did u notice additional /u in url ?
                 //@source https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug
-                $ga_src = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js'";
+                $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js'";
             }
             //@source https://support.google.com/analytics/answer/2444872
             if ($options['displayfeatures'] == 1) {
-                $ga_src = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js'";
-                if ($debug_mode == true) {
-                    $ga_src = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc_debug.js'";
+                $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js'";
+                if ($view_array['debug_mode'] == true) {
+                    $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc_debug.js'";
                 }
             }
-            $gaq[] = "'_setAccount', '" . $ga_id . "'";
+            $view_array['gaq'][] = "'_setAccount', '" . $ga_id . "'";
 
             if ($domain !== 'auto') {
-                $gaq[] = "'_setDomainName', '" . $domain . "'";
+                $view_array['gaq'][] = "'_setDomainName', '" . $domain . "'";
             }
 
             if ($options['allow_linker'] == 1) {
-                $gaq[] = "'_setAllowLinker', true";
+                $view_array['gaq'][] = "'_setAllowLinker', true";
             }
 
             if ($options['allow_anchor'] == 1) {
-                $gaq[] = "'_setAllowAnchor', true";
+                $view_array['gaq'][] = "'_setAllowAnchor', true";
             }
 
             if ($options['force_ssl'] == 1) {
-                $gaq[] = "'_gat._forceSSL'";
+                $view_array['gaq'][] = "'_gat._forceSSL'";
             }
 
             if ($options['anonymise_ip'] == 1) {
-                $gaq[] = "'_gat._anonymizeIp'";
+                $view_array['gaq'][] = "'_gat._anonymizeIp'";
             }
 
-            $ela_plugin_url = ''; //init with empty url
+            $view_array['ela_plugin_url'] = false;
             if ($options['ga_ela'] == 1) {
-                $ela_plugin_url = "var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';\n";
-                $gaq[] = "['_require', 'inpage_linkid', pluginUrl]";
+                $view_array['ela_plugin_url'] = "var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';\n";
+                $view_array['gaq'][] = "['_require', 'inpage_linkid', pluginUrl]";
             }
 
             if ($options['custom_trackers'] !== '') {
-                $gaq[] = array(
+                $view_array['gaq'][] = array(
                     'custom_trackers' => $options['custom_trackers']
                 );
             }
 
             if (is_404() && $options['log_404'] == 1) {
-                $gaq[] = "'_trackEvent','404',document.location.href,document.referrer";
+                $view_array['gaq'][] = "'_trackEvent','404',document.location.href,document.referrer";
             } elseif ($wp_query->is_search && $options['log_search'] == 1) {
-                $gaq[] = "'_trackPageview','/?s=" . rawurlencode($wp_query->query_vars['s']) . "'";
+                $view_array['gaq'][] = "'_trackPageview','/?s=" . rawurlencode($wp_query->query_vars['s']) . "'";
             } else {
-                $gaq[] = "'_trackPageview'";
+                $view_array['gaq'][] = "'_trackPageview'";
             }
 
-            require(__DIR__.'/views/classic_script.php');
+            $this->load_view('/views/classic_script.php', $view_array);
         }
 
-
     }
+
+    /**
+     * Load view and process it
+     * @param $file string File path
+     * @param $options array Array to be passed to view
+     */
+    private function load_view($file, $options)
+    {
+        require(__DIR__ . $file);
+    }
+
 
     /**
      * Check if to enable debugging mode
