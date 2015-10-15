@@ -1,8 +1,10 @@
 <?php
-/*
-*   uninstall.php file for this Plugin
-*   This file will be used to remove all traces of this plugin when uninstalled
-*/
+/**
+ * uninstall.php file for this Plugin
+ * This file will be used to remove all traces of this plugin when uninstalled
+ *
+ */
+
 
 // Make sure that we are uninstalling
 if (!defined('WP_UNINSTALL_PLUGIN'))
@@ -13,10 +15,10 @@ $option_name = 'asga_options';
 
 
 /*
- * lets remove the database entry(s) created by this plugin
+ * Lets remove the database entry(s) created by this plugin
  */
 
-if (!is_multisite()) {
+if (is_multisite() === false) {
     delete_option($option_name);
 } else {
     global $wpdb;

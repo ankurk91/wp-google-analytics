@@ -2,7 +2,7 @@
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite
 Requires at least: 3.8.0
 Tested up to: 4.3.1
-Stable tag: 0.9.0
+Stable tag: 0.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -44,7 +44,7 @@ Track your WordPress website with Google Analytics service.
 1. Search for 'Ank Simplified GA' in WordPress Plugin Directory and Download the .zip file & extract it.
 2. Upload the folder `ank-simplified-ga` to the `/wp-content/plugins/` directory
 3. Activate the plugin through the 'Plugins List' page in WordPress Admin Area.
-4. Configure this plugin via Settings-->Ank Simplified GA
+4. Configure this plugin via Settings-->Google Analytics
 5. Login to Google Analytics account to view stats.
 
 
@@ -146,6 +146,10 @@ You should be running minimum of v0.9.0 of this plugin.
 
 
 == Changelog ==
+
+= 0.9.1 =
+* Minor Fix : Debugging info was not shown for classic ga when 'On page load' is enabled
+* Code improvements
 
 = 0.9.0 =
 * Bug Fix - Rollback transient js feature
