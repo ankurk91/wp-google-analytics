@@ -1,8 +1,8 @@
 === Ank Simplified Google Analytics ===
-Tags: google analytics, tracking, light weight, simple, easy, free , multisite
+Tags: google analytics, tracking, light weight, simple, easy, free , multisite, webmaster
 Requires at least: 3.8.0
 Tested up to: 4.3.1
-Stable tag: 0.9.1
+Stable tag: 0.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -35,6 +35,7 @@ Track your WordPress website with Google Analytics service.
 * Disable tracking when Network Admin is logged-in
 * Debugging mode
 * Force SSL
+* Link to Google Webmaster
 
 
 
@@ -127,14 +128,24 @@ Yes, There is paid version of Google Analytics also.
 Read more [here](https://developers.google.com/analytics/devguides/collection/analyticsjs/limits-quotas).
 
 
+= How do i enter Google Webmaster verification code ? =
+
+Login to Google Webmaster [console](https://www.google.com/webmasters/tools/home?hl=en), get the verification code from there
+
+Checkout this [link](http://googlewebmastercentral.blogspot.in/2011/02/linking-google-analytics-to-webmaster.html)
+
+OR
+
+You can search google like 'Linking google analytics to webmaster'
+
+
+
 = Future Plans ? =
 * OAuth
 * More options may be.
 
 
-== Upgrade Notice ==
 
-You should be running minimum of v0.9.0 of this plugin.
 
 
 == Screenshots ==
@@ -146,6 +157,9 @@ You should be running minimum of v0.9.0 of this plugin.
 
 
 == Changelog ==
+
+= 0.9.2 =
+* Feature: Ability to link to Google Webmaster
 
 = 0.9.1 =
 * Minor Fix : Debugging info was not shown for classic ga when 'On page load' is enabled
@@ -221,4 +235,5 @@ You should be running minimum of v0.9.0 of this plugin.
 
 
 == Arbitrary section ==
-Nothing in this section, Read FAQ.
+
+You should be running minimum of v0.9.0 of this plugin.
