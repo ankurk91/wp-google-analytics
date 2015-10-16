@@ -1,12 +1,11 @@
 <?php
+
 /**
  * Class Ank_Simplified_GA
  * Frontend class for "Ank Simplified GA" Plugin
  * This class can run independently without admin class
  * @package Ank-Simplified-GA
  */
-
-
 class Ank_Simplified_GA
 {
     private static $instances = array();
@@ -59,10 +58,27 @@ class Ank_Simplified_GA
         $js_priority = absint($this->asga_options['js_priority']);
 
         //decide where to print code
-        if ($this->asga_options['js_location'] == 1)
+        if ($this->asga_options['js_location'] == 1) {
             add_action('wp_head', array($this, 'print_tracking_code'), $js_priority);
-        else
+        } else {
             add_action('wp_footer', array($this, 'print_tracking_code'), $js_priority);
+        }
+
+        //check for webmaster code
+        if (!empty($this->asga_options['webmaster']['google_code'])) {
+            add_action('wp_head', array($this, 'print_webmaster_code'), 9);
+        }
+
+    }
+
+    /**
+     * Print google webmaster meta tag to document header
+     */
+    function print_webmaster_code()
+    {
+
+        $this->load_view('google_webmaster.php', array('code' => $this->asga_options['webmaster']['google_code']));
+
     }
 
     /**
@@ -141,7 +157,7 @@ class Ank_Simplified_GA
                 $view_array['gaq'][] = "'send','pageview'";
             }
 
-            $this->load_view('/views/universal_script.php', $view_array);
+            $this->load_view('universal_script.php', $view_array);
 
         } else {
             //classic ga is enabled
@@ -201,19 +217,24 @@ class Ank_Simplified_GA
                 $view_array['gaq'][] = "'_trackPageview'";
             }
 
-            $this->load_view('/views/classic_script.php', $view_array);
+            $this->load_view('classic_script.php', $view_array);
         }
 
     }
 
     /**
-     * Load view and process it
-     * @param $file string File path
+     * Load view and show it to front-end
+     * @param $file string File name
      * @param $options array Array to be passed to view
      */
     private function load_view($file, $options)
     {
-        require(__DIR__ . $file);
+        $file_path = __DIR__ . '/views/' . $file;
+        if (file_exists($file_path)) {
+            require($file_path);
+        } else {
+            echo '<!-- Error: Unable to load ASGA -->';
+        }
     }
 
 

@@ -1,7 +1,8 @@
 /**
  * Ank-Simplified-GA
  */
-(function ($) {
+(function ($,window) {
+    'use strict';
     var ga_tabs = $('h2#ga-tabs');
     ga_tabs.find('a').click(function () {
         ga_tabs.find('a').removeClass('nav-tab-active');
@@ -21,4 +22,4 @@
         var split = input.val().split('?', 1);
         input.val(split[0] + '?page=asga_options_page#top#' + url);
     }
-})(jQuery);
+})(jQuery,window);
