@@ -24,4 +24,4 @@ if($options['js_load_later'] === 1) {?>
 window.addEventListener ? window.addEventListener("load", _loadGA, !1) : window.attachEvent ? window.attachEvent("onload", _loadGA) : window.onload = _loadGA;
 <?php }  ?>
 </script>
-<!--GA Tracking ends-->
+<!--GA Tracking ends (v<?php echo ASGA_PLUGIN_VER ?>)-->
