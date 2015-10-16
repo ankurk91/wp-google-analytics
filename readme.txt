@@ -2,7 +2,7 @@
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite, webmaster
 Requires at least: 3.8.0
 Tested up to: 4.3.1
-Stable tag: 0.9.2
+Stable tag: 0.9.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -16,7 +16,7 @@ Track your WordPress website with Google Analytics service.
 > Translators welcome : https://github.com/ank91/ank-simplified-ga
 
 
-= Some Features =
+= Notable Features =
 * Simplest user interface
 * Most light weight plugin
 * Support Universal Google and Classic Analytics
@@ -36,6 +36,19 @@ Track your WordPress website with Google Analytics service.
 * Debugging mode
 * Force SSL
 * Link to Google Webmaster
+
+
+> <strong>★ Recommended by -</strong><br>
+> Ank Simplified Google Analytics plugin is recommended by [themeous.com](http://themeous.com/) over the giants.
+
+
+> <strong>Found bugs ?</strong><br>
+> I am happy to resolve bugs, report your bugs [here](https://github.com/ank91/ank-simplified-ga/issues)
+
+
+> <strong>Have questions ?</strong><br>
+> Head over to [FAQ](https://wordpress.org/plugins/ank-simplified-ga/faq/) section first.<br>
+> You can always use support [forums](https://wordpress.org/support/plugin/ank-simplified-ga), support is only available via forums.
 
 
 
@@ -133,9 +146,7 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 Login to Google Webmaster [console](https://www.google.com/webmasters/tools/home?hl=en), get the verification code from there
 
 Checkout this [link](http://googlewebmastercentral.blogspot.in/2011/02/linking-google-analytics-to-webmaster.html)
-
 OR
-
 You can search google like 'Linking google analytics to webmaster'
 
 
@@ -157,6 +168,12 @@ You can search google like 'Linking google analytics to webmaster'
 
 
 == Changelog ==
+
+= 0.9.3 =
+* Post release: Minor tweaks and fixes, sorry for two updates in a single day
+* Updates screen-shots
+* Updated docs
+
 
 = 0.9.2 =
 * Feature: Ability to link to Google Webmaster
@@ -234,6 +251,6 @@ You can search google like 'Linking google analytics to webmaster'
 
 
 
-== Arbitrary section ==
+== Upgrade Notes ==
 
 You should be running minimum of v0.9.0 of this plugin.
