@@ -40,15 +40,18 @@ Track your WordPress website with Google Analytics service.
 
 > <strong>★ Recommended by -</strong><br>
 > Ank Simplified Google Analytics plugin is recommended by [themeous.com](http://themeous.com/) over the giants.
+>
 
+❤ Thanks for showing your love.
 
 > <strong>Found bugs ?</strong><br>
-> I am happy to resolve bugs, report your bugs [here](https://github.com/ank91/ank-simplified-ga/issues)
+> I am happy to resolve bugs, report your bugs [here](https://github.com/ank91/ank-simplified-ga/issues)<br>
+> Please note that support is only available via WordPress forums.
 
 
 > <strong>Have questions ?</strong><br>
 > Head over to [FAQ](https://wordpress.org/plugins/ank-simplified-ga/faq/) section first.<br>
-> You can always use support [forums](https://wordpress.org/support/plugin/ank-simplified-ga), support is only available via forums.
+> You can always use support [forums](https://wordpress.org/support/plugin/ank-simplified-ga).
 
 
 
