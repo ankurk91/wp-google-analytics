@@ -118,13 +118,17 @@ class Ank_Simplified_GA
         if ($options['ua_enabled'] == 1) {
             //if universal is enabled
 
-            if ($options['allow_linker'] == 1 && $options['allow_anchor'] != 1) {
+            if ($options['allow_linker'] == 1 && $options['allow_anchor'] == 0) {
                 $view_array['gaq'][] = "'create', '" . $ga_id . "', '" . $domain . "', {'allowLinker': true}";
             } else {
-                if ($options['allow_anchor'] == 1 && $options['allow_anchor'] == 1) {
-                    $view_array['gaq'][] = "'create', '" . $ga_id . "', '" . $domain . "', {'allowLinker': true,'allowAnchor': true}";
+                if ($options['allow_anchor'] == 1 && $options['allow_linker'] == 0) {
+                    $view_array['gaq'][] = "'create', '" . $ga_id . "', '" . $domain . "', {'allowAnchor': true}";
                 } else {
-                    $view_array['gaq'][] = "'create', '" . $ga_id . "', '" . $domain . "'";
+                    if ($options['allow_linker'] == 1 && $options['allow_anchor'] == 1) {
+                        $view_array['gaq'][] = "'create', '" . $ga_id . "', '" . $domain . "', {'allowLinker': true,'allowAnchor': true}";
+                    } else {
+                        $view_array['gaq'][] = "'create', '" . $ga_id . "', '" . $domain . "'";
+                    }
                 }
             }
 
@@ -141,7 +145,7 @@ class Ank_Simplified_GA
             }
             /* Enhanced Link Attribution */
             if ($options['ga_ela'] == 1) {
-                $view_array['gaq'][] = "'require', 'linkid', 'linkid.js'";
+                $view_array['gaq'][] = "'require', 'linkid'";
             }
             if ($options['custom_trackers'] !== '') {
                 $view_array['gaq'][] = array(
