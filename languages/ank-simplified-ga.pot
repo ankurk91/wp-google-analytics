@@ -1,10 +1,10 @@
 # Ank Simplified GA Plugin for WordPress
-
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Ank Simplified GA\n"
 "Report-Msgid-Bugs-To: https://github.com/ank91/ank-simplified-ga/issues\n"
-"POT-Creation-Date: 2015-10-04 18:25+0530\n"
+"POT-Creation-Date: 2015-10-18 09:24+0530\n"
 "PO-Revision-Date: 2015-09-27 18:48+0530\n"
 "Last-Translator: ank91\n"
 "Language-Team: \n"
@@ -22,213 +22,225 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: asga-admin.php\n"
 
-#: asga-admin.php:114
+#: asga-admin.php:103
 msgid "Settings"
 msgstr ""
 
-#: asga-admin.php:146
+#: asga-admin.php:135
 msgid "Network Administrator"
 msgstr ""
 
-#: asga-admin.php:203
+#: asga-admin.php:195
 msgid "Your GA tracking ID seems invalid. Please validate."
 msgstr ""
 
-#: asga-admin.php:243
+#: asga-admin.php:238
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: asga-admin.php:248
+#: asga-admin.php:243
 msgid "Ank Simplified Google Analytics"
 msgstr ""
 
-#: asga-admin.php:251
+#: asga-admin.php:246
 msgid "General"
 msgstr ""
 
-#: asga-admin.php:252
+#: asga-admin.php:247
 msgid "Advanced"
 msgstr ""
 
-#: asga-admin.php:253
+#: asga-admin.php:248
 msgid "Monitor"
 msgstr ""
 
-#: asga-admin.php:254
+#: asga-admin.php:249
 msgid "Control"
 msgstr ""
 
-#: asga-admin.php:255
+#: asga-admin.php:250
 msgid "Troubleshoot"
 msgstr ""
 
-#: asga-admin.php:268
+#: asga-admin.php:263
 msgid "Google Analytics tracking ID"
 msgstr ""
 
-#: asga-admin.php:272
+#: asga-admin.php:267
 msgid "Paste your Google Analytics tracking ID e.g."
 msgstr ""
 
-#: asga-admin.php:276
+#: asga-admin.php:271
 msgid "Analytics version"
 msgstr ""
 
-#: asga-admin.php:279
+#: asga-admin.php:274
 msgid "Universal"
 msgstr ""
 
-#: asga-admin.php:280
+#: asga-admin.php:275
 msgid "Classic"
 msgstr ""
 
-#: asga-admin.php:286
+#: asga-admin.php:281
 msgid "Set domain"
 msgstr ""
 
-#: asga-admin.php:301
+#: asga-admin.php:292
+msgid "Google webmaster code"
+msgstr ""
+
+#: asga-admin.php:293
+msgid "Optional"
+msgstr ""
+
+#: asga-admin.php:295
+msgid "Paste your Google webmaster verification code here"
+msgstr ""
+
+#: asga-admin.php:303
 msgid "Demographics and Interest Reports"
 msgstr ""
 
-#: asga-admin.php:302 asga-admin.php:309 asga-admin.php:315 asga-admin.php:321
+#: asga-admin.php:304 asga-admin.php:311 asga-admin.php:317 asga-admin.php:323
 msgid "Check to enable"
 msgstr ""
 
-#: asga-admin.php:304
+#: asga-admin.php:306
 msgid "Remarketing"
 msgstr ""
 
-#: asga-admin.php:304
+#: asga-admin.php:306
 msgid "Demographics and Interest Reporting"
 msgstr ""
 
-#: asga-admin.php:308
+#: asga-admin.php:310
 msgid "Enhanced Link Attribution"
 msgstr ""
 
-#: asga-admin.php:314
+#: asga-admin.php:316
 msgid "Cross-domain user tracking"
 msgstr ""
 
-#: asga-admin.php:320
+#: asga-admin.php:322
 msgid "Campaign tracking"
 msgstr ""
 
-#: asga-admin.php:326 asga-admin.php:327
+#: asga-admin.php:328 asga-admin.php:329
 msgid "Anonymize IP"
 msgstr ""
 
-#: asga-admin.php:332 asga-admin.php:333
+#: asga-admin.php:334 asga-admin.php:335
 msgid "Force SSL"
 msgstr ""
 
-#: asga-admin.php:334
+#: asga-admin.php:336
 msgid "Transmit data over https (secure) connection"
 msgstr ""
 
-#: asga-admin.php:338
+#: asga-admin.php:340
 msgid "Custom trackers"
 msgstr ""
 
-#: asga-admin.php:340
+#: asga-admin.php:342
 msgid "To be added before the"
 msgstr ""
 
-#: asga-admin.php:340
+#: asga-admin.php:342
 msgid "pageview"
 msgstr ""
 
-#: asga-admin.php:340
+#: asga-admin.php:342
 msgid "call"
 msgstr ""
 
-#: asga-admin.php:348
+#: asga-admin.php:350
 msgid "Event tracking"
 msgstr ""
 
-#: asga-admin.php:352
+#: asga-admin.php:354
 msgid "Log 404 errors as events"
 msgstr ""
 
-#: asga-admin.php:353
+#: asga-admin.php:355
 msgid "Log searched items as page views"
 msgstr ""
 
-#: asga-admin.php:365
+#: asga-admin.php:367
 msgid "Stop analytics when"
 msgstr ""
 
-#: asga-admin.php:371
+#: asga-admin.php:373
 msgid "is logged in"
 msgstr ""
 
-#: asga-admin.php:382
+#: asga-admin.php:384
 msgid "Code location"
 msgstr ""
 
-#: asga-admin.php:385
+#: asga-admin.php:387
 msgid "Place in document header"
 msgstr ""
 
-#: asga-admin.php:386
+#: asga-admin.php:388
 msgid "Place in document footer"
 msgstr ""
 
-#: asga-admin.php:391
+#: asga-admin.php:393
 msgid "Code execution"
 msgstr ""
 
-#: asga-admin.php:394
+#: asga-admin.php:396
 msgid "Immediately"
 msgstr ""
 
-#: asga-admin.php:395
+#: asga-admin.php:397
 msgid "On page load"
 msgstr ""
 
-#: asga-admin.php:400
+#: asga-admin.php:402
 msgid "Action priority"
 msgstr ""
 
-#: asga-admin.php:402
+#: asga-admin.php:404
 msgid "0 means highest priority"
 msgstr ""
 
-#: asga-admin.php:410
+#: asga-admin.php:412
 msgid "Debug mode"
 msgstr ""
 
-#: asga-admin.php:411
+#: asga-admin.php:413
 msgid "Enable debugging mode for administrators"
 msgstr ""
 
-#: asga-admin.php:414
+#: asga-admin.php:416
 msgid ""
 "This should only be used temporarily or during development, don't forget to "
 "disable it in production"
 msgstr ""
 
-#: asga-admin.php:418
+#: asga-admin.php:420
 msgid "Debug database options"
 msgstr ""
 
-#: asga-admin.php:432
+#: asga-admin.php:430
 msgid "Developed by"
 msgstr ""
 
-#: asga-admin.php:433
+#: asga-admin.php:431
 msgid "Fork on"
 msgstr ""
 
-#: asga-admin.php:434
+#: asga-admin.php:432
 msgid "Rate this on"
 msgstr ""
 
-#: asga-admin.php:434
+#: asga-admin.php:432
 msgid "WordPress"
 msgstr ""
 
-#: asga-admin.php:513
+#: asga-admin.php:511
 msgid ""
 "Google Analytics debug mode is enabled for this site. Don't forget to "
 "disable this option in production."
