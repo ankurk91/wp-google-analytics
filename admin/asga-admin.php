@@ -160,8 +160,12 @@ class Ank_Simplified_GA_Admin
             'debug_mode' => 0,
             'force_ssl' => 1,
             'custom_trackers' => '',
-            'allow_linker' => 0 ,
+            'allow_linker' => 0,
             'allow_anchor' => 0,
+            'track_mail_links' => 0,
+            'track_outgoing_links' => 0,
+            'track_download_links' => 0,
+            'track_download_ext' => '',
             'webmaster' => array(
                 'google_code' => ''
             )
@@ -197,9 +201,9 @@ class Ank_Simplified_GA_Admin
             $out['ga_id'] = sanitize_text_field($in['ga_id']);
         }
 
-        $radio_items = array('js_location','js_load_later');
+        $radio_items = array('js_location', 'js_load_later');
 
-        foreach($radio_items as $item){
+        foreach ($radio_items as $item) {
             $out[$item] = absint($in[$item]);
         }
 
@@ -209,8 +213,8 @@ class Ank_Simplified_GA_Admin
 
         $out['custom_trackers'] = trim($in['custom_trackers']);
 
-        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search','debug_mode','force_ssl','allow_linker','allow_anchor');
-         //add rolls to checkbox_items array
+        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search', 'debug_mode', 'force_ssl', 'allow_linker', 'allow_anchor', 'track_mail_links', 'track_outgoing_links', 'track_download_links');
+        //add rolls to checkbox_items array
         foreach ($this->get_all_roles() as $role => $role_info) {
             $checkbox_items[] = 'ignore_role_' . $role;
         }
@@ -224,6 +228,7 @@ class Ank_Simplified_GA_Admin
 
         // Google webmaster code
         $out['webmaster']['google_code'] = trim($in['webmaster']['google_code']);
+        $out['track_download_ext'] = trim($in['track_download_ext']);
 
 
         return $out;
@@ -349,18 +354,29 @@ class Ank_Simplified_GA_Admin
                        <tr>
                            <th scope="row"><?php _e('Event tracking',ASGA_TEXT_DOMAIN) ?>  :</th>
                            <td><fieldset>
-                               <?php
-                               $events = array(
-                                   'log_404' => __('Log 404 errors as events', ASGA_TEXT_DOMAIN),
-                                   'log_search' => __('Log searched items as page views', ASGA_TEXT_DOMAIN)
-                               );
-                               //loop through each event item
-                               foreach ($events as $event => $label) {
-                                   echo '<label>';
-                                   echo '<input type="checkbox" name="asga_options[' . $event . ']" value="1" ' . checked($options[$event], 1, 0) . '/>';
-                                   echo '&ensp;' . $label . '</label><br>';
-                               }
-                               ?></fieldset>
+                                   <?php
+                                   $events = array(
+                                       'log_404' => __('Log 404 errors as events', ASGA_TEXT_DOMAIN),
+                                       'log_search' => __('Log searched items as page views', ASGA_TEXT_DOMAIN),
+                                       'track_mail_links' => __('Track mailto links as event', ASGA_TEXT_DOMAIN),
+                                       'track_outgoing_links' => __('Track outbound links as event', ASGA_TEXT_DOMAIN),
+                                       'track_download_links' => __('Track downloads as event', ASGA_TEXT_DOMAIN),
+                                   );
+                                   //loop through each event item
+                                   foreach ($events as $event => $label) {
+                                       echo '<label>';
+                                       echo '<input type="checkbox" name="asga_options[' . $event . ']" value="1" ' . checked($options[$event], 1, 0) . '/>';
+                                       echo '&ensp;' . $label . '</label><br>';
+                                   }
+                                   ?></fieldset>
+                           </td>
+                       </tr>
+                       <tr>
+                           <th><?php _e('Extensions for downloads', ASGA_TEXT_DOMAIN) ?> :</th>
+                           <td>
+                               <input size="30" type="text" placeholder="doc,docx,xls,xlsx,pdf,zip,rar,exe" name="asga_options[track_download_ext]" value="<?php echo esc_attr($options['track_download_ext']); ?>">
+                               <p class="description"><?php _e('Please use comma (,) separated values', ASGA_TEXT_DOMAIN) ?> .</p>
+                           <td>
                            </td>
                        </tr>
                        <tr>
