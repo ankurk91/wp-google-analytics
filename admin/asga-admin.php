@@ -166,15 +166,21 @@ class Ank_Simplified_GA_Admin
             'track_mail_links' => 0,
             'track_outgoing_links' => 0,
             'track_download_links' => 0,
-            'track_download_ext' => '',
+            'track_download_ext' => 'doc,doc*,xls*,ppt*,pdf,zip,rar,exe',
             'webmaster' => array(
                 'google_code' => ''
             )
 
         );
         //store roles as well
+        $ignored_roles = array('networkAdmin', 'administrator', 'editor');
         foreach ($this->get_all_roles() as $role => $role_info) {
-            $defaults['ignore_role_' . $role] = 0;
+            //ignore these two role by-default
+            if (in_array($role, $ignored_roles)) {
+                $defaults['ignore_role_' . $role] = 1;
+            } else {
+                $defaults['ignore_role_' . $role] = 0;
+            }
         }
         return $defaults;
     }
