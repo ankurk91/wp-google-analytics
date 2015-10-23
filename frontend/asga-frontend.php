@@ -69,6 +69,8 @@ class Ank_Simplified_GA
             add_action('wp_head', array($this, 'print_webmaster_code'), 9);
         }
 
+        add_action('wp_head', array($this,'print_asga_options'));
+
     }
 
     /**
@@ -237,7 +239,7 @@ class Ank_Simplified_GA
         if (file_exists($file_path)) {
             require($file_path);
         } else {
-            echo '<!-- Error: Unable to load ASGA -->';
+            echo '<!-- Error: Unable to load ASGA template file -' . esc_html(basename($file)) . ', (v' . ASGA_PLUGIN_VER . ')-->';
         }
     }
 
@@ -297,5 +299,14 @@ class Ank_Simplified_GA
 
         return true;
     }
+
+    /**
+     * Print asga options on document header
+     */
+    function print_asga_options()
+    {
+        $this->load_view('asga_js_options.php', $this->asga_options);
+    }
+
 
 } //end class
