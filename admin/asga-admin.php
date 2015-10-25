@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class Ank_Simplified_GA_Admin
  * Settings Page for "Ank Simplified GA" Plugin
@@ -34,7 +33,7 @@ class Ank_Simplified_GA_Admin
         add_action('admin_notices', array($this, 'show_admin_notice'));
 
         /*check for database upgrades*/
-        add_action('plugins_loaded', array($this, 'may_be_upgrade'));
+        add_action('plugins_loaded', array($this, 'perform_upgrade'));
 
         add_action('plugins_loaded', array($this, 'load_text_domain'));
 
@@ -74,14 +73,16 @@ class Ank_Simplified_GA_Admin
     function do_upon_plugin_activation()
     {
 
-        //if options not exists then update with defaults
+        //if db options not exists then update with defaults
         if (get_option(ASGA_OPTION_NAME) == false) {
             update_option(ASGA_OPTION_NAME, $this->get_default_options());
         }
 
     }
 
-    /*Register our settings, using WP settings API*/
+    /**
+     * Register plugin settings, using WP settings API
+     */
     function register_plugin_settings()
     {
         register_setting(self::PLUGIN_OPTION_GROUP, ASGA_OPTION_NAME, array($this, 'ASGA_validate_options'));
@@ -108,8 +109,8 @@ class Ank_Simplified_GA_Admin
         return $links;
     }
 
-    /*
-     * Adds link to Plugin Option page + do related stuff
+    /**
+     * Adds link to Plugin Option page and do related stuff
      */
     function add_to_settings_menu()
     {
@@ -117,6 +118,7 @@ class Ank_Simplified_GA_Admin
         /*add help stuff via tab*/
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
         /*we can load additional css/js to our option page here */
+        add_action('admin_print_scripts-' . $page_hook_suffix, array($this, 'print_admin_js'));
 
     }
 
@@ -172,8 +174,9 @@ class Ank_Simplified_GA_Admin
             )
 
         );
-        //store roles as well
+        //ignored roles by default
         $ignored_roles = array('networkAdmin', 'administrator', 'editor');
+        //store roles as well
         foreach ($this->get_all_roles() as $role => $role_info) {
             //ignore these two role by-default
             if (in_array($role, $ignored_roles)) {
@@ -254,9 +257,8 @@ class Ank_Simplified_GA_Admin
 
         if (file_exists($file_path)) {
             require($file_path);
-            $this->print_admin_js();
         } else {
-            echo "Error: Unable to load settings page, Template File not found, (v" . ASGA_PLUGIN_VER . ")";
+            echo "<!-- Error: Unable to load settings page, Template File not found, (v" . ASGA_PLUGIN_VER . ")-->";
         }
 
     }
@@ -376,7 +378,7 @@ class Ank_Simplified_GA_Admin
     /**
      * Upgrade plugin database options
      */
-    function may_be_upgrade()
+    function perform_upgrade()
     {
         //get fresh options from db
         $db_options = get_option(ASGA_OPTION_NAME);
@@ -412,21 +414,10 @@ class Ank_Simplified_GA_Admin
     /**
      * Print option page javascript
      */
-    private function print_admin_js()
+    function print_admin_js()
     {
         $is_min = (WP_DEBUG == 1) ? '' : '.min';
-        $file_path = __DIR__ . "/js/option-page" . $is_min . ".js";
-        if (file_exists($file_path)) {
-            ?>
-            <script type="text/javascript">
-                /* <![CDATA[ */
-                <?php echo file_get_contents($file_path) ; ?>
-                /* ]]> */
-            </script>
-            <?php
-        } else {
-            echo "Error: Unable to load ASGA settings page javascript file";
-        }
+        wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
     }
 
 } //end class

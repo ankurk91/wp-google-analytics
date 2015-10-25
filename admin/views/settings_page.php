@@ -2,11 +2,9 @@
     .tab-content {
         display: none
     }
-
     .tab-content.active {
         display: block
     }
-
     pre.xdebug-var-dump {
         max-height: 200px;
         overflow: auto;
