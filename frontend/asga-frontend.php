@@ -68,8 +68,10 @@ class Ank_Simplified_GA
         if (!empty($this->asga_options['webmaster']['google_code'])) {
             add_action('wp_head', array($this, 'print_webmaster_code'), 9);
         }
+        //print js options
+        add_action('wp_head', array($this, 'print_asga_js_options'));
 
-        add_action('wp_head', array($this,'print_asga_options'));
+        add_action('wp_footer', array($this, 'add_event_tracking_js'));
 
     }
 
@@ -303,10 +305,18 @@ class Ank_Simplified_GA
     /**
      * Print asga options on document header
      */
-    function print_asga_options()
+    function print_asga_js_options()
     {
         $this->load_view('asga_js_options.php', $this->asga_options);
     }
 
+    /**
+     * Enqueue event tracking javascript file
+     */
+    function add_event_tracking_js()
+    {
+        //depends on jquery
+        wp_enqueue_script('asga-event-log', plugins_url('/js/event-tracking.js', __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
+    }
 
 } //end class
