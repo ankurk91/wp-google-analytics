@@ -168,7 +168,7 @@ class Ank_Simplified_GA_Admin
             'track_mail_links' => 0,
             'track_outgoing_links' => 0,
             'track_download_links' => 0,
-            'track_download_ext' => 'doc,doc*,xls*,ppt*,pdf,zip,rar,exe',
+            'track_download_ext' => 'doc*,xls*,ppt*,pdf,zip,rar,exe,mp3',
             'webmaster' => array(
                 'google_code' => ''
             )
@@ -238,6 +238,7 @@ class Ank_Simplified_GA_Admin
 
         // Google webmaster code
         $out['webmaster']['google_code'] = trim($in['webmaster']['google_code']);
+        //Extensions to track as downloads
         $out['track_download_ext'] = trim($in['track_download_ext']);
 
 
