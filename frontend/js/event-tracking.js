@@ -1,3 +1,6 @@
+/**
+ * Ank-Simplified-GA
+ */
 (function (window) {
     'use strict';
     //if options not exists then exit early
