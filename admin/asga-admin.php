@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class Ank_Simplified_GA_Admin
  * Settings Page for "Ank Simplified GA" Plugin
@@ -418,7 +419,7 @@ class Ank_Simplified_GA_Admin
     function print_admin_js()
     {
         $is_min = (WP_DEBUG == 1) ? '' : '.min';
-        wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
+        wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", __FILE__), array('jquery'), ASGA_PLUGIN_VER, false);
     }
 
 } //end class
