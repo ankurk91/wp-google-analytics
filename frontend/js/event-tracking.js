@@ -10,7 +10,7 @@
     //jQuery Filter Ref: http://api.jquery.com/filter/
     jQuery(function ($) {
 
-        if (asga_opt.track_download_links === 1) {
+        if (asga_opt.track_download_links === '1') {
             //Track Downloads
             var exts = (asga_opt.track_download_ext === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asga_opt.track_download_ext.replace(',', '|');
             $('a').filter(function () {
@@ -23,7 +23,7 @@
             });
         }
 
-        if (asga_opt.track_mail_links === 1) {
+        if (asga_opt.track_mail_links === '1') {
             //Track Mailto links
             $('a[href^="mailto"]').click(function () {
                 //href should not include 'mailto'
@@ -31,7 +31,7 @@
             });
         }
 
-        if (asga_opt.track_outgoing_links === 1) {
+        if (asga_opt.track_outgoing_links === '1') {
             //Track Outbound Links
             $('a[href^="http"]').filter(function () {
                 return (this.href.indexOf(window.location.host) == -1)
