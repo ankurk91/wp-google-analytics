@@ -307,6 +307,7 @@ class Ank_Simplified_GA
      */
     function print_asga_js_options()
     {
+        //todo load this js only when tracking is possible
         $this->load_view('asga_js_options.php', $this->asga_options);
     }
 
@@ -315,8 +316,10 @@ class Ank_Simplified_GA
      */
     function add_event_tracking_js()
     {
+        //todo load this js only when tracking is possible
+        $is_min = (WP_DEBUG == 1) ? '' : '.min';
         //depends on jquery
-        wp_enqueue_script('asga-event-log', plugins_url('/js/event-tracking.js', __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
+        wp_enqueue_script('asga-event-log', plugins_url('/js/event-tracking'.$is_min.'.js', __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
     }
 
 } //end class
