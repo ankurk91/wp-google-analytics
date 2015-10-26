@@ -68,22 +68,14 @@ class Ank_Simplified_GA
         if (!empty($this->asga_options['webmaster']['google_code'])) {
             add_action('wp_head', array($this, 'print_webmaster_code'), 9);
         }
-        //print js options
-        add_action('wp_head', array($this, 'print_asga_js_options'));
 
-        add_action('wp_footer', array($this, 'add_event_tracking_js'));
-
-    }
-
-    /**
-     * Print google webmaster meta tag to document header
-     */
-    function print_webmaster_code()
-    {
-
-        $this->load_view('google_webmaster.php', array('code' => $this->asga_options['webmaster']['google_code']));
+        if ($this->need_to_load_event_tracking_js()) {
+            //load event tracking js file
+            add_action('wp_footer', array($this, 'add_event_tracking_js'));
+        }
 
     }
+
 
     /**
      * Prepare and print javascript code to front end
@@ -231,6 +223,30 @@ class Ank_Simplified_GA
     }
 
     /**
+     * Print google webmaster meta tag to document header
+     */
+    function print_webmaster_code()
+    {
+
+        $this->load_view('google_webmaster.php', array('code' => $this->asga_options['webmaster']['google_code']));
+
+    }
+
+    /**
+     * Enqueue event tracking javascript file
+     */
+    function add_event_tracking_js()
+    {
+        //todo Load this js file only when needed
+        $is_min = (WP_DEBUG == 1) ? '' : '.min';
+        //depends on jquery
+        wp_enqueue_script('asga-event-log', plugins_url('/js/event-tracking' . $is_min . '.js', __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
+
+        wp_localize_script('asga-event-log', 'asga_opt', $this->get_js_options());
+    }
+
+
+    /**
      * Load view and show it to front-end
      * @param $file string File name
      * @param $options array Array to be passed to view
@@ -272,18 +288,14 @@ class Ank_Simplified_GA
         if (is_preview()) {
             echo '<!-- GA Tracking is disabled in preview mode -->';
             return false;
-        }
-
-        //if GA id is not set return early with a message
-        if (empty($options['ga_id'])) {
+        } //if GA id is not set return early with a message
+        else if (empty($options['ga_id'])) {
             echo '<!-- GA ID is not set -->';
             return false;
-        }
+        } //if a user is logged in
+        else if (is_user_logged_in()) {
 
-        //if a user is logged in
-        if (is_user_logged_in()) {
-
-            if (is_super_admin()) {
+            if (is_multisite() && is_super_admin()) {
                 //if a network admin is logged in
                 if (isset($options['ignore_role_networkAdmin']) && ($options['ignore_role_networkAdmin'] == 1)) {
                     echo '<!-- GA Tracking is disabled for you -->';
@@ -298,28 +310,33 @@ class Ank_Simplified_GA
                 }
             }
         }
-
         return true;
+
     }
 
     /**
-     * Print asga options on document header
+     * Return array of options to be used in event tracking js
+     * @return array
      */
-    function print_asga_js_options()
+    private function get_js_options()
     {
-        //todo load this js only when tracking is possible
-        $this->load_view('asga_js_options.php', $this->asga_options);
+        $db_options = $this->asga_options;
+        $js_options = array(
+            'track_mail_links' => esc_js($db_options['track_mail_links']),
+            'track_outgoing_links' => esc_js($db_options['track_outgoing_links']),
+            'track_download_links' => esc_js($db_options['track_download_links']),
+            'track_download_ext' => esc_js($db_options['track_download_ext']),
+        );
+        return $js_options;
     }
 
     /**
-     * Enqueue event tracking javascript file
+     * Check if user wants any kind of event tracking
+     * @return bool
      */
-    function add_event_tracking_js()
+    private function need_to_load_event_tracking_js()
     {
-        //todo load this js only when tracking is possible
-        $is_min = (WP_DEBUG == 1) ? '' : '.min';
-        //depends on jquery
-        wp_enqueue_script('asga-event-log', plugins_url('/js/event-tracking'.$is_min.'.js', __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
+        $db = $this->asga_options;
+        return ($db['track_mail_links'] == 1 || $db['track_outgoing_links'] == 1 || $db['track_download_links'] == 1);
     }
-
 } //end class

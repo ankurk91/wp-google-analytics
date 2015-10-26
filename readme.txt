@@ -172,6 +172,10 @@ You can search google like 'Linking google analytics to webmaster'
 
 == Changelog ==
 
+= 0.9.5 =
+* Bug Fix: Admin role was not being ignored
+* New: Event tracking, tracking outbound links , track downloads
+
 = 0.9.4 =
 * Bug Fix: Fixed a bug with handling different database options
 

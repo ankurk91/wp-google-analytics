@@ -130,10 +130,12 @@ class Ank_Simplified_GA_Admin
     private function get_all_roles()
     {
         global $wp_roles;
-        if (!isset($wp_roles)) {
-            $wp_roles = new WP_Roles();
-        }
+
         $role_list = $wp_roles->get_names();
+
+        //expose a filter that allow other developers to add/remove roles from this list
+        $role_list = apply_filters('asga_editable_roles', $role_list);
+
         //append a custom role if multi-site is enabled
         if (is_multisite()) {
             $role_list['networkAdmin'] = __('Network Administrator', ASGA_TEXT_DOMAIN);
