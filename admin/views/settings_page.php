@@ -150,11 +150,11 @@
                         <th scope="row"><?php _e('Stop analytics when',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td>
                             <?php
-                            foreach ($this->get_all_roles() as $id => $label) {
+                            foreach ($this->get_all_roles() as $role) {
                                 echo '<label>';
-                                echo '<input type="checkbox" name="asga_options[ignore_role_' . $id . ']" value="1" ' . checked($options['ignore_role_' . $id], 1, 0) . '/>';
-                                echo '&ensp;' . esc_attr($label) . ' '.esc_html__('is logged in',ASGA_TEXT_DOMAIN);
-                                echo '</label><br />';
+                                echo '<input type="checkbox" name="asga_options[ignore_role_' . $role['id'] . ']" value="1" ' . checked($options['ignore_role_' . $role['id']], 1, 0) . '/>';
+                                echo '&ensp;' . esc_attr($role['name']) . ' '.__('is logged in',ASGA_TEXT_DOMAIN);
+                               echo '</label><br />';
                             }
                             ?>
                         </td>

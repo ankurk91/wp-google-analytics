@@ -123,26 +123,6 @@ class Ank_Simplified_GA_Admin
 
     }
 
-    /**
-     * Return all roles plus superAdmin if multi-site is enabled
-     * @return array
-     */
-    private function get_all_roles()
-    {
-        global $wp_roles;
-
-        $role_list = $wp_roles->get_names();
-
-        //expose a filter that allow other developers to add/remove roles from this list
-        $role_list = apply_filters('asga_editable_roles', $role_list);
-
-        //append a custom role if multi-site is enabled
-        if (is_multisite()) {
-            $role_list['networkAdmin'] = __('Network Administrator', ASGA_TEXT_DOMAIN);
-        }
-
-        return $role_list;
-    }
 
     /**
      * Return default options for this plugin
@@ -180,14 +160,15 @@ class Ank_Simplified_GA_Admin
         //ignored roles by default
         $ignored_roles = array('networkAdmin', 'administrator', 'editor');
         //store roles as well
-        foreach ($this->get_all_roles() as $role => $role_info) {
+        foreach ($this->get_all_roles() as $role) {
             //ignore these two role by-default
-            if (in_array($role, $ignored_roles)) {
-                $defaults['ignore_role_' . $role] = 1;
+            if (in_array($role['id'], $ignored_roles)) {
+                $defaults['ignore_role_' . $role['id']] = 1;
             } else {
-                $defaults['ignore_role_' . $role] = 0;
+                $defaults['ignore_role_' . $role['id']] = 0;
             }
         }
+
         return $defaults;
     }
 
@@ -228,8 +209,8 @@ class Ank_Simplified_GA_Admin
 
         $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search', 'debug_mode', 'force_ssl', 'allow_linker', 'allow_anchor', 'track_mail_links', 'track_outgoing_links', 'track_download_links');
         //add rolls to checkbox_items array
-        foreach ($this->get_all_roles() as $role => $role_info) {
-            $checkbox_items[] = 'ignore_role_' . $role;
+        foreach ($this->get_all_roles() as $role) {
+            $checkbox_items[] = 'ignore_role_' . $role['id'];
         }
 
         foreach ($checkbox_items as $item) {
@@ -324,6 +305,45 @@ class Ank_Simplified_GA_Admin
             '<p><a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">Plugin FAQ</a></p>' .
             '<p><a href="https://github.com/ank91/ank-simplified-ga" target="_blank">Plugin Home</a></p>'
         );
+    }
+
+    /**
+     * Return all roles plus superAdmin if multi-site is enabled
+     * @return array
+     */
+    private function get_all_roles()
+    {
+        global $wp_roles;
+        $return_roles = array();
+
+        if (!isset($wp_roles))
+            $wp_roles = new WP_Roles();
+
+        $role_list = $wp_roles->roles;
+
+        /**
+         * Filter: 'editable_roles' - Allows filtering of the roles shown within the plugin (and elsewhere in WP as it's a WP filter)
+         *
+         * @api array $all_roles
+         */
+        $editable_roles = apply_filters('editable_roles', $role_list);
+
+        foreach ($editable_roles as $id => $role) {
+            $return_roles[] = array(
+                'id' => $id,
+                'name' => translate_user_role($role['name']),
+            );
+        }
+
+        //append a custom role if multi-site is enabled
+        if (is_multisite()) {
+            $return_roles[] = array(
+                'id' => 'networkAdmin',
+                'name' => __('Network Administrator', ASGA_TEXT_DOMAIN)
+            );
+        }
+
+        return $return_roles;
     }
 
     /**
