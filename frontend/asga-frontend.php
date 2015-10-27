@@ -279,7 +279,7 @@ class Ank_Simplified_GA
         //if a user is logged in
         if (is_user_logged_in()) {
 
-            if (is_super_admin()) {
+            if (is_multisite() && is_super_admin()) {
                 //if a network admin is logged in
                 if (isset($options['ignore_role_networkAdmin']) && ($options['ignore_role_networkAdmin'] == 1)) {
                     echo '<!-- GA Tracking is disabled for you -->';
