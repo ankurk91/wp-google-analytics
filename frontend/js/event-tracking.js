@@ -1,10 +1,10 @@
 /**
- * Ank-Simplified-GA
+ * Ank-Simplified-GA event tracking
  */
-(function (window) {
+(function (window, asga_opt) {
     'use strict';
     //if options not exists then exit early
-    if (typeof window.asga_opt === 'undefined' || asga_opt.length === 0) {
+    if (typeof asga_opt === 'undefined' || asga_opt.length === 0) {
         return;
     }
     //jQuery Filter Ref: http://api.jquery.com/filter/
@@ -12,34 +12,41 @@
 
         if (asga_opt.track_download_links === '1') {
             //Track Downloads
-            var exts = (asga_opt.track_download_ext === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asga_opt.track_download_ext.replace(',', '|');
+            //@source https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+            var exts = (asga_opt.track_download_ext === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asga_opt.track_download_ext.replace(/,/g, '|');
+            //@source https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+            var regExt = new RegExp(".*\\.(" + exts + ")(\\?.*)?$");
+
             $('a').filter(function () {
-                //include only internal links
-                if (this.href.indexOf(window.location.host) !== -1) {
-                    return this.href.match(/.*\.(exts)(\?.*)?$/);
+                //include only internal links for downloads
+                if (this.hostname && (this.hostname === window.location.hostname)) {
+                    return this.href.match(regExt);
                 }
-            }).click(function () {
-                _sendEvent('Downloads', this.href)
-            });
+            }).prop('download', '') //force download of these files
+                .click(function (e) {
+                    logClickEvent('Downloads', this.href)
+                });
         }
 
         if (asga_opt.track_mail_links === '1') {
             //Track Mailto links
             $('a[href^="mailto"]').click(function () {
                 //href should not include 'mailto'
-                _sendEvent('Email', this.href.replace('mailto:', ''))
+                logClickEvent('Email', this.href.replace('mailto:', '').toLowerCase())
             });
         }
 
         if (asga_opt.track_outgoing_links === '1') {
             //Track Outbound Links
+            //@source https://css-tricks.com/snippets/jquery/target-only-external-links/
             $('a[href^="http"]').filter(function () {
-                return (this.href.indexOf(window.location.host) == -1)
+                return (this.hostname && this.hostname !== window.location.host)
             }).prop('target', '_blank')  // make sure these links open in new tab
                 .click(function () {
-                    _sendEvent('Outbound', this.href);
+                    logClickEvent('Outbound', this.href);
                 });
         }
+
 
     });
 
@@ -49,7 +56,7 @@
      * @param category string
      * @param label string
      */
-    function _sendEvent(category, label) {
+    function logClickEvent(category, label) {
         if (window.ga && ga.create) {
             //Universal event tracking
             //https://developers.google.com/analytics/devguides/collection/analyticsjs/events
@@ -57,11 +64,11 @@
                 nonInteraction: true
             });
         } else if (window._gaq && _gaq._getAsyncTracker) {
-            //classic event tracking
+            //Classic event tracking
             //https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide
             _gaq.push(['_trackEvent', category, 'click', label, 1, true]);
         } else {
-            console.info('Google analytics not loaded')
+            (window.console) ? console.info('Google analytics not loaded') : null
         }
     }
-})(window);
+})(window, window.asga_opt);
