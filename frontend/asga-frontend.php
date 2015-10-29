@@ -86,8 +86,12 @@ class Ank_Simplified_GA
         //get database options
         $options = $this->asga_options;
 
-        //check if to proceed or not
-        if (!$this->is_tracking_possible($options)) return;
+        //check if to proceed or not, return early with a message if not
+        $tracking_status = $this->is_tracking_possible();
+        if ($tracking_status !== true) {
+            $this->load_view('ga_disabled.php', array('reason' => $tracking_status));
+            return;
+        }
 
         //get tracking id
         $ga_id = esc_js($options['ga_id']);
@@ -96,7 +100,9 @@ class Ank_Simplified_GA
 
         //these flags will be used in view
         $view_array = array(
-            'gaq' => array()
+            'gaq' => array(
+                'custom_trackers' => array()
+            )
         );
 
         //check for debug mode
@@ -104,10 +110,6 @@ class Ank_Simplified_GA
 
         $view_array['js_load_later'] = absint($options['js_load_later']);
 
-        $view_array[] = array(
-            'gaq' => array(
-                'custom_trackers' => array()
-            ));
 
         global $wp_query;
 
@@ -237,12 +239,13 @@ class Ank_Simplified_GA
      */
     function add_event_tracking_js()
     {
-        //todo Load this js file only when needed
-        $is_min = (WP_DEBUG == 1) ? '' : '.min';
-        //depends on jquery
-        wp_enqueue_script('asga-event-log', plugins_url('/js/event-tracking' . $is_min . '.js', __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
-
-        wp_localize_script('asga-event-log', 'asga_opt', $this->get_js_options());
+        if ($this->is_tracking_possible() === true) {
+            $is_min = (WP_DEBUG == 1) ? '' : '.min';
+            //depends on jquery
+            wp_enqueue_script('asga-event-log', plugins_url('/js/event-tracking' . $is_min . '.js', __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
+            //wp inbuilt hack to print js options object just before this script
+            wp_localize_script('asga-event-log', 'asga_opt', $this->get_js_options());
+        }
     }
 
 
@@ -257,7 +260,7 @@ class Ank_Simplified_GA
         if (file_exists($file_path)) {
             require($file_path);
         } else {
-            echo '<!-- Error: Unable to load ASGA template file -' . esc_html(basename($file)) . ', (v' . ASGA_PLUGIN_VER . ')-->';
+            echo '<!-- Error: Unable to load ASGA template file - ' . esc_html(basename($file)) . ', (v' . ASGA_PLUGIN_VER . ')-->';
         }
     }
 
@@ -280,33 +283,30 @@ class Ank_Simplified_GA
 
     /**
      * Function determines whether to print tracking code or not
-     * @param array $options
-     * @return bool
+     * @return mixed true if possible and string if not possible
      */
-    private function is_tracking_possible($options)
+    private function is_tracking_possible()
     {
+        $options = $this->asga_options;
+
         if (is_preview()) {
-            echo '<!-- GA Tracking is disabled in preview mode -->';
-            return false;
+            return 'GA Tracking is disabled in preview mode';
         } //if GA id is not set return early with a message
         else if (empty($options['ga_id'])) {
-            echo '<!-- GA ID is not set -->';
-            return false;
+            return 'GA ID is not set';
         } //if a user is logged in
         else if (is_user_logged_in()) {
 
             if (is_multisite() && is_super_admin()) {
                 //if a network admin is logged in
                 if (isset($options['ignore_role_networkAdmin']) && ($options['ignore_role_networkAdmin'] == 1)) {
-                    echo '<!-- GA Tracking is disabled for you -->';
-                    return false;
+                    return 'GA Tracking is disabled for you';
                 }
             } else {
                 //If a normal user is logged in
                 $role = array_shift(wp_get_current_user()->roles);
                 if (isset($options['ignore_role_' . $role]) && ($options['ignore_role_' . $role] == 1)) {
-                    echo '<!-- GA Tracking is disabled for you -->';
-                    return false;
+                    return 'GA Tracking is disabled for you';
                 }
             }
         }
@@ -322,10 +322,10 @@ class Ank_Simplified_GA
     {
         $db_options = $this->asga_options;
         $js_options = array(
-            'track_mail_links' => esc_js($db_options['track_mail_links']),
-            'track_outgoing_links' => esc_js($db_options['track_outgoing_links']),
-            'track_download_links' => esc_js($db_options['track_download_links']),
-            'track_download_ext' => esc_js($db_options['track_download_ext']),
+            'mail_links' => esc_js($db_options['track_mail_links']),
+            'outgoing_links' => esc_js($db_options['track_outgoing_links']),
+            'download_links' => esc_js($db_options['track_download_links']),
+            'download_ext' => esc_js($db_options['track_download_ext']),
         );
         return $js_options;
     }

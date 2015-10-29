@@ -10,7 +10,7 @@
     //jQuery Filter Ref: http://api.jquery.com/filter/
     jQuery(function ($) {
 
-        if (asga_opt.track_download_links === '1') {
+        if (asga_opt.download_links === '1') {
             //Track Downloads
             //@source https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
             var exts = (asga_opt.track_download_ext === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asga_opt.track_download_ext.replace(/,/g, '|');
@@ -28,7 +28,7 @@
                 });
         }
 
-        if (asga_opt.track_mail_links === '1') {
+        if (asga_opt.mail_links === '1') {
             //Track Mailto links
             $('a[href^="mailto"]').click(function () {
                 //href should not include 'mailto'
@@ -36,7 +36,7 @@
             });
         }
 
-        if (asga_opt.track_outgoing_links === '1') {
+        if (asga_opt.outgoing_links === '1') {
             //Track Outbound Links
             //@source https://css-tricks.com/snippets/jquery/target-only-external-links/
             $('a[href^="http"]').filter(function () {
@@ -46,7 +46,6 @@
                     logClickEvent('Outbound', this.href);
                 });
         }
-
 
     });
 
