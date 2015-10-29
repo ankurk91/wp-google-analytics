@@ -2,7 +2,7 @@
 /**
  * uninstall.php file for this Plugin
  * This file will be used to remove all traces of this plugin when uninstalled
- *
+ * @package Ank-Simplified-GA
  */
 
 

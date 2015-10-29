@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ank Simplified GA\n"
 "Report-Msgid-Bugs-To: https://github.com/ank91/ank-simplified-ga/issues\n"
-"POT-Creation-Date: 2015-10-18 09:24+0530\n"
+"POT-Creation-Date: 2015-10-25 16:21+0530\n"
 "PO-Revision-Date: 2015-09-27 18:48+0530\n"
 "Last-Translator: ank91\n"
 "Language-Team: \n"
@@ -20,228 +20,250 @@ msgstr ""
 "_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
 "esc_html_x:1,2c\n"
 "X-Textdomain-Support: yes\n"
-"X-Poedit-SearchPath-0: asga-admin.php\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: js\n"
 
-#: asga-admin.php:103
+#: asga-admin.php:105
 msgid "Settings"
 msgstr ""
 
-#: asga-admin.php:135
+#: asga-admin.php:138
 msgid "Network Administrator"
 msgstr ""
 
-#: asga-admin.php:195
+#: asga-admin.php:209
 msgid "Your GA tracking ID seems invalid. Please validate."
 msgstr ""
 
-#: asga-admin.php:238
+#: asga-admin.php:253
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: asga-admin.php:243
+#: asga-admin.php:334
+msgid ""
+"Google Analytics debug mode is enabled for this site. Don't forget to "
+"disable this option in production."
+msgstr ""
+
+#: views/settings_page.php:15
 msgid "Ank Simplified Google Analytics"
 msgstr ""
 
-#: asga-admin.php:246
+#: views/settings_page.php:18
 msgid "General"
 msgstr ""
 
-#: asga-admin.php:247
+#: views/settings_page.php:19
 msgid "Advanced"
 msgstr ""
 
-#: asga-admin.php:248
+#: views/settings_page.php:20
 msgid "Monitor"
 msgstr ""
 
-#: asga-admin.php:249
+#: views/settings_page.php:21
 msgid "Control"
 msgstr ""
 
-#: asga-admin.php:250
+#: views/settings_page.php:22
 msgid "Troubleshoot"
 msgstr ""
 
-#: asga-admin.php:263
+#: views/settings_page.php:35
 msgid "Google Analytics tracking ID"
 msgstr ""
 
-#: asga-admin.php:267
+#: views/settings_page.php:39
 msgid "Paste your Google Analytics tracking ID e.g."
 msgstr ""
 
-#: asga-admin.php:271
+#: views/settings_page.php:43
 msgid "Analytics version"
 msgstr ""
 
-#: asga-admin.php:274
+#: views/settings_page.php:46
 msgid "Universal"
 msgstr ""
 
-#: asga-admin.php:275
+#: views/settings_page.php:47
 msgid "Classic"
 msgstr ""
 
-#: asga-admin.php:281
+#: views/settings_page.php:53
 msgid "Set domain"
 msgstr ""
 
-#: asga-admin.php:292
+#: views/settings_page.php:64
 msgid "Google webmaster code"
 msgstr ""
 
-#: asga-admin.php:293
+#: views/settings_page.php:65
 msgid "Optional"
 msgstr ""
 
-#: asga-admin.php:295
+#: views/settings_page.php:67
 msgid "Paste your Google webmaster verification code here"
 msgstr ""
 
-#: asga-admin.php:303
+#: views/settings_page.php:75
 msgid "Demographics and Interest Reports"
 msgstr ""
 
-#: asga-admin.php:304 asga-admin.php:311 asga-admin.php:317 asga-admin.php:323
+#: views/settings_page.php:76 views/settings_page.php:83
+#: views/settings_page.php:89 views/settings_page.php:95
 msgid "Check to enable"
 msgstr ""
 
-#: asga-admin.php:306
+#: views/settings_page.php:78
 msgid "Remarketing"
 msgstr ""
 
-#: asga-admin.php:306
+#: views/settings_page.php:78
 msgid "Demographics and Interest Reporting"
 msgstr ""
 
-#: asga-admin.php:310
+#: views/settings_page.php:82
 msgid "Enhanced Link Attribution"
 msgstr ""
 
-#: asga-admin.php:316
+#: views/settings_page.php:88
 msgid "Cross-domain user tracking"
 msgstr ""
 
-#: asga-admin.php:322
+#: views/settings_page.php:94
 msgid "Campaign tracking"
 msgstr ""
 
-#: asga-admin.php:328 asga-admin.php:329
+#: views/settings_page.php:100 views/settings_page.php:101
 msgid "Anonymize IP"
 msgstr ""
 
-#: asga-admin.php:334 asga-admin.php:335
+#: views/settings_page.php:106 views/settings_page.php:107
 msgid "Force SSL"
 msgstr ""
 
-#: asga-admin.php:336
+#: views/settings_page.php:108
 msgid "Transmit data over https (secure) connection"
 msgstr ""
 
-#: asga-admin.php:340
+#: views/settings_page.php:112
 msgid "Custom trackers"
 msgstr ""
 
-#: asga-admin.php:342
+#: views/settings_page.php:114
 msgid "To be added before the"
 msgstr ""
 
-#: asga-admin.php:342
+#: views/settings_page.php:114
 msgid "pageview"
 msgstr ""
 
-#: asga-admin.php:342
+#: views/settings_page.php:114
 msgid "call"
 msgstr ""
 
-#: asga-admin.php:350
+#: views/settings_page.php:122
 msgid "Event tracking"
 msgstr ""
 
-#: asga-admin.php:354
+#: views/settings_page.php:126
 msgid "Log 404 errors as events"
 msgstr ""
 
-#: asga-admin.php:355
+#: views/settings_page.php:127
 msgid "Log searched items as page views"
 msgstr ""
 
-#: asga-admin.php:367
+#: views/settings_page.php:128
+msgid "Track mailto links as event"
+msgstr ""
+
+#: views/settings_page.php:129
+msgid "Track outbound links as event"
+msgstr ""
+
+#: views/settings_page.php:130
+msgid "Track downloads as event"
+msgstr ""
+
+#: views/settings_page.php:142
+msgid "Extensions for downloads"
+msgstr ""
+
+#: views/settings_page.php:145
+msgid "Please use comma (,) separated values"
+msgstr ""
+
+#: views/settings_page.php:150
 msgid "Stop analytics when"
 msgstr ""
 
-#: asga-admin.php:373
+#: views/settings_page.php:156
 msgid "is logged in"
 msgstr ""
 
-#: asga-admin.php:384
+#: views/settings_page.php:167
 msgid "Code location"
 msgstr ""
 
-#: asga-admin.php:387
+#: views/settings_page.php:170
 msgid "Place in document header"
 msgstr ""
 
-#: asga-admin.php:388
+#: views/settings_page.php:171
 msgid "Place in document footer"
 msgstr ""
 
-#: asga-admin.php:393
+#: views/settings_page.php:176
 msgid "Code execution"
 msgstr ""
 
-#: asga-admin.php:396
+#: views/settings_page.php:179
 msgid "Immediately"
 msgstr ""
 
-#: asga-admin.php:397
+#: views/settings_page.php:180
 msgid "On page load"
 msgstr ""
 
-#: asga-admin.php:402
+#: views/settings_page.php:185
 msgid "Action priority"
 msgstr ""
 
-#: asga-admin.php:404
+#: views/settings_page.php:187
 msgid "0 means highest priority"
 msgstr ""
 
-#: asga-admin.php:412
+#: views/settings_page.php:195
 msgid "Debug mode"
 msgstr ""
 
-#: asga-admin.php:413
+#: views/settings_page.php:196
 msgid "Enable debugging mode for administrators"
 msgstr ""
 
-#: asga-admin.php:416
+#: views/settings_page.php:199
 msgid ""
 "This should only be used temporarily or during development, don't forget to "
 "disable it in production"
 msgstr ""
 
-#: asga-admin.php:420
+#: views/settings_page.php:203
 msgid "Debug database options"
 msgstr ""
 
-#: asga-admin.php:430
+#: views/settings_page.php:213
 msgid "Developed by"
 msgstr ""
 
-#: asga-admin.php:431
+#: views/settings_page.php:214
 msgid "Fork on"
 msgstr ""
 
-#: asga-admin.php:432
+#: views/settings_page.php:215
 msgid "Rate this on"
 msgstr ""
 
-#: asga-admin.php:432
+#: views/settings_page.php:215
 msgid "WordPress"
-msgstr ""
-
-#: asga-admin.php:511
-msgid ""
-"Google Analytics debug mode is enabled for this site. Don't forget to "
-"disable this option in production."
 msgstr ""
