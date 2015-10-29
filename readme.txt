@@ -2,7 +2,7 @@
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite, webmaster
 Requires at least: 3.8.0
 Tested up to: 4.3.1
-Stable tag: 0.9.5
+Stable tag: 0.9.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -36,7 +36,9 @@ Track your WordPress website with Google Analytics service.
 * Debugging mode
 * Force SSL
 * Link to Google Webmaster
-
+* Track outgoing links as event
+* Track downloads as event
+* Track mailto links as mail
 
 > <strong>Found bugs ?</strong><br>
 > I am happy to resolve bugs, report your bugs [here](https://github.com/ank91/ank-simplified-ga/issues)<br>
@@ -165,6 +167,9 @@ You can search google like 'Linking google analytics to webmaster'
 
 
 == Changelog ==
+
+= 0.9.6 =
+* New: Event tracking, tracking outbound links , track downloads
 
 = 0.9.5 =
 * Bug Fix: Admin role was not being ignored

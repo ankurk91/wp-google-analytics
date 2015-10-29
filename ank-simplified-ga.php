@@ -2,8 +2,8 @@
 /*
 Plugin Name: Ank Simplified Google Analytics
 Plugin URI: https://github.com/ank91/ank-simplified-ga
-Description: Simple, light weight, and non-bloated WordPress Google Analytics Plugin.
-Version: 0.9.5
+Description: Simple, light weight, and non-bloated <a target="_blank" href="https://www.google.co.in/analytics/">Google Analytics</a> plugin for WordPress.
+Version: 0.9.6
 Author: Ankur Kumar
 Author URI: http://ank91.github.io/
 License: GPL2
@@ -16,7 +16,7 @@ Domain Path: /languages
 /* No direct access*/
 if (!defined('ABSPATH')) exit;
 
-define('ASGA_PLUGIN_VER', '0.9.5');
+define('ASGA_PLUGIN_VER', '0.9.6');
 define('ASGA_BASE_FILE', plugin_basename(__FILE__));
 define('ASGA_OPTION_NAME', 'asga_options');
 define('ASGA_TEXT_DOMAIN', 'ank-simplified-ga');
