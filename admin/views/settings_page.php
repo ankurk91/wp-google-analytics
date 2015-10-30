@@ -183,7 +183,7 @@
                     </tr>
                     <tr>
                         <th scope="row"><?php _e('Action priority',ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td><input type="number" min="0" max="999" placeholder="20" name="asga_options[js_priority]" value="<?php echo esc_attr($options['js_priority']); ?>">
+                        <td><input type="number" placeholder="20" name="asga_options[js_priority]" value="<?php echo esc_attr($options['js_priority']); ?>">
                             <p class="description"><?php _e('0 means highest priority',ASGA_TEXT_DOMAIN) ?></p>
                         </td>
                     </tr>
