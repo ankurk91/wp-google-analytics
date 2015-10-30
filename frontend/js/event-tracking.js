@@ -24,15 +24,15 @@
                 }
             }).prop('download', '') //force download of these files
                 .click(function (e) {
-                    logClickEvent('Downloads', this.href)
+                    logClickEvent('Downloads', this.href, e)
                 });
         }
 
         if (asga_opt.mail_links === '1') {
             //Track Mailto links
-            $('a[href^="mailto"]').click(function () {
+            $('a[href^="mailto"]').click(function (e) {
                 //href should not include 'mailto'
-                logClickEvent('Email', this.href.replace('mailto:', '').toLowerCase())
+                logClickEvent('Email', this.href.replace('mailto:', '').toLowerCase(), e)
             });
         }
 
@@ -42,8 +42,8 @@
             $('a[href^="http"]').filter(function () {
                 return (this.hostname && this.hostname !== window.location.host)
             }).prop('target', '_blank')  // make sure these links open in new tab
-                .click(function () {
-                    logClickEvent('Outbound', this.href);
+                .click(function (e) {
+                    logClickEvent('Outbound', this.href, e);
                 });
         }
 
@@ -54,8 +54,12 @@
      * @ref https://support.google.com/analytics/answer/1033068
      * @param category string
      * @param label string
+     * @param event click event
      */
-    function logClickEvent(category, label) {
+    function logClickEvent(category, label, event) {
+        //return early if event.preventDefault() was ever called on this event object.
+        if (event.isDefaultPrevented()) return;
+
         if (window.ga && ga.create) {
             //Universal event tracking
             //https://developers.google.com/analytics/devguides/collection/analyticsjs/events
