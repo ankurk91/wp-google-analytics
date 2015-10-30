@@ -13,7 +13,7 @@
         if (asga_opt.download_links === '1') {
             //Track Downloads
             //@source https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
-            var exts = (asga_opt.track_download_ext === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asga_opt.track_download_ext.replace(/,/g, '|');
+            var exts = (asga_opt.download_ext === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asga_opt.download_ext.replace(/,/g, '|');
             //@source https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp
             var regExt = new RegExp(".*\\.(" + exts + ")(\\?.*)?$");
 
