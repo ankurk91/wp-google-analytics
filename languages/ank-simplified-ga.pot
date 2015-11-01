@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ank Simplified GA\n"
 "Report-Msgid-Bugs-To: https://github.com/ank91/ank-simplified-ga/issues\n"
-"POT-Creation-Date: 2015-10-25 16:21+0530\n"
+"POT-Creation-Date: 2015-11-01 11:48+0530\n"
 "PO-Revision-Date: 2015-09-27 18:48+0530\n"
 "Last-Translator: ank91\n"
 "Language-Team: \n"
@@ -23,23 +23,23 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: js\n"
 
-#: asga-admin.php:105
+#: asga-admin.php:106
 msgid "Settings"
 msgstr ""
 
-#: asga-admin.php:138
-msgid "Network Administrator"
-msgstr ""
-
-#: asga-admin.php:209
+#: asga-admin.php:194
 msgid "Your GA tracking ID seems invalid. Please validate."
 msgstr ""
 
-#: asga-admin.php:253
+#: asga-admin.php:239
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: asga-admin.php:334
+#: asga-admin.php:343
+msgid "Network Administrator"
+msgstr ""
+
+#: asga-admin.php:359
 msgid ""
 "Google Analytics debug mode is enabled for this site. Don't forget to "
 "disable this option in production."
@@ -58,7 +58,7 @@ msgid "Advanced"
 msgstr ""
 
 #: views/settings_page.php:20
-msgid "Monitor"
+msgid "Track & Monitor"
 msgstr ""
 
 #: views/settings_page.php:21
@@ -175,15 +175,15 @@ msgid "Log searched items as page views"
 msgstr ""
 
 #: views/settings_page.php:128
-msgid "Track mailto links as event"
+msgid "Track email links as events"
 msgstr ""
 
 #: views/settings_page.php:129
-msgid "Track outbound links as event"
+msgid "Track outbound links as events"
 msgstr ""
 
 #: views/settings_page.php:130
-msgid "Track downloads as event"
+msgid "Track downloads as events"
 msgstr ""
 
 #: views/settings_page.php:142
@@ -195,75 +195,87 @@ msgid "Please use comma (,) separated values"
 msgstr ""
 
 #: views/settings_page.php:150
+msgid "Outbound link tracking type"
+msgstr ""
+
+#: views/settings_page.php:153
+msgid "Just the domain"
+msgstr ""
+
+#: views/settings_page.php:154
+msgid "Full URL"
+msgstr ""
+
+#: views/settings_page.php:159
 msgid "Stop analytics when"
 msgstr ""
 
-#: views/settings_page.php:156
+#: views/settings_page.php:165
 msgid "is logged in"
 msgstr ""
 
-#: views/settings_page.php:167
+#: views/settings_page.php:176
 msgid "Code location"
 msgstr ""
 
-#: views/settings_page.php:170
+#: views/settings_page.php:179
 msgid "Place in document header"
 msgstr ""
 
-#: views/settings_page.php:171
+#: views/settings_page.php:180
 msgid "Place in document footer"
 msgstr ""
 
-#: views/settings_page.php:176
+#: views/settings_page.php:185
 msgid "Code execution"
 msgstr ""
 
-#: views/settings_page.php:179
+#: views/settings_page.php:188
 msgid "Immediately"
 msgstr ""
 
-#: views/settings_page.php:180
+#: views/settings_page.php:189
 msgid "On page load"
 msgstr ""
 
-#: views/settings_page.php:185
+#: views/settings_page.php:194
 msgid "Action priority"
 msgstr ""
 
-#: views/settings_page.php:187
+#: views/settings_page.php:196
 msgid "0 means highest priority"
 msgstr ""
 
-#: views/settings_page.php:195
+#: views/settings_page.php:204
 msgid "Debug mode"
 msgstr ""
 
-#: views/settings_page.php:196
+#: views/settings_page.php:205
 msgid "Enable debugging mode for administrators"
 msgstr ""
 
-#: views/settings_page.php:199
+#: views/settings_page.php:208
 msgid ""
 "This should only be used temporarily or during development, don't forget to "
 "disable it in production"
 msgstr ""
 
-#: views/settings_page.php:203
+#: views/settings_page.php:212
 msgid "Debug database options"
 msgstr ""
 
-#: views/settings_page.php:213
+#: views/settings_page.php:222
 msgid "Developed by"
 msgstr ""
 
-#: views/settings_page.php:214
+#: views/settings_page.php:223
 msgid "Fork on"
 msgstr ""
 
-#: views/settings_page.php:215
+#: views/settings_page.php:224
 msgid "Rate this on"
 msgstr ""
 
-#: views/settings_page.php:215
+#: views/settings_page.php:224
 msgid "WordPress"
 msgstr ""

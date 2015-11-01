@@ -1,7 +1,7 @@
 /**
  * Ank-Simplified-GA event tracking
  */
-(function (window, asga_opt) {
+(function (window, asga_opt, jQuery) {
     'use strict';
     //if options not exists then exit early
     if (typeof asga_opt === 'undefined' || asga_opt.length === 0) {
@@ -40,10 +40,10 @@
             //Track Outbound Links
             //@source https://css-tricks.com/snippets/jquery/target-only-external-links/
             $('a[href^="http"]').filter(function () {
-                return (this.hostname && this.hostname !== window.location.host)
+                return (this.hostname && this.hostname !== window.location.hostname)
             }).prop('target', '_blank')  // make sure these links open in new tab
                 .click(function (e) {
-                    logClickEvent('Outbound', this.href, e);
+                    logClickEvent('Outbound', (asga_opt.outbound_link_type === '1') ? this.hostname : this.href, e);
                 });
         }
 
@@ -74,4 +74,4 @@
             (window.console) ? console.info('Google analytics not loaded') : null
         }
     }
-})(window, window.asga_opt);
+})(window, window.asga_opt, jQuery);

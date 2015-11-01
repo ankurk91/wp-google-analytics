@@ -17,7 +17,7 @@
     <h2 class="nav-tab-wrapper" id="ga-tabs">
         <a class="nav-tab" id="ga-general-tab" href="#top#ga-general"><?php _e('General',ASGA_TEXT_DOMAIN) ?></a>
         <a class="nav-tab" id="ga-advanced-tab" href="#top#ga-advanced"><?php _e('Advanced',ASGA_TEXT_DOMAIN) ?></a>
-        <a class="nav-tab" id="ga-events-tab" href="#top#ga-events"><?php _e('Monitor',ASGA_TEXT_DOMAIN) ?></a>
+        <a class="nav-tab" id="ga-events-tab" href="#top#ga-events"><?php _e('Track & Monitor',ASGA_TEXT_DOMAIN) ?></a>
         <a class="nav-tab" id="ga-control-tab" href="#top#ga-control"><?php _e('Control',ASGA_TEXT_DOMAIN) ?></a>
         <a class="nav-tab" id="ga-troubleshoot-tab" href="#top#ga-troubleshoot"><?php _e('Troubleshoot',ASGA_TEXT_DOMAIN) ?></a>
     </h2><!--.nav-tab-wrapper-->
@@ -33,7 +33,7 @@
                 <table class="form-table">
                     <tr>
                         <th scope="row"><?php _e('Google Analytics tracking ID',ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td><input type="text" placeholder="UA-012345678-9" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>">
+                        <td><input type="text" size="25" placeholder="UA-012345678-9" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>">
                             <a title="Help" target="_blank" href="https://support.google.com/analytics/answer/1032385"><i class="dashicons-before dashicons-editor-help"></i></a>
                             <br>
                             <p class="description"><?php _e('Paste your Google Analytics tracking ID e.g.',ASGA_TEXT_DOMAIN) ?> ("<code>UA-XXXXXXXX-X</code>")</p>
@@ -51,7 +51,7 @@
                     </tr>
                     <tr>
                         <th scope="row"><?php _e('Set domain',ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td><input type="text" placeholder="auto" name="asga_options[ga_domain]" value="<?php echo esc_attr($options['ga_domain']); ?>">
+                        <td><input type="text" size="25" placeholder="auto" name="asga_options[ga_domain]" value="<?php echo esc_attr($options['ga_domain']); ?>">
                             <?php
                             //print sub-domain url on screen , when multi-site is enabled
                             if(!is_main_site()){
@@ -62,7 +62,7 @@
                     </tr>
                     <tr>
                         <th scope="row"><?php _e('Google webmaster code',ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td><input type="text" autocomplete="off" placeholder="<?php _e('Optional',ASGA_TEXT_DOMAIN) ?>" name="asga_options[webmaster][google_code]" value="<?php echo esc_attr($options['webmaster']['google_code']); ?>">
+                        <td><input type="text" size="25" autocomplete="off" placeholder="<?php _e('Optional',ASGA_TEXT_DOMAIN) ?>" name="asga_options[webmaster][google_code]" value="<?php echo esc_attr($options['webmaster']['google_code']); ?>">
                             <a title="Help" href="https://www.google.com/webmasters/tools/home?hl=en" target="_blank"><i class="dashicons-before dashicons-editor-help"></i></a>
                             <p class="description"><?php _e('Paste your Google webmaster verification code here',ASGA_TEXT_DOMAIN) ?></p>
                         </td>
@@ -125,9 +125,9 @@
                                 $events = array(
                                     'log_404' => __('Log 404 errors as events', ASGA_TEXT_DOMAIN),
                                     'log_search' => __('Log searched items as page views', ASGA_TEXT_DOMAIN),
-                                    'track_mail_links' => __('Track mailto links as event', ASGA_TEXT_DOMAIN),
-                                    'track_outgoing_links' => __('Track outbound links as event', ASGA_TEXT_DOMAIN),
-                                    'track_download_links' => __('Track downloads as event', ASGA_TEXT_DOMAIN),
+                                    'track_mail_links' => __('Track email links as events', ASGA_TEXT_DOMAIN),
+                                    'track_outbound_links' => __('Track outbound links as events', ASGA_TEXT_DOMAIN),
+                                    'track_download_links' => __('Track downloads as events', ASGA_TEXT_DOMAIN),
                                 );
                                 //loop through each event item
                                 foreach ($events as $event => $label) {
@@ -141,14 +141,23 @@
                     <tr>
                         <th><?php _e('Extensions for downloads', ASGA_TEXT_DOMAIN) ?> :</th>
                         <td>
-                            <input size="30" type="text" placeholder="doc,docx,xls,xlsx,pdf,zip,rar,exe" name="asga_options[track_download_ext]" value="<?php echo esc_attr($options['track_download_ext']); ?>">
+                            <input size="25" type="text" placeholder="doc,docx,xls,xlsx,pdf,zip,rar,exe" name="asga_options[track_download_ext]" value="<?php echo esc_attr($options['track_download_ext']); ?>">
                             <p class="description"><?php _e('Please use comma (,) separated values', ASGA_TEXT_DOMAIN) ?> .</p>
                         <td>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php _e('Stop analytics when',ASGA_TEXT_DOMAIN) ?> :</th>
+                        <th><?php _e('Outbound link tracking type', ASGA_TEXT_DOMAIN) ?> :</th>
                         <td>
+                            <select name="asga_options[track_outbound_link_type]">
+                                <option value="1" <?php selected($options['track_outbound_link_type'], 1) ?>><?php _e('Just the domain',ASGA_TEXT_DOMAIN) ?></option>
+                                <option value="0" <?php selected($options['track_outbound_link_type'], 0) ?>><?php _e('Full URL',ASGA_TEXT_DOMAIN) ?></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php _e('Stop analytics when',ASGA_TEXT_DOMAIN) ?> :</th>
+                        <td><fieldset>
                             <?php
                             foreach ($this->get_all_roles() as $role) {
                                 echo '<label>';
@@ -156,7 +165,7 @@
                                 echo '&ensp;' . esc_attr($role['name']) . ' '.__('is logged in',ASGA_TEXT_DOMAIN);
                                echo '</label><br />';
                             }
-                            ?>
+                            ?></fieldset>
                         </td>
                     </tr>
                 </table>
@@ -183,7 +192,7 @@
                     </tr>
                     <tr>
                         <th scope="row"><?php _e('Action priority',ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td><input type="number" placeholder="20" name="asga_options[js_priority]" value="<?php echo esc_attr($options['js_priority']); ?>">
+                        <td><input type="number" size="25" placeholder="20" name="asga_options[js_priority]" value="<?php echo esc_attr($options['js_priority']); ?>">
                             <p class="description"><?php _e('0 means highest priority',ASGA_TEXT_DOMAIN) ?></p>
                         </td>
                     </tr>
@@ -215,3 +224,4 @@
         ★ <?php _e('Rate this on',ASGA_TEXT_DOMAIN) ?> <a href="https://wordpress.org/support/view/plugin-reviews/ank-simplified-ga?filter=5" target="_blank"><?php _e('WordPress') ?></a>
     </p>
 </div> <!-- .wrap-->
+<script type="text/javascript">window.jQuery || console.error('Could not find jQuery. This page needs jQuery to work.')</script>

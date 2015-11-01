@@ -1,4 +1,4 @@
-# Prevent execution of php files in this folder
+# Prevent direct access of php files in this folder
 <FilesMatch "\.(?i:php)$">
   <IfModule !mod_authz_core.c>
     Order allow,deny
