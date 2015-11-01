@@ -32,7 +32,7 @@
             //Track Mailto links
             $('a[href^="mailto"]').click(function (e) {
                 //href should not include 'mailto'
-                logClickEvent('Email', this.href.replace('mailto:', '').toLowerCase(), e)
+                logClickEvent('Email', this.href.replace(/^mailto\:/i, '').toLowerCase(), e)
             });
         }
 
@@ -59,6 +59,9 @@
     function logClickEvent(category, label, event) {
         //return early if event.preventDefault() was ever called on this event object.
         if (event.isDefaultPrevented()) return;
+
+        //label is not set then exit
+        if(typeof label === 'undefined' || label==='') return;
 
         if (window.ga && ga.create) {
             //Universal event tracking
