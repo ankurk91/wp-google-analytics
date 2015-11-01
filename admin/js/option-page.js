@@ -1,7 +1,7 @@
 /**
  * Ank-Simplified-GA option-page tab handling
  */
-(function (window) {
+(function (window, jQuery) {
     'use strict';
 
     jQuery(function ($) {
@@ -38,4 +38,4 @@
             input.val(split[0] + '?page=asga_options_page#top#' + url);
         }
     });
-})(window);
+})(window, jQuery);

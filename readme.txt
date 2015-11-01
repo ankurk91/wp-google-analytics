@@ -3,7 +3,7 @@ Tags: google analytics, tracking, light weight, simple, easy, free , multisite, 
 Requires at least: 3.8.0
 Tested up to: 4.3.1
 Stable tag: 0.9.7
-License: GPLv2 or later
+License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
 
@@ -66,7 +66,7 @@ Track your WordPress website with Google Analytics service.
 
 = What is different with this plugin ? =
 
-WordPress plugin directory already have many of these kind of plugins.
+WordPress plugin directory already filled with many of these kind of plugins.
 But not all are optimized for performance.
 Most of them lacks some features, while some of them cover unused features.
 
@@ -79,14 +79,14 @@ So give it a try , i am sure you will not regret for your decision.
 There may be several reasons for this.
 
 * Make sure you have entered a valid tracking ID.
-* Check if tracking is not disabled for current logged in user.
+* Check if tracking is not disabled for current logged in user type.
 * Try to flush/delete your site cache.
 * Try re-installing the plugin.
 
 
 = Changes does not reflect after saving settings ? =
 
-Are you using some Cache/Performance plugin (eg:WP Super Cache/W3 Total Cache) ?
+Are you using some Cache/Performance plugin (eg: WP Super Cache/W3 Total Cache) ?
 
 Then flush your WP cache after saving settings.
 
@@ -101,7 +101,7 @@ Uses a Single Row, stored in array for faster access.
 
 No worry! It will remove its traces from database upon uninstall.
 
-It will also disable tracking by remove code from front-end.
+It will also disable tracking by removing the code from front-end.
 
 = Where to find my GA Tracking ID ? =
 
@@ -172,6 +172,7 @@ You can search google like 'Linking google analytics to webmaster'
 = 0.9.7 =
 * Code organization
 * Minor bug fixes
+* Tweak Docs
 
 = 0.9.6 =
 * New: Event tracking, tracking outbound links , track downloads
@@ -264,6 +265,6 @@ You can search google like 'Linking google analytics to webmaster'
 
 
 
-== Upgrade Notes ==
+== Other Notes ==
 
 You should be running minimum of v0.9.0 of this plugin.
