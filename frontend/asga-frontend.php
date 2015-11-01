@@ -323,13 +323,13 @@ class Ank_Simplified_GA
             if (is_multisite() && is_super_admin()) {
                 //if a network admin is logged in
                 if (isset($options['ignore_role_networkAdmin']) && ($options['ignore_role_networkAdmin'] == 1)) {
-                    return 'GA Tracking is disabled for you';
+                    return 'GA Tracking is disabled for networkAdmin';
                 }
             } else {
                 //If a normal user is logged in
                 $role = array_shift(wp_get_current_user()->roles);
                 if (isset($options['ignore_role_' . $role]) && ($options['ignore_role_' . $role] == 1)) {
-                    return 'GA Tracking is disabled for you';
+                    return 'GA Tracking is disabled for this role';
                 }
             }
         }
@@ -346,9 +346,10 @@ class Ank_Simplified_GA
         $db_options = $this->asga_options;
         $js_options = array(
             'mail_links' => esc_js($db_options['track_mail_links']),
-            'outgoing_links' => esc_js($db_options['track_outgoing_links']),
+            'outgoing_links' => esc_js($db_options['track_outbound_links']),
             'download_links' => esc_js($db_options['track_download_links']),
             'download_ext' => esc_js($db_options['track_download_ext']),
+            'outbound_link_type' => esc_js($db_options['track_outbound_link_type']),
         );
         return $js_options;
     }
