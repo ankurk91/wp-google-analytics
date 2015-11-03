@@ -36,7 +36,7 @@
                         <td><input type="text" size="25" placeholder="UA-012345678-9" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>">
                             <a title="Help" target="_blank" href="https://support.google.com/analytics/answer/1032385"><i class="dashicons-before dashicons-editor-help"></i></a>
                             <br>
-                            <p class="description"><?php _e('Paste your Google Analytics tracking ID e.g.',ASGA_TEXT_DOMAIN) ?> ("<code>UA-XXXXXXXX-X</code>")</p>
+                            <p class="description"><?php _e('Paste your Google Analytics tracking ID e.g.',ASGA_TEXT_DOMAIN) ?> ("<code>UA-XXXXXXXX-Y</code>")</p>
                         </td>
                     </tr>
                     <tr>
@@ -53,7 +53,7 @@
                         <th scope="row"><?php _e('Set domain',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><input type="text" size="25" placeholder="auto" name="asga_options[ga_domain]" value="<?php echo esc_attr($options['ga_domain']); ?>">
                             <?php
-                            //print sub-domain url on screen , when multi-site is enabled
+                            //print sub-domain url if multi-site is enabled
                             if(!is_main_site()){
                                 printf('<br><p class="description"><code>%s</code></p>',get_blogaddress_by_id(get_current_blog_id())) ;
                             }
