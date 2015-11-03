@@ -107,7 +107,7 @@ class Ank_Simplified_GA
         //check for debug mode
         $view_array['debug_mode'] = $this->check_debug_mode($options);
 
-        $view_array['js_load_later'] = absint($options['js_load_later']);
+        $view_array['js_load_later'] = (absint($options['js_load_later'])===1);
 
 
         if ($options['ua_enabled'] == 1) {

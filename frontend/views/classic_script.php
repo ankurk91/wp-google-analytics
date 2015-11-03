@@ -3,7 +3,7 @@
 <script type="text/javascript">
 var _gaq = _gaq || [];
 <?php
-if($options['js_load_later'] === 1){ ?>
+if($options['js_load_later'] === true){ ?>
 function _loadGA() {
 <?php }
 echo $options['ela_plugin_url'];
@@ -22,7 +22,7 @@ ga.src = <?php echo $options['ga_src']; ?>;
 var s = document.getElementsByTagName('script')[0];
 s.parentNode.insertBefore(ga, s);
 })();
-<?php if($options['js_load_later'] === 1) {?>
+<?php if($options['js_load_later'] === true) {?>
 }
 window.addEventListener ? window.addEventListener("load", _loadGA, !1) : window.attachEvent ? window.attachEvent("onload", _loadGA) : window.onload = _loadGA;
 <?php }?>
