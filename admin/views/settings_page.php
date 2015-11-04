@@ -16,8 +16,8 @@
 
     <h2 class="nav-tab-wrapper" id="ga-tabs">
         <a class="nav-tab" id="ga-general-tab" href="#top#ga-general"><?php _e('General',ASGA_TEXT_DOMAIN) ?></a>
-        <a class="nav-tab" id="ga-advanced-tab" href="#top#ga-advanced"><?php _e('Advanced',ASGA_TEXT_DOMAIN) ?></a>
         <a class="nav-tab" id="ga-events-tab" href="#top#ga-events"><?php _e('Track & Monitor',ASGA_TEXT_DOMAIN) ?></a>
+        <a class="nav-tab" id="ga-advanced-tab" href="#top#ga-advanced"><?php _e('Advanced',ASGA_TEXT_DOMAIN) ?></a>
         <a class="nav-tab" id="ga-control-tab" href="#top#ga-control"><?php _e('Control',ASGA_TEXT_DOMAIN) ?></a>
         <a class="nav-tab" id="ga-troubleshoot-tab" href="#top#ga-troubleshoot"><?php _e('Troubleshoot',ASGA_TEXT_DOMAIN) ?></a>
     </h2><!--.nav-tab-wrapper-->

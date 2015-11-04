@@ -35,10 +35,10 @@ Track your WordPress website with Google Analytics service.
 * Disable tracking when Network Admin is logged-in
 * Debugging mode
 * Force SSL
-* Link to Google Webmaster
+* Google Webmaster site verification
 * Track outgoing links as event
 * Track downloads as event
-* Track mailto links as mail
+* Track mailto links as event
 
 > <strong>Found bugs ?</strong><br>
 > I am happy to resolve bugs, report your bugs [here](https://github.com/ank91/ank-simplified-ga/issues)<br>
