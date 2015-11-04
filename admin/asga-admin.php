@@ -204,7 +204,7 @@ class Ank_Simplified_GA_Admin
 
         $out['js_priority'] = (empty($in['js_priority'])) ? 20 : absint($in['js_priority']);
 
-        $out['ga_domain'] = sanitize_text_field($in['ga_domain']);
+        $out['ga_domain'] = sanitize_text_field(($in['ga_domain']));
 
         $out['custom_trackers'] = trim($in['custom_trackers']);
 
