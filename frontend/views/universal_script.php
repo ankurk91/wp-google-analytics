@@ -1,8 +1,8 @@
 
-<!--Universal GA Tracking start<?php if ($options['debug_mode'] === true) { ?>, Debugging is on<?php } ?> -->
+<!-- Universal GA Tracking start<?php if ($options['debug_mode'] === true) { ?>, Debugging is on<?php } ?> -->
 <script type="text/javascript">
 <?php
-if($options['js_load_later'] === 1){?>
+if($options['js_load_later'] === true){?>
 function _loadGA() {
 <?php }
 if($options['debug_mode'] === true){ ?>
@@ -19,9 +19,9 @@ if(!is_array($item)){
     echo $item['custom_trackers']."\n";
 }
 }
-if($options['js_load_later'] === 1) {?>
+if($options['js_load_later'] === true) {?>
 }
 window.addEventListener ? window.addEventListener("load", _loadGA, !1) : window.attachEvent ? window.attachEvent("onload", _loadGA) : window.onload = _loadGA;
 <?php }  ?>
 </script>
-<!--GA Tracking ends (v<?php echo ASGA_PLUGIN_VER ?>)-->
+<!-- GA Tracking ends (v<?php echo ASGA_PLUGIN_VER ?>) -->

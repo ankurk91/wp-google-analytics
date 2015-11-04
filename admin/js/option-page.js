@@ -1,22 +1,10 @@
 /**
  * Ank-Simplified-GA option-page tab handling
  */
-(function (window) {
+(function (window, jQuery) {
     'use strict';
 
     jQuery(function ($) {
-        var ga_tabs = $('h2#ga-tabs');
-        ga_tabs.find('a').click(function () {
-            //disable all tabs
-            ga_tabs.find('a').removeClass('nav-tab-active');
-            $('div.tab-content').removeClass('active');
-            //activate current tab only
-            var id = $(this).attr('id').replace('-tab', '');
-            $('#' + id).addClass('active');
-            $(this).addClass('nav-tab-active');
-            //set return tab on click vent
-            set_redirect_url(id);
-        });
         //get requested tab from url
         var activeTab = window.location.hash.replace('#top#', '');
         //if there no active tab found , set first tab as active
@@ -25,9 +13,23 @@
         $('#' + activeTab + '-tab').addClass('nav-tab-active');
         //set return tab on page load
         set_redirect_url(activeTab);
+
+        var ga_tabs = $('h2#ga-tabs');
+        ga_tabs.find('a.nav-tab').click(function () {
+            //hide all tabs
+            ga_tabs.find('a.nav-tab').removeClass('nav-tab-active');
+            $('div.tab-content').removeClass('active');
+            //activate current tab only
+            var id = $(this).attr('id').replace('-tab', '');
+            $('#' + id).addClass('active');
+            $(this).addClass('nav-tab-active');
+            //set return tab on click vent
+            set_redirect_url(id);
+        });
+
         /**
          * Set redirect url into form's input:hidden
-         * @param url
+         * @param url string
          */
         function set_redirect_url(url) {
             //This is a workaround
@@ -36,4 +38,4 @@
             input.val(split[0] + '?page=asga_options_page#top#' + url);
         }
     });
-})(window);
+})(window, jQuery);

@@ -18,13 +18,13 @@ class Ank_Simplified_GA_Admin
     private function __construct()
     {
 
-        /*to save default options upon activation*/
+        /* To save default options upon activation*/
         register_activation_hook(ASGA_BASE_FILE, array($this, 'do_upon_plugin_activation'));
 
-        /*for register setting*/
+        /* For register setting*/
         add_action('admin_init', array($this, 'register_plugin_settings'));
 
-        /*settings link on plugin listing page*/
+        /* Settings link on plugin listing page*/
         add_filter('plugin_action_links_' . ASGA_BASE_FILE, array($this, 'add_plugin_actions_links'), 10, 2);
 
         /* Add settings link under admin->settings menu */
@@ -33,7 +33,7 @@ class Ank_Simplified_GA_Admin
         /* Show warning if debug mode is on  */
         add_action('admin_notices', array($this, 'show_admin_notice'));
 
-        /*check for database upgrades*/
+        /* Check for database upgrades*/
         add_action('plugins_loaded', array($this, 'perform_upgrade'));
 
         add_action('plugins_loaded', array($this, 'load_text_domain'));
@@ -149,7 +149,8 @@ class Ank_Simplified_GA_Admin
             'allow_linker' => 0,
             'allow_anchor' => 0,
             'track_mail_links' => 0,
-            'track_outgoing_links' => 0,
+            'track_outbound_links' => 0,
+            'track_outbound_link_type' => 1,
             'track_download_links' => 0,
             'track_download_ext' => 'doc*,xls*,ppt*,pdf,zip,rar,exe,mp3',
             'webmaster' => array(
@@ -161,7 +162,7 @@ class Ank_Simplified_GA_Admin
         $ignored_roles = array('networkAdmin', 'administrator', 'editor');
         //store roles as well
         foreach ($this->get_all_roles() as $role) {
-            //ignore these two role by-default
+            //ignore some roles by-default
             if (in_array($role['id'], $ignored_roles)) {
                 $defaults['ignore_role_' . $role['id']] = 1;
             } else {
@@ -203,11 +204,11 @@ class Ank_Simplified_GA_Admin
 
         $out['js_priority'] = (empty($in['js_priority'])) ? 20 : absint($in['js_priority']);
 
-        $out['ga_domain'] = sanitize_text_field($in['ga_domain']);
+        $out['ga_domain'] = sanitize_text_field(($in['ga_domain']));
 
         $out['custom_trackers'] = trim($in['custom_trackers']);
 
-        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search', 'debug_mode', 'force_ssl', 'allow_linker', 'allow_anchor', 'track_mail_links', 'track_outgoing_links', 'track_download_links');
+        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search', 'debug_mode', 'force_ssl', 'allow_linker', 'allow_anchor', 'track_mail_links', 'track_outbound_links', 'track_download_links','track_outbound_link_type');
         //add rolls to checkbox_items array
         foreach ($this->get_all_roles() as $role) {
             $checkbox_items[] = 'ignore_role_' . $role['id'];
@@ -422,7 +423,7 @@ class Ank_Simplified_GA_Admin
     /**
      * Check if we need to upgrade database options or not
      * @param $db_options
-     * @return bool|mixed
+     * @return bool
      */
     private function can_proceed_to_upgrade($db_options)
     {
