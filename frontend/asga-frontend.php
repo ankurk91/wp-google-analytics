@@ -361,6 +361,6 @@ class Ank_Simplified_GA
     private function need_to_load_event_tracking_js()
     {
         $db = $this->asga_options;
-        return ($db['track_mail_links'] == 1 || $db['track_outgoing_links'] == 1 || $db['track_download_links'] == 1);
+        return ($db['track_mail_links'] == 1 || $db['track_outbound_links'] == 1 || $db['track_download_links'] == 1);
     }
 } //end class
