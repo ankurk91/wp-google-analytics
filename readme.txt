@@ -2,7 +2,7 @@
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite, webmaster
 Requires at least: 3.8.0
 Tested up to: 4.3.1
-Stable tag: 0.9.7
+Stable tag: 0.9.8
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -168,6 +168,9 @@ You can search google like 'Linking google analytics to webmaster'
 
 
 == Changelog ==
+
+= 0.9.8 =
+* Fix: A bug while checking for event tracking js
 
 = 0.9.7 =
 * Code organization
