@@ -1,12 +1,13 @@
 <?php
 
+namespace Ank91\Ank_Simplified_GA_Plugin;
 /**
  * Class Ank_Simplified_GA
  * Frontend class for "Ank Simplified GA" Plugin
  * This class can run independently without admin class
  * @package Ank-Simplified-GA
  */
-class Ank_Simplified_GA
+class Ank_Simplified_GA_Frontend
 {
     private static $instances = array();
     private $asga_options = array();
@@ -38,7 +39,7 @@ class Ank_Simplified_GA
 
     public function __wakeup()
     {
-        throw new Exception("Cannot unserialize singleton");
+        return new \Exception("Cannot unserialize singleton");
     }
 
     /**
@@ -107,7 +108,7 @@ class Ank_Simplified_GA
         //check for debug mode
         $view_array['debug_mode'] = $this->check_debug_mode($options);
 
-        $view_array['js_load_later'] = (absint($options['js_load_later'])===1);
+        $view_array['js_load_later'] = (absint($options['js_load_later']) === 1);
 
 
         if ($options['ua_enabled'] == 1) {
@@ -276,6 +277,7 @@ class Ank_Simplified_GA
      * Load view and show it to front-end
      * @param $file string File name
      * @param $options array Array to be passed to view
+     * @throws \Exception
      */
     private function load_view($file, $options)
     {
@@ -283,7 +285,7 @@ class Ank_Simplified_GA
         if (file_exists($file_path)) {
             require($file_path);
         } else {
-            echo '<!-- Error: Unable to load ASGA template file - ' . esc_html(basename($file)) . ', (v' . ASGA_PLUGIN_VER . ')-->';
+            throw new \Exception('Unable to load ASGA template file - ' . esc_html(basename($file)) . ', (v' . ASGA_PLUGIN_VER . ')');
         }
     }
 

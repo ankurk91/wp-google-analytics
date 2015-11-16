@@ -1,5 +1,6 @@
 <?php
 
+namespace Ank91\Ank_Simplified_GA_Plugin;
 /**
  * Class Ank_Simplified_GA_Admin
  * Settings Page for "Ank Simplified GA" Plugin
@@ -60,7 +61,7 @@ class Ank_Simplified_GA_Admin
 
     public function __wakeup()
     {
-        throw new Exception("Cannot unserialize singleton");
+        return new \Exception("Cannot unserialize singleton");
     }
 
     public static function load_text_domain()
@@ -244,7 +245,7 @@ class Ank_Simplified_GA_Admin
         if (file_exists($file_path)) {
             require($file_path);
         } else {
-            echo "<!-- Error: Unable to load settings page, Template File not found, (v" . ASGA_PLUGIN_VER . ")-->";
+            throw new \Exception("Unable to load settings page, Template File not found, (v" . ASGA_PLUGIN_VER . ")",404);
         }
 
     }
@@ -318,7 +319,7 @@ class Ank_Simplified_GA_Admin
         $return_roles = array();
 
         if (!isset($wp_roles))
-            $wp_roles = new WP_Roles();
+            $wp_roles = new \WP_Roles();
 
         $role_list = $wp_roles->roles;
 
