@@ -13,39 +13,65 @@ The most simplified Google Analytics Plugin for WordPress.
 
 Track your WordPress website with Google Analytics service.
 
-> Translators welcome : https://github.com/ank91/ank-simplified-ga
 
-
-= Notable Features =
-* Simplest user interface
-* Most light weight plugin
-* Support Universal Google and Classic Analytics
+= Highlights =
+* Support Universal Google and Classic Analytics both
 * Using untouched and latest tracking code by Google
+* Covers most used analytics features
+* Most lightweight plugin
+	* Does not provide any dashboard or statistics reporting tool, no one can beat default Google Analytics reporting dashboards
+	* Follows best WordPress coding practices
+	* No Ads, No banner, No usage tracking
+* Simplest user interface
+	* Single page tab based interface
+	* Minimal and non confusing settings
+	* Help links to understand features
+* Multi-site ready
+    * Each sub site need to be configured separately
+    * Each sub site will store its own configuration in database, there is no global settings for this plugin
+* Translation ready, you are welcome [here](https://github.com/ank91/ank-simplified-ga)
+* Google webmaster site verification
+	* No need to install another plugin for Google webmaster verification
+	* Insert your verification code to generate meta tag
 * Choose where to place your tracking code
-* Control code priority
-* Choose to disable tracking if user logged-in
-* Track 404 pages and searched items
-* Sub-domain tracking
-* Don't track anything inside wp-admin by default
-* Custom Trackers
+	* Ability to place code in header or footer, control priority
+	* Ability to run tracking code when page loaded
+
+= Google Analytics features covered =
 * Demographics & Interest Reports
 * Enhanced Link Attribution
 * Anonymize IPs
-* Supports multi-site
-* Disable tracking when Network Admin is logged-in
-* Debugging mode
+* Cross-domain user tracking (AllowLinker)
+* Campaign tracking (AllowAnchor)
+* Sub-domain tracking
 * Force SSL
-* Google Webmaster site verification
-* Track outgoing links as event
-* Track downloads as event
-* Track mailto links as event
+
+= Event Tracking =
+* Track 404 pages as events
+* Track searched queries as separate page views
+* Track email links as events
+* Track outbound links as events
+* Track downloads as events
+* Ability to add your own custom trackers
+
+= Exclude users based on their role =
+* Ability to exclude (stop tracking) for different WordPress roles
+* Not tracking anything inside wp-admin area.
+* Not tracking anything in preview mode.
+
+= Debug mode =
+* Allows you to debug tracking code through your browser's inbuilt dev tools
+* Works only when a administrator user is logged in
+
+
+
 
 > <strong>Found bugs ?</strong><br>
 > I am happy to resolve bugs, report your bugs [here](https://github.com/ank91/ank-simplified-ga/issues)<br>
 > Please note that support is only available via WordPress forums.
 
 
-> <strong>Have questions ?</strong><br>
+> <strong>Still have questions ?</strong><br>
 > Head over to [FAQ](https://wordpress.org/plugins/ank-simplified-ga/faq/) section first.<br>
 > You can always use support [forums](https://wordpress.org/support/plugin/ank-simplified-ga).
 
@@ -129,7 +155,7 @@ You need to configure the plugin for each of sub-site individually.
 
 = Did you test it with old version of WordPress ? =
 
-No, tested with v4.1 and up only.
+I uses latest version WordPress during development.
 So i recommend you to upgrade to latest WordPress today.
 
 
@@ -171,6 +197,8 @@ You can search google like 'Linking google analytics to webmaster'
 
 = 0.9.9 =
 * Minimum php version required 5.3.0
+* Updated docs
+* Several speed improvements
 
 = 0.9.8 =
 * Fix: A bug while checking for event tracking js

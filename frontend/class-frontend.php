@@ -10,7 +10,17 @@ namespace Ank91\Ank_Simplified_GA_Plugin;
 class Ank_Simplified_GA_Frontend
 {
     private static $instances = array();
+    /**
+     * Stores database options
+     * @var array
+     */
     private $asga_options = array();
+    /**
+     * A flag to store tracking status
+     * null means status not calculated yet
+     * @var null
+     */
+    private $tracking_possible = null;
 
     private function __construct()
     {
@@ -89,6 +99,10 @@ class Ank_Simplified_GA_Frontend
 
         //check if to proceed or not, return early with a message if not
         $tracking_status = $this->is_tracking_possible();
+
+        /**
+         * If tracking status is not true, then it should be a string (reason why false)
+         */
         if ($tracking_status !== true) {
             $this->load_view('ga_disabled.php', array('reason' => $tracking_status));
             return;
@@ -263,6 +277,9 @@ class Ank_Simplified_GA_Frontend
      */
     function add_event_tracking_js()
     {
+        /**
+         * Strictly checking for boolean true
+         */
         if ($this->is_tracking_possible() === true) {
             $is_min = (WP_DEBUG == 1) ? '' : '.min';
             //depends on jquery
@@ -276,7 +293,7 @@ class Ank_Simplified_GA_Frontend
     /**
      * Load view and show it to front-end
      * @param $file string File name
-     * @param $options array Array to be passed to view
+     * @param $options array Array to be passed to view, not an unused variable
      * @throws \Exception
      */
     private function load_view($file, $options)
@@ -312,30 +329,41 @@ class Ank_Simplified_GA_Frontend
      */
     private function is_tracking_possible()
     {
+        /**
+         * If we have already calculated then return early
+         */
+        if ($this->tracking_possible !== null) {
+            return $this->tracking_possible;
+        }
+
         $options = $this->asga_options;
 
         if (is_preview()) {
-            return 'GA Tracking is disabled in preview mode';
+            $this->tracking_possible = 'GA Tracking is disabled in preview mode';
         } //if GA id is not set return early with a message
         else if (empty($options['ga_id'])) {
-            return 'GA ID is not set';
+            $this->tracking_possible = 'GA ID is not set';
         } //if a user is logged in
         else if (is_user_logged_in()) {
 
             if (is_multisite() && is_super_admin()) {
                 //if a network admin is logged in
                 if (isset($options['ignore_role_networkAdmin']) && ($options['ignore_role_networkAdmin'] == 1)) {
-                    return 'GA Tracking is disabled for networkAdmin';
+                    $this->tracking_possible = 'GA Tracking is disabled for networkAdmin';
                 }
             } else {
                 //If a normal user is logged in
                 $role = array_shift(wp_get_current_user()->roles);
                 if (isset($options['ignore_role_' . $role]) && ($options['ignore_role_' . $role] == 1)) {
-                    return 'GA Tracking is disabled for this role';
+                    $this->tracking_possible = 'GA Tracking is disabled for this role';
                 }
             }
         }
-        return true;
+        //Be fail safe, don't return null
+        if ($this->tracking_possible === null) {
+            $this->tracking_possible = true;
+        }
+        return $this->tracking_possible;
 
     }
 

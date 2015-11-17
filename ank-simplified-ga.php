@@ -5,7 +5,7 @@
  */
 namespace Ank91\Ank_Simplified_GA_Plugin;
 ?>
-<?php
+    <?php
 /*
 Plugin Name: Ank Simplified Google Analytics
 Plugin URI: https://github.com/ank91/ank-simplified-ga
@@ -19,7 +19,7 @@ Text Domain: ank-simplified-ga
 Domain Path: /languages
 */
 ?>
-<?php
+    <?php
 
 /* No direct access*/
 if (!defined('ABSPATH')) exit;
@@ -30,10 +30,10 @@ define('ASGA_OPTION_NAME', 'asga_options');
 define('ASGA_TEXT_DOMAIN', 'ank-simplified-ga');
 
 /**
- * Registering class autoloader
+ * Registering class auto-loader
  * @requires php v5.3.0
  */
-spl_autoload_register(__NAMESPACE__.'\asga_autoloader');
+spl_autoload_register(__NAMESPACE__ . '\asga_autoloader');
 
 /**
  * Auto-loader for our plugin classes
@@ -41,12 +41,12 @@ spl_autoload_register(__NAMESPACE__.'\asga_autoloader');
  */
 function asga_autoloader($class_name)
 {
-    //make sure this loader works only for this plugin's classes
+    //make sure this loader work only for this plugin's related classes
     if (false !== strpos($class_name, __NAMESPACE__)) {
-        if ($class_name === __NAMESPACE__.'\Ank_Simplified_GA_Frontend') {
-            require_once(__DIR__ . "/frontend/asga-frontend.php");
-        } elseif ($class_name === __NAMESPACE__.'\Ank_Simplified_GA_Admin') {
-            require_once(__DIR__ . "/admin/asga-admin.php");
+        if ($class_name === __NAMESPACE__ . '\Ank_Simplified_GA_Frontend') {
+            require_once(__DIR__ . "/frontend/class-frontend.php");
+        } elseif ($class_name === __NAMESPACE__ . '\Ank_Simplified_GA_Admin') {
+            require_once(__DIR__ . "/admin/class-admin.php");
         }
     }
 }
