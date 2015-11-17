@@ -209,7 +209,7 @@ class Ank_Simplified_GA_Admin
 
         $out['custom_trackers'] = trim($in['custom_trackers']);
 
-        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search', 'debug_mode', 'force_ssl', 'allow_linker', 'allow_anchor', 'track_mail_links', 'track_outbound_links', 'track_download_links','track_outbound_link_type');
+        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search', 'debug_mode', 'force_ssl', 'allow_linker', 'allow_anchor', 'track_mail_links', 'track_outbound_links', 'track_download_links', 'track_outbound_link_type');
         //add rolls to checkbox_items array
         foreach ($this->get_all_roles() as $role) {
             $checkbox_items[] = 'ignore_role_' . $role['id'];
@@ -223,9 +223,9 @@ class Ank_Simplified_GA_Admin
         }
 
         // Google webmaster code
-        $out['webmaster']['google_code'] = trim($in['webmaster']['google_code']);
+        $out['webmaster']['google_code'] = sanitize_text_field($in['webmaster']['google_code']);
         //Extensions to track as downloads
-        $out['track_download_ext'] = trim($in['track_download_ext']);
+        $out['track_download_ext'] = sanitize_text_field($in['track_download_ext']);
 
 
         return $out;
@@ -245,7 +245,7 @@ class Ank_Simplified_GA_Admin
         if (file_exists($file_path)) {
             require($file_path);
         } else {
-            throw new \Exception("Unable to load settings page, Template File not found, (v" . ASGA_PLUGIN_VER . ")",404);
+            throw new \Exception("Unable to load settings page, Template File not found, (v" . ASGA_PLUGIN_VER . ")");
         }
 
     }
@@ -353,7 +353,7 @@ class Ank_Simplified_GA_Admin
      */
     function show_admin_notice()
     {
-        if ($this->check_admin_notice()) {
+        if ($this->check_admin_notice() === true) {
             ?>
             <div id="asga_message" class="notice notice-warning is-dismissible">
                 <p>
@@ -392,7 +392,7 @@ class Ank_Simplified_GA_Admin
         //get fresh options from db
         $db_options = get_option(ASGA_OPTION_NAME);
         //be fail safe, if not array then array_merge may fail
-        if (!is_array($db_options)) {
+        if (is_array($db_options) === false) {
             $db_options = array();
         }
         //if options not exists in db then init with defaults , also always append default options to existing options

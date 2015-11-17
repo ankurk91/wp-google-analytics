@@ -1,4 +1,4 @@
-# Ank-Simplified-GA
+# Ank-Simplified-Google-Analytics
 
 The most simplified WordPress Google Analytics Plugin with multi-site support.
 
