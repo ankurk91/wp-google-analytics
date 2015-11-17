@@ -23,23 +23,23 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: js\n"
 
-#: asga-admin.php:106
+#: class-admin.php:106
 msgid "Settings"
 msgstr ""
 
-#: asga-admin.php:194
+#: class-admin.php:194
 msgid "Your GA tracking ID seems invalid. Please validate."
 msgstr ""
 
-#: asga-admin.php:239
+#: class-admin.php:239
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: asga-admin.php:343
+#: class-admin.php:343
 msgid "Network Administrator"
 msgstr ""
 
-#: asga-admin.php:359
+#: class-admin.php:359
 msgid ""
 "Google Analytics debug mode is enabled for this site. Don't forget to "
 "disable this option in production."
