@@ -4,8 +4,8 @@
  * Adding namespace on top, no content allowed before namespace declaration
  */
 namespace Ank91\Ank_Simplified_GA_Plugin;
-?>
-    <?php
+
+?><?php
 /*
 Plugin Name: Ank Simplified Google Analytics
 Plugin URI: https://github.com/ank91/ank-simplified-ga
@@ -18,8 +18,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: ank-simplified-ga
 Domain Path: /languages
 */
-?>
-    <?php
+?><?php
 
 /* No direct access*/
 if (!defined('ABSPATH')) exit;
@@ -61,4 +60,5 @@ if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
 } else {
     Ank_Simplified_GA_Frontend::get_instance();
 }
+
 
