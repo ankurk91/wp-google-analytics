@@ -57,6 +57,7 @@ function asga_autoloader($class_name)
  */
 if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
     Ank_Simplified_GA_Admin::get_instance();
+
 } else {
     Ank_Simplified_GA_Frontend::get_instance();
 }

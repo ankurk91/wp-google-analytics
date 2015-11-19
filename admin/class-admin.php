@@ -66,7 +66,7 @@ class Ank_Simplified_GA_Admin
 
     public static function load_text_domain()
     {
-        load_plugin_textdomain('ank-simplified-ga', false, dirname(ASGA_BASE_FILE) . '/languages/');
+        load_plugin_textdomain(ASGA_TEXT_DOMAIN, false, dirname(ASGA_BASE_FILE) . '/languages/');
     }
 
     /*
@@ -87,7 +87,7 @@ class Ank_Simplified_GA_Admin
      */
     function register_plugin_settings()
     {
-        register_setting(self::PLUGIN_OPTION_GROUP, ASGA_OPTION_NAME, array($this, 'ASGA_validate_options'));
+        register_setting(self::PLUGIN_OPTION_GROUP, ASGA_OPTION_NAME, array($this, 'validate_form_post'));
     }
 
 
@@ -116,7 +116,7 @@ class Ank_Simplified_GA_Admin
      */
     function add_to_settings_menu()
     {
-        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', '<span style="color:#f29611">Google Analytics</span>', 'manage_options', self::PLUGIN_SLUG, array($this, 'ASGA_options_page'));
+        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', '<span style="color:#f29611">Google Analytics</span>', 'manage_options', self::PLUGIN_SLUG, array($this, 'load_options_page'));
         /*add help stuff via tab*/
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
         /*we can load additional css/js to our option page here */
@@ -181,7 +181,7 @@ class Ank_Simplified_GA_Admin
      * @param array $in - POST array
      * @returns array - Validated array
      */
-    function ASGA_validate_options($in)
+    function validate_form_post($in)
     {
 
         $out = array();
@@ -234,7 +234,7 @@ class Ank_Simplified_GA_Admin
     /**
      * Function will print our option page form
      */
-    function ASGA_options_page()
+    function load_options_page()
     {
         if (!current_user_can('manage_options')) {
             wp_die(__('You do not have sufficient permissions to access this page.', ASGA_TEXT_DOMAIN));
