@@ -1,12 +1,15 @@
 /**
  * Ank-Simplified-GA event tracking
  */
-(function (window, asga_opt, jQuery) {
+(function (window, document, jQuery) {
     'use strict';
-    //if options not exists then exit early
-    if (typeof asga_opt === 'undefined' || asga_opt.length === 0) {
+
+    //if options not exists then return early
+    if (typeof window._asga_opt === 'undefined') {
         return;
     }
+    var asga_opt = window._asga_opt;
+
     //jQuery Filter Ref: http://api.jquery.com/filter/
     jQuery(function ($) {
 
@@ -50,6 +53,14 @@
     });
 
     /**
+     * Decides if event will be non-interactive or not
+     * @returns {boolean}
+     */
+    function isNonInteractive() {
+        return (asga_opt.non_interactive == 1);
+    }
+
+    /**
      * Detect Analytics type and send event
      * @ref https://support.google.com/analytics/answer/1033068
      * @param category string
@@ -61,20 +72,20 @@
         if (event.isDefaultPrevented()) return;
 
         //label is not set then exit
-        if(typeof label === 'undefined' || label==='') return;
+        if (typeof label === 'undefined' || label === '') return;
 
         if (window.ga && ga.create) {
             //Universal event tracking
             //https://developers.google.com/analytics/devguides/collection/analyticsjs/events
             ga('send', 'event', category, 'click', label, {
-                nonInteraction: true
+                nonInteraction: isNonInteractive()
             });
         } else if (window._gaq && _gaq._getAsyncTracker) {
             //Classic event tracking
             //https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide
-            _gaq.push(['_trackEvent', category, 'click', label, 1, true]);
+            _gaq.push(['_trackEvent', category, 'click', label, 1, isNonInteractive()]);
         } else {
             (window.console) ? console.info('Google analytics not loaded') : null
         }
     }
-})(window, window.asga_opt, jQuery);
+})(window, document, jQuery);

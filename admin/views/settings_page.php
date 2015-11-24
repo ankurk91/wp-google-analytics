@@ -139,6 +139,11 @@
                         </td>
                     </tr>
                     <tr>
+                        <th scope="row"><?php _e('Non interactive events',ASGA_TEXT_DOMAIN) ?> :</th>
+                        <td><label><input type="checkbox" name="asga_options[track_non_interactive]" value="1" <?php checked($options['track_non_interactive'], 1) ?>><?php _e('Events should not affect bounce rate',ASGA_TEXT_DOMAIN) ?> </label>
+                        </td>
+                    </tr>
+                    <tr>
                         <th><?php _e('Extensions for downloads', ASGA_TEXT_DOMAIN) ?> :</th>
                         <td>
                             <input size="25" type="text" placeholder="doc,docx,xls,xlsx,pdf,zip,rar,exe" name="asga_options[track_download_ext]" value="<?php echo esc_attr($options['track_download_ext']); ?>">
