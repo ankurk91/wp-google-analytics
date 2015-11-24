@@ -82,7 +82,7 @@ class Ank_Simplified_GA_Frontend
 
         if ($this->need_to_load_event_tracking_js()) {
             //load event tracking js file
-            add_action('wp_footer', array($this, 'add_event_tracking_js'));
+            add_action('wp_footer', array($this, 'add_event_tracking_js'), 999);
         }
 
     }
@@ -281,6 +281,12 @@ class Ank_Simplified_GA_Frontend
          * Strictly checking for boolean true
          */
         if ($this->is_tracking_possible() === true) {
+
+            //load jquery if not loaded by theme
+            if (wp_script_is('jquery', $list = 'enqueued') === false) {
+                wp_enqueue_script('jquery');
+            }
+
             $is_min = (WP_DEBUG == 1) ? '' : '.min';
             //depends on jquery
             wp_enqueue_script('asga-event-tracking', plugins_url('/js/event-tracking' . $is_min . '.js', __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
