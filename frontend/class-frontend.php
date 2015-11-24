@@ -82,7 +82,7 @@ class Ank_Simplified_GA_Frontend
 
         if ($this->need_to_load_event_tracking_js()) {
             //load event tracking js file
-            add_action('wp_footer', array($this, 'add_event_tracking_js'), 999);
+            add_action('wp_footer', array($this, 'add_event_tracking_js'));
         }
 
     }
@@ -291,7 +291,7 @@ class Ank_Simplified_GA_Frontend
             //depends on jquery
             wp_enqueue_script('asga-event-tracking', plugins_url('/js/event-tracking' . $is_min . '.js', __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
             //wp inbuilt hack to print js options object just before this script
-            wp_localize_script('asga-event-tracking', 'asga_opt', $this->get_js_options());
+            wp_localize_script('asga-event-tracking', '_asga_opt', $this->get_js_options());
         }
     }
 
@@ -386,6 +386,7 @@ class Ank_Simplified_GA_Frontend
             'download_links' => esc_js($db_options['track_download_links']),
             'download_ext' => esc_js($db_options['track_download_ext']),
             'outbound_link_type' => esc_js($db_options['track_outbound_link_type']),
+            'non_interactive' => esc_js($db_options['track_non_interactive']),
         );
         return $js_options;
     }
