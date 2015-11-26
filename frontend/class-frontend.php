@@ -196,9 +196,7 @@ class Ank_Simplified_GA_Frontend
 
         if (is_404() && $options['log_404'] == 1) {
             $view_array['gaq'][] = "'_trackEvent','404',document.location.href,document.referrer";
-        } elseif ($wp_query->is_search && $options['log_search'] == 1) {
-            $view_array['gaq'][] = "'_trackPageview','/?s=" . rawurlencode($wp_query->query_vars['s']) . "'";
-        } else {
+        }  else {
             $view_array['gaq'][] = "'_trackPageview'";
         }
 
@@ -253,8 +251,6 @@ class Ank_Simplified_GA_Frontend
 
         if (is_404() && $options['log_404'] == 1) {
             $view_array['gaq'][] = "'send','event','404',document.location.href,document.referrer";
-        } elseif ($wp_query->is_search && $options['log_search'] == 1) {
-            $view_array['gaq'][] = "'send','pageview','/?s=" . rawurlencode($wp_query->query_vars['s']) . "'";
         } else {
             $view_array['gaq'][] = "'send','pageview'";
         }
@@ -305,7 +301,7 @@ class Ank_Simplified_GA_Frontend
     private function load_view($file, $options)
     {
         $file_path = __DIR__ . '/views/' . $file;
-        if (file_exists($file_path)) {
+        if (is_readable($file_path)) {
             require($file_path);
         } else {
             throw new \Exception('Unable to load ASGA template file - ' . esc_html(basename($file)) . ', (v' . ASGA_PLUGIN_VER . ')');
