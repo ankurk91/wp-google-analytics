@@ -15,9 +15,9 @@
 
         if (asga_opt.download_links === '1') {
             //Track Downloads
-            //@source https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+            //https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
             var exts = (asga_opt.download_ext === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asga_opt.download_ext.replace(/,/g, '|');
-            //@source https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+            //https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp
             var regExt = new RegExp(".*\\.(" + exts + ")(\\?.*)?$");
 
             $('a').filter(function () {
@@ -41,7 +41,7 @@
 
         if (asga_opt.outgoing_links === '1') {
             //Track Outbound Links
-            //@source https://css-tricks.com/snippets/jquery/target-only-external-links/
+            //https://css-tricks.com/snippets/jquery/target-only-external-links/
             $('a[href^="http"]').filter(function () {
                 return (this.hostname && this.hostname !== window.location.hostname)
             }).prop('target', '_blank')  // make sure these links open in new tab
@@ -56,9 +56,9 @@
      * Decides if event will be non-interactive or not
      * @returns {boolean}
      */
-    function isNonInteractive() {
+    var isNonInteractive = function () {
         return (asga_opt.non_interactive == 1);
-    }
+    };
 
     /**
      * Detect Analytics type and send event
@@ -71,19 +71,19 @@
         //return early if event.preventDefault() was ever called on this event object.
         if (event.isDefaultPrevented()) return;
 
-        //label is not set then exit
+        //if label is not set then exit
         if (typeof label === 'undefined' || label === '') return;
 
         if (window.ga && ga.create) {
             //Universal event tracking
             //https://developers.google.com/analytics/devguides/collection/analyticsjs/events
             ga('send', 'event', category, 'click', label, {
-                nonInteraction: isNonInteractive()
+                nonInteraction: isNonInteractive
             });
         } else if (window._gaq && _gaq._getAsyncTracker) {
             //Classic event tracking
             //https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide
-            _gaq.push(['_trackEvent', category, 'click', label, 1, isNonInteractive()]);
+            _gaq.push(['_trackEvent', category, 'click', label, 1, isNonInteractive]);
         } else {
             (window.console) ? console.info('Google analytics not loaded') : null
         }

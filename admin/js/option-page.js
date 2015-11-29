@@ -1,40 +1,54 @@
 /**
- * Ank-Simplified-GA option-page tab handling
+ * Ank-Simplified-GA option-page javascript
  */
 (function (window, jQuery) {
     'use strict';
+    //Get requested tab from url
+    var requestedTab = window.location.hash.replace('#top#', '');
 
     jQuery(function ($) {
-        //get requested tab from url
-        var activeTab = window.location.hash.replace('#top#', '');
         //if there no active tab found , set first tab as active
-        if (activeTab === '') activeTab = $('div.tab-content').attr('id');
-        $('#' + activeTab).addClass('active');
-        $('#' + activeTab + '-tab').addClass('nav-tab-active');
-        //set return tab on page load
-        set_redirect_url(activeTab);
+        if (requestedTab === '') requestedTab = $('div.tab-content').attr('id');
+        $('#' + requestedTab).addClass('active');
+        $('#' + requestedTab + '-tab').addClass('nav-tab-active');
+        //Set return tab on page load
+        setRedirectURL(requestedTab);
 
+        /**
+         * Storing DOM element for later use
+         * @type {*|jQuery|HTMLElement}
+         */
         var ga_tabs = $('h2#ga-tabs');
+        /**
+         * Bind a click event to all tabs
+         */
         ga_tabs.find('a.nav-tab').click(function () {
-            //hide all tabs
+            //Hide all tabs
             ga_tabs.find('a.nav-tab').removeClass('nav-tab-active');
             $('div.tab-content').removeClass('active');
-            //activate current tab only
+            //Activate only clicked tab
             var id = $(this).attr('id').replace('-tab', '');
             $('#' + id).addClass('active');
             $(this).addClass('nav-tab-active');
-            //set return tab on click vent
-            set_redirect_url(id);
+            //Set return tab url
+            setRedirectURL(id);
         });
 
         /**
-         * Set redirect url into form's input:hidden
-         * @param url string
+         * Storing DOM element for faster processing
+         * @type {*|{}|jQuery}
          */
-        function set_redirect_url(url) {
-            //This is a workaround
-            var input = $("form#asga_form").find('input:hidden:nth-child(4)'),
-                split = input.val().split('?', 1);
+        var input = $("form#asga_form").find('input:hidden[name="_wp_http_referer"]');
+
+        /**
+         * Set redirect url into form's input:hidden
+         * Note: Using hardcoded plugin option page slug
+         * @param url String
+         */
+        function setRedirectURL(url) {
+            if (typeof input === 'undefined')  return;
+            var split = input.val().split('?', 1);
+            //Update the tab id in last while keeping base url same
             input.val(split[0] + '?page=asga_options_page#top#' + url);
         }
     });

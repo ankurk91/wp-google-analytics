@@ -1,16 +1,4 @@
-<style type="text/css">
-    .tab-content {
-        display: none
-    }
-    .tab-content.active {
-        display: block
-    }
-    pre.xdebug-var-dump {
-        max-height: 200px;
-        overflow: auto;
-        border: 1px solid #e2e2e2;
-        padding: 5px;
-    } </style>
+<style type="text/css"> .tab-content { display: none } .tab-content.active { display: block } pre.xdebug-var-dump { max-height: 200px; overflow: auto; border: 1px solid #e2e2e2; padding: 5px; } </style>
 <div class="wrap">
     <h2><?php _e('Ank Simplified Google Analytics',ASGA_TEXT_DOMAIN) ?> <small>: (v<?php echo ASGA_PLUGIN_VER; ?>)</small> </h2>
 
@@ -121,7 +109,7 @@
                         <td><fieldset>
                                 <?php
                                 $events = array(
-                                    'log_404' => __('Log 404 pages as events instead of pageviews', ASGA_TEXT_DOMAIN),
+                                    'log_404' => __('Log 404 pages as events', ASGA_TEXT_DOMAIN),
                                     'track_mail_links' => __('Track email links as events', ASGA_TEXT_DOMAIN),
                                     'track_outbound_links' => __('Track outbound links as events', ASGA_TEXT_DOMAIN),
                                     'track_download_links' => __('Track downloads as events', ASGA_TEXT_DOMAIN),
