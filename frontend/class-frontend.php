@@ -3,8 +3,6 @@
 namespace Ank91\Ank_Simplified_GA_Plugin;
 /**
  * Class Ank_Simplified_GA
- * Frontend class for "Ank Simplified GA" Plugin
- * This class can run independently without admin class
  * @package Ank-Simplified-GA
  */
 class Ank_Simplified_GA_Frontend
@@ -144,7 +142,6 @@ class Ank_Simplified_GA_Frontend
      */
     private function print_classic_code($view_array, $ga)
     {
-        global $wp_query;
         $options = $this->asga_options;
 
         $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
@@ -211,7 +208,6 @@ class Ank_Simplified_GA_Frontend
      */
     private function print_universal_code($view_array, $ga)
     {
-        global $wp_query;
         $options = $this->asga_options;
 
         if ($options['allow_linker'] == 1 && $options['allow_anchor'] == 0) {
