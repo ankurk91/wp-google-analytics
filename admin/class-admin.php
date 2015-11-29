@@ -3,16 +3,13 @@
 namespace Ank91\Ank_Simplified_GA_Plugin;
 /**
  * Class Ank_Simplified_GA_Admin
- * Settings Page for "Ank Simplified GA" Plugin
- * Lets keep admin area code here
  * @package Ank-Simplified-GA
- *
  */
 class Ank_Simplified_GA_Admin
 {
 
     private static $instances = array();
-    /*store plugin option page slug, so that we can change it with ease */
+    /* Store plugin option page slug, so that we can change it with ease */
     const PLUGIN_SLUG = 'asga_options_page';
     const PLUGIN_OPTION_GROUP = 'asga_plugin_options';
 
@@ -120,7 +117,7 @@ class Ank_Simplified_GA_Admin
         /*add help stuff via tab*/
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
         /*we can load additional css/js to our option page here */
-        add_action('admin_print_scripts-' . $page_hook_suffix, array($this, 'print_admin_js'));
+        add_action('admin_print_scripts-' . $page_hook_suffix, array($this, 'enqueue_admin_js'));
 
     }
 
@@ -216,10 +213,12 @@ class Ank_Simplified_GA_Admin
         }
 
         foreach ($checkbox_items as $item) {
-            if (isset($in[$item]) && '1' == $in[$item])
+            if (isset($in[$item]) && '1' == $in[$item]) {
                 $out[$item] = 1;
-            else
+            } else {
                 $out[$item] = 0;
+            }
+
         }
 
         // Google webmaster code
@@ -242,7 +241,7 @@ class Ank_Simplified_GA_Admin
 
         $file_path = __DIR__ . '/views/settings_page.php';
 
-        if (file_exists($file_path)) {
+        if (is_readable($file_path)) {
             require($file_path);
         } else {
             throw new \Exception("Unable to load settings page, Template File not found, (v" . ASGA_PLUGIN_VER . ")");
@@ -326,7 +325,7 @@ class Ank_Simplified_GA_Admin
         /**
          * Filter: 'editable_roles' - Allows filtering of the roles shown within the plugin (and elsewhere in WP as it's a WP filter)
          *
-         * @api array $all_roles
+         * @api array $role_list
          */
         $editable_roles = apply_filters('editable_roles', $role_list);
 
@@ -440,7 +439,7 @@ class Ank_Simplified_GA_Admin
     /**
      * Print option page javascript
      */
-    function print_admin_js()
+    function enqueue_admin_js()
     {
         $is_min = (WP_DEBUG == 1) ? '' : '.min';
         wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", __FILE__), array('jquery'), ASGA_PLUGIN_VER, false);
