@@ -1,0 +1,47 @@
+{
+  "name": "ank91/ank-simplified-ga",
+  "description": "The most simplified Google Analytics Plugin for WordPress.",
+  "keywords": [
+    "wordpress",
+    "google analytics"
+  ],
+  "homepage": "https://github.com/ank91/ank-simplified-ga/",
+  "license": "GPL-2.0",
+  "authors": [
+    {
+      "name": "Ankur Kumar",
+      "homepage": "https://ank91.github.com"
+    }
+  ],
+  "type": "wordpress-plugin",
+  "support": {
+    "issues": "https://github.com/ank91/ank-simplified-ga/issues",
+    "forum": "https://wordpress.org/support/plugin/ank-simplified-ga",
+    "source": "https://github.com/ank91/ank-simplified-ga/"
+  },
+  "require": {
+    "timgws/google-analytics-api": "^1.0"
+  },
+  "require-dev": {
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Ank91\\Plugins\\Ank_Simplified_GA\\": "inc"
+    },
+    "classmap": [
+    ]
+  },
+  "scripts": {
+    "post-install-cmd": [
+    ],
+    "post-update-cmd": [
+    ],
+    "post-autoload-dump": [
+    ]
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}

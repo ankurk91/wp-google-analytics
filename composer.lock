@@ -1,0 +1,63 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "f73a3d62d45020f479b4e52b501a687f",
+    "content-hash": "56da63f0f0108c7613977456427b210d",
+    "packages": [
+        {
+            "name": "timgws/google-analytics-api",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/timgws/Google-Analytics-API-PHP.git",
+                "reference": "bfe3d13d728bca4802171bcd7dfb00c5a0518dcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/timgws/Google-Analytics-API-PHP/zipball/bfe3d13d728bca4802171bcd7dfb00c5a0518dcf",
+                "reference": "bfe3d13d728bca4802171bcd7dfb00c5a0518dcf",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-openssl": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "timgws\\GoogleAnalytics\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Stefan Wanzenried",
+                    "email": "stefan.wanzenried@gmail.com"
+                },
+                {
+                    "name": "Tim Groeneveld",
+                    "email": "tim@timg.ws"
+                }
+            ],
+            "description": "Simple class to query the Google Analytics API v3 with PHP",
+            "time": "2015-09-25 01:06:18"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": true,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

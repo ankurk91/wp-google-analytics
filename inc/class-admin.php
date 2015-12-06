@@ -1,6 +1,6 @@
 <?php
 
-namespace Ank91\Ank_Simplified_GA_Plugin;
+namespace Ank91\Plugins\Ank_Simplified_GA;
 /**
  * Class Ank_Simplified_GA_Admin
  * @package Ank-Simplified-GA
@@ -17,13 +17,13 @@ class Ank_Simplified_GA_Admin
     {
 
         /* To save default options upon activation*/
-        register_activation_hook(ASGA_BASE_FILE, array($this, 'do_upon_plugin_activation'));
+        register_activation_hook(plugin_basename(ASGA_BASE_FILE), array($this, 'do_upon_plugin_activation'));
 
         /* For register setting*/
         add_action('admin_init', array($this, 'register_plugin_settings'));
 
         /* Settings link on plugin listing page*/
-        add_filter('plugin_action_links_' . ASGA_BASE_FILE, array($this, 'add_plugin_actions_links'), 10, 2);
+        add_filter('plugin_action_links_' . plugin_basename(ASGA_BASE_FILE), array($this, 'add_plugin_actions_links'), 10, 2);
 
         /* Add settings link under admin->settings menu */
         add_action('admin_menu', array($this, 'add_to_settings_menu'));
@@ -63,7 +63,7 @@ class Ank_Simplified_GA_Admin
 
     public static function load_text_domain()
     {
-        load_plugin_textdomain(ASGA_TEXT_DOMAIN, false, dirname(ASGA_BASE_FILE) . '/languages/');
+        load_plugin_textdomain(ASGA_TEXT_DOMAIN, false, dirname(plugin_basename(ASGA_BASE_FILE)) . '/languages/');
     }
 
     /*
@@ -113,7 +113,7 @@ class Ank_Simplified_GA_Admin
      */
     function add_to_settings_menu()
     {
-        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', '<span style="color:#f29611">Google Analytics</span>', 'manage_options', self::PLUGIN_SLUG, array($this, 'load_options_page'));
+        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', 'Google Analytics', 'manage_options', self::PLUGIN_SLUG, array($this, 'load_options_page'));
         /*add help stuff via tab*/
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
         /*we can load additional css/js to our option page here */
@@ -239,12 +239,12 @@ class Ank_Simplified_GA_Admin
             wp_die(__('You do not have sufficient permissions to access this page.', ASGA_TEXT_DOMAIN));
         }
 
-        $file_path = __DIR__ . '/views/settings_page.php';
+        $file_path = plugin_dir_path(ASGA_BASE_FILE) . 'views/settings_page.php';
 
         if (is_readable($file_path)) {
-            require($file_path);
+            require $file_path;
         } else {
-            throw new \Exception("Unable to load settings page, Template File not found, (v" . ASGA_PLUGIN_VER . ")");
+            throw new \Exception("Unable to load template file - '".esc_html($file_path)."' (v" . ASGA_PLUGIN_VER . ")");
         }
 
     }
@@ -442,7 +442,7 @@ class Ank_Simplified_GA_Admin
     function enqueue_admin_js()
     {
         $is_min = (WP_DEBUG == 1) ? '' : '.min';
-        wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", __FILE__), array('jquery'), ASGA_PLUGIN_VER, false);
+        wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, false);
     }
 
 } //end class
