@@ -1,6 +1,6 @@
 <?php
 
-namespace Ank91\Ank_Simplified_GA_Plugin;
+namespace Ank91\Plugins\Ank_Simplified_GA;
 /**
  * Class Ank_Simplified_GA
  * @package Ank-Simplified-GA
@@ -281,7 +281,7 @@ class Ank_Simplified_GA_Frontend
 
             $is_min = (WP_DEBUG == 1) ? '' : '.min';
             //depends on jquery
-            wp_enqueue_script('asga-event-tracking', plugins_url('/js/event-tracking' . $is_min . '.js', __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
+            wp_enqueue_script('asga-event-tracking', plugins_url('/js/event-tracking' . $is_min . '.js', ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, true);
             //wp inbuilt hack to print js options object just before this script
             wp_localize_script('asga-event-tracking', '_asga_opt', $this->get_js_options());
         }
@@ -296,11 +296,11 @@ class Ank_Simplified_GA_Frontend
      */
     private function load_view($file, $options)
     {
-        $file_path = __DIR__ . '/views/' . $file;
+        $file_path = plugin_dir_path(ASGA_BASE_FILE) . 'views/' . $file;
         if (is_readable($file_path)) {
             require($file_path);
         } else {
-            throw new \Exception('Unable to load ASGA template file - ' . esc_html(basename($file)) . ', (v' . ASGA_PLUGIN_VER . ')');
+            throw new \Exception('Unable to load template file - ' . esc_html($file_path) . ', (v' . ASGA_PLUGIN_VER . ')');
         }
     }
 

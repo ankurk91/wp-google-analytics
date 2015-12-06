@@ -52,6 +52,7 @@ Track your WordPress website with Google Analytics service.
 * Track outbound links as events
 * Track downloads as events
 * Ability to add your own custom trackers
+* Option to toggle non-interactive events
 
 = Exclude users based on their role =
 * Ability to exclude (stop tracking) for different WordPress roles
