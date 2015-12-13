@@ -1,18 +1,15 @@
 <?php
 
-namespace Ank91\Ank_Simplified_GA_Plugin;
+namespace Ank91\Plugins\Ank_Simplified_GA;
 /**
  * Class Ank_Simplified_GA_Admin
- * Settings Page for "Ank Simplified GA" Plugin
- * Lets keep admin area code here
  * @package Ank-Simplified-GA
- *
  */
 class Ank_Simplified_GA_Admin
 {
 
     private static $instances = array();
-    /*store plugin option page slug, so that we can change it with ease */
+    /* Store plugin option page slug, so that we can change it with ease */
     const PLUGIN_SLUG = 'asga_options_page';
     const PLUGIN_OPTION_GROUP = 'asga_plugin_options';
 
@@ -20,13 +17,13 @@ class Ank_Simplified_GA_Admin
     {
 
         /* To save default options upon activation*/
-        register_activation_hook(ASGA_BASE_FILE, array($this, 'do_upon_plugin_activation'));
+        register_activation_hook(plugin_basename(ASGA_BASE_FILE), array($this, 'do_upon_plugin_activation'));
 
         /* For register setting*/
         add_action('admin_init', array($this, 'register_plugin_settings'));
 
         /* Settings link on plugin listing page*/
-        add_filter('plugin_action_links_' . ASGA_BASE_FILE, array($this, 'add_plugin_actions_links'), 10, 2);
+        add_filter('plugin_action_links_' . plugin_basename(ASGA_BASE_FILE), array($this, 'add_plugin_actions_links'), 10, 2);
 
         /* Add settings link under admin->settings menu */
         add_action('admin_menu', array($this, 'add_to_settings_menu'));
@@ -66,7 +63,7 @@ class Ank_Simplified_GA_Admin
 
     public static function load_text_domain()
     {
-        load_plugin_textdomain(ASGA_TEXT_DOMAIN, false, dirname(ASGA_BASE_FILE) . '/languages/');
+        load_plugin_textdomain(ASGA_TEXT_DOMAIN, false, dirname(plugin_basename(ASGA_BASE_FILE)) . '/languages/');
     }
 
     /*
@@ -116,11 +113,11 @@ class Ank_Simplified_GA_Admin
      */
     function add_to_settings_menu()
     {
-        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', '<span style="color:#f29611">Google Analytics</span>', 'manage_options', self::PLUGIN_SLUG, array($this, 'load_options_page'));
+        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', 'Google Analytics', 'manage_options', self::PLUGIN_SLUG, array($this, 'load_options_page'));
         /*add help stuff via tab*/
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
         /*we can load additional css/js to our option page here */
-        add_action('admin_print_scripts-' . $page_hook_suffix, array($this, 'print_admin_js'));
+        add_action('admin_print_scripts-' . $page_hook_suffix, array($this, 'enqueue_admin_js'));
 
     }
 
@@ -138,7 +135,6 @@ class Ank_Simplified_GA_Admin
             'js_load_later' => 0,
             'js_priority' => 20,
             'log_404' => 0,
-            'log_search' => 0,
             'ua_enabled' => 1,
             'displayfeatures' => 0,
             'ga_ela' => 0,
@@ -154,6 +150,7 @@ class Ank_Simplified_GA_Admin
             'track_outbound_link_type' => 1,
             'track_download_links' => 0,
             'track_download_ext' => 'doc*,xls*,ppt*,pdf,zip,rar,exe,mp3',
+            'track_non_interactive' => 1,
             'webmaster' => array(
                 'google_code' => ''
             )
@@ -209,17 +206,19 @@ class Ank_Simplified_GA_Admin
 
         $out['custom_trackers'] = trim($in['custom_trackers']);
 
-        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'log_search', 'debug_mode', 'force_ssl', 'allow_linker', 'allow_anchor', 'track_mail_links', 'track_outbound_links', 'track_download_links', 'track_outbound_link_type');
+        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'debug_mode', 'force_ssl', 'allow_linker', 'allow_anchor', 'track_mail_links', 'track_outbound_links', 'track_download_links', 'track_outbound_link_type', 'track_non_interactive');
         //add rolls to checkbox_items array
         foreach ($this->get_all_roles() as $role) {
             $checkbox_items[] = 'ignore_role_' . $role['id'];
         }
 
         foreach ($checkbox_items as $item) {
-            if (isset($in[$item]) && '1' == $in[$item])
+            if (isset($in[$item]) && '1' == $in[$item]) {
                 $out[$item] = 1;
-            else
+            } else {
                 $out[$item] = 0;
+            }
+
         }
 
         // Google webmaster code
@@ -240,12 +239,12 @@ class Ank_Simplified_GA_Admin
             wp_die(__('You do not have sufficient permissions to access this page.', ASGA_TEXT_DOMAIN));
         }
 
-        $file_path = __DIR__ . '/views/settings_page.php';
+        $file_path = plugin_dir_path(ASGA_BASE_FILE) . 'views/settings_page.php';
 
-        if (file_exists($file_path)) {
-            require($file_path);
+        if (is_readable($file_path)) {
+            require $file_path;
         } else {
-            throw new \Exception("Unable to load settings page, Template File not found, (v" . ASGA_PLUGIN_VER . ")");
+            throw new \Exception("Unable to load template file - '".esc_html($file_path)."' (v" . ASGA_PLUGIN_VER . ")");
         }
 
     }
@@ -326,7 +325,7 @@ class Ank_Simplified_GA_Admin
         /**
          * Filter: 'editable_roles' - Allows filtering of the roles shown within the plugin (and elsewhere in WP as it's a WP filter)
          *
-         * @api array $all_roles
+         * @api array $role_list
          */
         $editable_roles = apply_filters('editable_roles', $role_list);
 
@@ -440,10 +439,10 @@ class Ank_Simplified_GA_Admin
     /**
      * Print option page javascript
      */
-    function print_admin_js()
+    function enqueue_admin_js()
     {
         $is_min = (WP_DEBUG == 1) ? '' : '.min';
-        wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", __FILE__), array('jquery'), ASGA_PLUGIN_VER, false);
+        wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, false);
     }
 
 } //end class

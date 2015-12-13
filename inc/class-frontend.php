@@ -1,10 +1,8 @@
 <?php
 
-namespace Ank91\Ank_Simplified_GA_Plugin;
+namespace Ank91\Plugins\Ank_Simplified_GA;
 /**
  * Class Ank_Simplified_GA
- * Frontend class for "Ank Simplified GA" Plugin
- * This class can run independently without admin class
  * @package Ank-Simplified-GA
  */
 class Ank_Simplified_GA_Frontend
@@ -144,7 +142,6 @@ class Ank_Simplified_GA_Frontend
      */
     private function print_classic_code($view_array, $ga)
     {
-        global $wp_query;
         $options = $this->asga_options;
 
         $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
@@ -196,9 +193,7 @@ class Ank_Simplified_GA_Frontend
 
         if (is_404() && $options['log_404'] == 1) {
             $view_array['gaq'][] = "'_trackEvent','404',document.location.href,document.referrer";
-        } elseif ($wp_query->is_search && $options['log_search'] == 1) {
-            $view_array['gaq'][] = "'_trackPageview','/?s=" . rawurlencode($wp_query->query_vars['s']) . "'";
-        } else {
+        }  else {
             $view_array['gaq'][] = "'_trackPageview'";
         }
 
@@ -213,7 +208,6 @@ class Ank_Simplified_GA_Frontend
      */
     private function print_universal_code($view_array, $ga)
     {
-        global $wp_query;
         $options = $this->asga_options;
 
         if ($options['allow_linker'] == 1 && $options['allow_anchor'] == 0) {
@@ -253,8 +247,6 @@ class Ank_Simplified_GA_Frontend
 
         if (is_404() && $options['log_404'] == 1) {
             $view_array['gaq'][] = "'send','event','404',document.location.href,document.referrer";
-        } elseif ($wp_query->is_search && $options['log_search'] == 1) {
-            $view_array['gaq'][] = "'send','pageview','/?s=" . rawurlencode($wp_query->query_vars['s']) . "'";
         } else {
             $view_array['gaq'][] = "'send','pageview'";
         }
@@ -281,11 +273,17 @@ class Ank_Simplified_GA_Frontend
          * Strictly checking for boolean true
          */
         if ($this->is_tracking_possible() === true) {
+
+            //load jquery if not loaded by theme
+            if (wp_script_is('jquery', $list = 'enqueued') === false) {
+                wp_enqueue_script('jquery');
+            }
+
             $is_min = (WP_DEBUG == 1) ? '' : '.min';
             //depends on jquery
-            wp_enqueue_script('asga-event-tracking', plugins_url('/js/event-tracking' . $is_min . '.js', __FILE__), array('jquery'), ASGA_PLUGIN_VER, true);
+            wp_enqueue_script('asga-event-tracking', plugins_url('/js/event-tracking' . $is_min . '.js', ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, true);
             //wp inbuilt hack to print js options object just before this script
-            wp_localize_script('asga-event-tracking', 'asga_opt', $this->get_js_options());
+            wp_localize_script('asga-event-tracking', '_asga_opt', $this->get_js_options());
         }
     }
 
@@ -298,11 +296,11 @@ class Ank_Simplified_GA_Frontend
      */
     private function load_view($file, $options)
     {
-        $file_path = __DIR__ . '/views/' . $file;
-        if (file_exists($file_path)) {
+        $file_path = plugin_dir_path(ASGA_BASE_FILE) . 'views/' . $file;
+        if (is_readable($file_path)) {
             require($file_path);
         } else {
-            throw new \Exception('Unable to load ASGA template file - ' . esc_html(basename($file)) . ', (v' . ASGA_PLUGIN_VER . ')');
+            throw new \Exception('Unable to load template file - ' . esc_html($file_path) . ', (v' . ASGA_PLUGIN_VER . ')');
         }
     }
 
@@ -380,6 +378,7 @@ class Ank_Simplified_GA_Frontend
             'download_links' => esc_js($db_options['track_download_links']),
             'download_ext' => esc_js($db_options['track_download_ext']),
             'outbound_link_type' => esc_js($db_options['track_outbound_link_type']),
+            'non_interactive' => esc_js($db_options['track_non_interactive']),
         );
         return $js_options;
     }

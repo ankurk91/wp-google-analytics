@@ -1,8 +1,8 @@
 === Ank Simplified Google Analytics ===
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite, webmaster
 Requires at least: 3.8.0
-Tested up to: 4.3.1
-Stable tag: 0.9.9
+Tested up to: 4.4.0
+Stable tag: 1.0.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -48,11 +48,11 @@ Track your WordPress website with Google Analytics service.
 
 = Event Tracking =
 * Track 404 pages as events
-* Track searched queries as separate page views
 * Track email links as events
 * Track outbound links as events
 * Track downloads as events
 * Ability to add your own custom trackers
+* Option to toggle non-interactive events
 
 = Exclude users based on their role =
 * Ability to exclude (stop tracking) for different WordPress roles
@@ -194,6 +194,10 @@ You can search google like 'Linking google analytics to webmaster'
 
 
 == Changelog ==
+
+= 1.0.0 =
+* Deprecated : Log search query as event, read [more](https://support.google.com/analytics/answer/1012264?hl=en)
+* Allow events to be non-interactive
 
 = 0.9.9 =
 * Minimum php version required 5.3.0
