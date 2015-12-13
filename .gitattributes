@@ -19,3 +19,4 @@ tests export-ignore
 .travis.yml export-ignore
 readme.md export-ignore
 composer.lock export-ignore
+LICENSE.txt export-ignore

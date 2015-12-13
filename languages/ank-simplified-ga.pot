@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ank Simplified GA\n"
 "Report-Msgid-Bugs-To: https://github.com/ank91/ank-simplified-ga/issues\n"
-"POT-Creation-Date: 2015-11-29 18:43+0530\n"
+"POT-Creation-Date: 2015-12-13 15:42+0530\n"
 "PO-Revision-Date: 2015-09-27 18:48+0530\n"
 "Last-Translator: ank91\n"
 "Language-Team: \n"
@@ -13,33 +13,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.5\n"
-"X-Poedit-Basepath: ../admin\n"
+"X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
 "_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
 "esc_html_x:1,2c\n"
 "X-Textdomain-Support: yes\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: js\n"
+"X-Poedit-SearchPath-0: views\n"
+"X-Poedit-SearchPath-1: inc\n"
 
-#: class-admin.php:104
+#: inc/class-admin.php:104
 msgid "Settings"
 msgstr ""
 
-#: class-admin.php:192
+#: inc/class-admin.php:192
 msgid "Your GA tracking ID seems invalid. Please validate."
 msgstr ""
 
-#: class-admin.php:239
+#: inc/class-admin.php:239
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: class-admin.php:343
+#: inc/class-admin.php:343
 msgid "Network Administrator"
 msgstr ""
 
-#: class-admin.php:359
+#: inc/class-admin.php:359
 msgid ""
 "Google Analytics debug mode is enabled for this site. Don't forget to "
 "disable this option in production."

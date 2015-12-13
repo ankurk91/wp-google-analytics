@@ -1,7 +1,7 @@
 === Ank Simplified Google Analytics ===
 Tags: google analytics, tracking, light weight, simple, easy, free , multisite, webmaster
 Requires at least: 3.8.0
-Tested up to: 4.3.1
+Tested up to: 4.4.0
 Stable tag: 1.0.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -196,7 +196,7 @@ You can search google like 'Linking google analytics to webmaster'
 == Changelog ==
 
 = 1.0.0 =
-* Deprecated : Log search result as events, read [more](https://support.google.com/analytics/answer/1012264?hl=en)
+* Deprecated : Log search query as event, read [more](https://support.google.com/analytics/answer/1012264?hl=en)
 * Allow events to be non-interactive
 
 = 0.9.9 =

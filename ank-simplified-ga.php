@@ -11,7 +11,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: ank-simplified-ga
 Domain Path: /languages
 */
-?><?php
 
 /* No direct access*/
 if (!defined('ABSPATH')) exit;
@@ -21,20 +20,17 @@ define('ASGA_BASE_FILE', __FILE__);
 define('ASGA_OPTION_NAME', 'asga_options');
 define('ASGA_TEXT_DOMAIN', 'ank-simplified-ga');
 
-/**
- * Loading classes via composer
- * @require php v5.3.2
- */
-require __DIR__.'/vendor/autoload.php';
 
 /**
  * Initiate required classes
  * Note: We are not using AJAX anywhere in this plugin
  */
 if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
+    require 'inc/class-admin.php';
     Ank91\Plugins\Ank_Simplified_GA\Ank_Simplified_GA_Admin::get_instance();
 
 } else {
+    require 'inc/class-frontend.php';
     Ank91\Plugins\Ank_Simplified_GA\Ank_Simplified_GA_Frontend::get_instance();
 }
 
