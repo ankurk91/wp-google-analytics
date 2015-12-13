@@ -18,13 +18,13 @@
          * Storing DOM element for later use
          * @type {*|jQuery|HTMLElement}
          */
-        var ga_tabs = $('h2#ga-tabs');
+        var gaTabs = $('h2#ga-tabs');
         /**
          * Bind a click event to all tabs
          */
-        ga_tabs.find('a.nav-tab').click(function () {
+        gaTabs.find('a.nav-tab').click(function () {
             //Hide all tabs
-            ga_tabs.find('a.nav-tab').removeClass('nav-tab-active');
+            gaTabs.find('a.nav-tab').removeClass('nav-tab-active');
             $('div.tab-content').removeClass('active');
             //Activate only clicked tab
             var id = $(this).attr('id').replace('-tab', '');
