@@ -9,6 +9,7 @@ class Ank_Simplified_GA_Admin
 {
 
     private static $instances = array();
+
     /* Store plugin option page slug, so that we can change it with ease */
     const PLUGIN_SLUG = 'asga_options_page';
     const PLUGIN_OPTION_GROUP = 'asga_plugin_options';
@@ -244,7 +245,7 @@ class Ank_Simplified_GA_Admin
         if (is_readable($file_path)) {
             require $file_path;
         } else {
-            throw new \Exception("Unable to load template file - '".esc_html($file_path)."' (v" . ASGA_PLUGIN_VER . ")");
+            throw new \Exception("Unable to load template file - '" . esc_html($file_path) . "'");
         }
 
     }
@@ -441,7 +442,7 @@ class Ank_Simplified_GA_Admin
      */
     function enqueue_admin_js()
     {
-        $is_min = (WP_DEBUG == 1) ? '' : '.min';
+        $is_min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG == 1) ? '' : '.min';
         wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, false);
     }
 
