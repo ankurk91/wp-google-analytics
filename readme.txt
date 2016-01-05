@@ -1,5 +1,5 @@
 === Ank Simplified Google Analytics ===
-Tags: google analytics, tracking, light weight, simple, easy, free , multisite, webmaster
+Tags: google analytics, tracking, light weight, simple, easy, free , multi-site, webmaster
 Requires at least: 3.8.0
 Tested up to: 4.4.0
 Stable tag: 1.0.1
@@ -15,11 +15,11 @@ Track your WordPress website with Google Analytics service.
 
 
 = Highlights =
-* Support Universal Google and Classic Analytics both
+* Supports Universal Google and Classic Analytics both
 * Using untouched and latest tracking code by Google
 * Covers most used analytics features
 * Most lightweight plugin
-	* Does not provide any dashboard or statistics reporting tool, no one can beat default Google Analytics reporting dashboards
+	* Does not provide any dashboard or statistics reporting tool, no one can beat the default Google Analytics reporting dashboard
 	* Follows best WordPress coding practices
 	* No Ads, No banner, No usage tracking
 * Simplest user interface
@@ -133,7 +133,7 @@ It will also disable tracking by removing the code from front-end.
 
 Just go [here](https://support.google.com/analytics/answer/1032385).
 
-= Am i using Classic or Universal GA ? =
+= Am i using Classic or Universal Google Analytics ? =
 
 [This](https://support.google.com/analytics/answer/4457764) might help.
 
@@ -195,12 +195,15 @@ You can search google like 'Linking google analytics to webmaster'
 
 == Changelog ==
 
+= 1.0.1 =
+* Minor updates and fixes
+
 = 1.0.0 =
 * Removed : Log search query as event, read [more](https://support.google.com/analytics/answer/1012264?hl=en)
 * Allow events to be non-interactive
 
 = 0.9.9 =
-* Minimum php version required 5.3.0
+* Minimum php version required 5.3.0 because of [namespace](http://php.net/manual/en/language.namespaces.rationale.php)
 * Updated docs
 * Several speed improvements
 
