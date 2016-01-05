@@ -22,7 +22,7 @@
                     <tr>
                         <th scope="row"><?php _e('Google Analytics tracking ID',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><input type="text" size="25" placeholder="UA-012345678-9" name="asga_options[ga_id]" value="<?php echo esc_attr($options['ga_id']); ?>">
-                            <a target="_blank" href="https://support.google.com/analytics/answer/1032385"><i class="dashicons-before dashicons-editor-help"></i></a>
+                            <a target="_blank" href="https://support.google.com/analytics/answer/1032385"><i class="dashicons-before dashicons-external"></i></a>
                             <br>
                             <p class="description"><?php _e('Paste your Google Analytics tracking ID e.g.',ASGA_TEXT_DOMAIN) ?> ("<code>UA-XXXXXXXX-Y</code>")</p>
                         </td>
@@ -34,7 +34,7 @@
                                 <option value="1" <?php selected($options['ua_enabled'], 1) ?>><?php _e('Universal',ASGA_TEXT_DOMAIN) ?> (analytics.js)</option>
                                 <option value="0" <?php selected($options['ua_enabled'], 0) ?>><?php _e('Classic',ASGA_TEXT_DOMAIN) ?> (ga.js)</option>
                             </select>
-                            <a href="https://support.google.com/analytics/answer/3450662" target="_blank"><i class="dashicons-before dashicons-editor-help"></i></a>
+                            <a href="https://support.google.com/analytics/answer/3450662" target="_blank"><i class="dashicons-before dashicons-external"></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -51,7 +51,7 @@
                     <tr>
                         <th scope="row"><?php _e('Google webmaster code',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><input type="text" size="25" autocomplete="off" placeholder="<?php _e('Optional',ASGA_TEXT_DOMAIN) ?>" name="asga_options[webmaster][google_code]" value="<?php echo esc_attr($options['webmaster']['google_code']); ?>">
-                            <a href="https://www.google.com/webmasters/tools/home?hl=en" target="_blank"><i class="dashicons-before dashicons-editor-help"></i></a>
+                            <a href="https://www.google.com/webmasters/tools/home?hl=en" target="_blank"><i class="dashicons-before dashicons-external"></i></a>
                             <p class="description"><?php _e('Paste your Google webmaster verification code here',ASGA_TEXT_DOMAIN) ?></p>
                         </td>
                     </tr>
@@ -62,31 +62,31 @@
                     <tr>
                         <th scope="row"><?php _e('Demographics and Interest Reports',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><label><input type="checkbox" name="asga_options[displayfeatures]" value="1" <?php checked($options['displayfeatures'], 1) ?>><?php _e('Enable Advertising Features',ASGA_TEXT_DOMAIN) ?>
-                                <a target="_blank" href="https://support.google.com/analytics/answer/3450482"><i class="dashicons-before dashicons-editor-help"></i></a></label>
+                                <a target="_blank" href="https://support.google.com/analytics/answer/3450482"><i class="dashicons-before dashicons-external"></i></a></label>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><?php _e('Enhanced Link Attribution',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><label><input type="checkbox" name="asga_options[ga_ela]" value="1" <?php checked($options['ga_ela'], 1) ?>><?php _e('Check to enable',ASGA_TEXT_DOMAIN) ?>
-                                <a target="_blank" href="https://support.google.com/analytics/answer/2558867"><i class="dashicons-before dashicons-editor-help"></i></a> </label>
+                                <a target="_blank" href="https://support.google.com/analytics/answer/2558867"><i class="dashicons-before dashicons-external"></i></a> </label>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><?php _e('Cross-domain user tracking',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><label><input type="checkbox" name="asga_options[allow_linker]" value="1" <?php checked($options['allow_linker'], 1) ?>><?php _e('_setAllowLinker',ASGA_TEXT_DOMAIN) ?>
-                                <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiDomainDirectory#_gat.GA_Tracker_._setAllowLinker"><i class="dashicons-before dashicons-editor-help"></i> </a> </label>
+                                <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiDomainDirectory#_gat.GA_Tracker_._setAllowLinker"><i class="dashicons-before dashicons-external"></i> </a> </label>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><?php _e('Campaign tracking',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><label><input type="checkbox" name="asga_options[allow_anchor]" value="1" <?php checked($options['allow_anchor'], 1) ?>><?php _e('_setAllowAnchor',ASGA_TEXT_DOMAIN) ?>
-                                <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiCampaignTracking#_gat.GA_Tracker_._setAllowAnchor"><i class="dashicons-before dashicons-editor-help"></i></a> </label>
+                                <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiCampaignTracking#_gat.GA_Tracker_._setAllowAnchor"><i class="dashicons-before dashicons-external"></i></a> </label>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><?php _e('Anonymize IP',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><label><input type="checkbox" name="asga_options[anonymise_ip]" value="1" <?php checked($options['anonymise_ip'], 1) ?>><?php _e('Anonymizes IP addresses',ASGA_TEXT_DOMAIN) ?>
-                                <a href="https://support.google.com/analytics/answer/2763052" target="_blank"><i class="dashicons-before dashicons-editor-help"></i></a></label>
+                                <a href="https://support.google.com/analytics/answer/2763052" target="_blank"><i class="dashicons-before dashicons-external"></i></a></label>
                         </td>
                     </tr>
                     <tr>
@@ -193,7 +193,7 @@
                     <tr>
                         <th scope="row"><?php _e('Debug mode',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><label><input type="checkbox" name="asga_options[debug_mode]" value="1" <?php checked($options['debug_mode'], 1) ?>><?php _e('Enable debugging mode for administrators',ASGA_TEXT_DOMAIN) ?>
-                                <a target="_blank" href="https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug"><i class="dashicons-before dashicons-editor-help"></i></a> </label>
+                                <a target="_blank" href="https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug"><i class="dashicons-before dashicons-external"></i></a> </label>
 
                             <p class="description"><?php _e("This should only be used temporarily or during development, don't forget to disable it in production",'asga') ?>.</p>
                         </td>

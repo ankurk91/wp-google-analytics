@@ -279,7 +279,7 @@ class Ank_Simplified_GA_Frontend
                 wp_enqueue_script('jquery');
             }
 
-            $is_min = (WP_DEBUG == 1) ? '' : '.min';
+            $is_min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG == 1) ? '' : '.min';
             //depends on jquery
             wp_enqueue_script('asga-event-tracking', plugins_url('/js/event-tracking' . $is_min . '.js', ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, true);
             //wp inbuilt hack to print js options object just before this script
