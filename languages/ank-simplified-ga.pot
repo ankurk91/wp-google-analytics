@@ -1,18 +1,17 @@
 # Ank Simplified GA Plugin for WordPress
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Ank Simplified GA\n"
 "Report-Msgid-Bugs-To: https://github.com/ank91/ank-simplified-ga/issues\n"
-"POT-Creation-Date: 2015-12-13 15:42+0530\n"
-"PO-Revision-Date: 2015-09-27 18:48+0530\n"
+"POT-Creation-Date: 2016-01-13 17:06+0530\n"
+"PO-Revision-Date: 2016-01-13 17:06+0530\n"
 "Last-Translator: ank91\n"
 "Language-Team: \n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -22,28 +21,6 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: views\n"
 "X-Poedit-SearchPath-1: inc\n"
-
-#: inc/class-admin.php:104
-msgid "Settings"
-msgstr ""
-
-#: inc/class-admin.php:192
-msgid "Your GA tracking ID seems invalid. Please validate."
-msgstr ""
-
-#: inc/class-admin.php:239
-msgid "You do not have sufficient permissions to access this page."
-msgstr ""
-
-#: inc/class-admin.php:343
-msgid "Network Administrator"
-msgstr ""
-
-#: inc/class-admin.php:359
-msgid ""
-"Google Analytics debug mode is enabled for this site. Don't forget to "
-"disable this option in production."
-msgstr ""
 
 #: views/settings_page.php:3
 msgid "Ank Simplified Google Analytics"
@@ -289,4 +266,26 @@ msgstr ""
 
 #: views/settings_page.php:214
 msgid "WordPress"
+msgstr ""
+
+#: inc/class-admin.php:105
+msgid "Settings"
+msgstr ""
+
+#: inc/class-admin.php:193
+msgid "Your GA tracking ID seems invalid. Please validate."
+msgstr ""
+
+#: inc/class-admin.php:240
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: inc/class-admin.php:344
+msgid "Network Administrator"
+msgstr ""
+
+#: inc/class-admin.php:360
+msgid ""
+"Google Analytics debug mode is enabled for this site. Don't forget to "
+"disable this option in production."
 msgstr ""
