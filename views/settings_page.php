@@ -214,4 +214,3 @@
         ★ <?php _e('Rate this on',ASGA_TEXT_DOMAIN) ?> <a href="https://wordpress.org/support/view/plugin-reviews/ank-simplified-ga?filter=5" target="_blank"><?php _e('WordPress') ?></a>
     </p>
 </div> <!-- .wrap-->
-<script type="text/javascript">window.jQuery || console.error('Could not find jQuery. This page needs jQuery to work.')</script>
