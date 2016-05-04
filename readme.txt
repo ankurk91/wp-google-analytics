@@ -1,8 +1,8 @@
 === Ank Simplified Google Analytics ===
-Tags: google analytics, tracking, light weight, simple, easy, free , multi-site, webmaster
+Tags: google analytics, tracking, light weight, simple, easy, free , multi-site
 Requires at least: 3.8.0
-Tested up to: 4.4.2
-Stable tag: 1.0.1
+Tested up to: 4.5.1
+Stable tag: 1.0.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -30,7 +30,7 @@ Track your WordPress website with Google Analytics service.
     * Each sub site need to be configured separately
     * Each sub site will store its own configuration in database, there is no global settings for this plugin
 * Translation ready, you are welcome [here](https://github.com/ank91/ank-simplified-ga)
-* Google webmaster site verification
+* Google webmaster site verification (deprecated)
 	* No need to install another plugin for Google webmaster verification
 	* Insert your verification code to generate meta tag
 * Choose where to place your tracking code
@@ -168,6 +168,8 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 
 = How do i enter Google Webmaster verification code ? =
 
+This feature has been deprecated.
+
 Login to Google Webmaster [console](https://www.google.com/webmasters/tools/home?hl=en), get the verification code from there
 
 Checkout this [link](http://googlewebmastercentral.blogspot.in/2011/02/linking-google-analytics-to-webmaster.html)
@@ -194,6 +196,10 @@ You can search google like 'Linking google analytics to webmaster'
 
 
 == Changelog ==
+
+= 1.0.2 =
+* Tested upto wp v4.5.1
+* Deprecate 'Google Webmaster Code' options in favour of [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/)
 
 = 1.0.1 =
 * Tested up to wp v4.4.2
