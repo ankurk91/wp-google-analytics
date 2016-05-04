@@ -18,13 +18,14 @@
          * Storing DOM element for later use
          * @type {*|jQuery|HTMLElement}
          */
-        var gaTabs = $('h2#ga-tabs');
+        var $gaTabs = $('h2#ga-tabs');
         /**
          * Bind a click event to all tabs
          */
-        gaTabs.find('a.nav-tab').click(function () {
+        $gaTabs.find('a.nav-tab').on('click', (function (e) {
+            e.preventDefault();
             //Hide all tabs
-            gaTabs.find('a.nav-tab').removeClass('nav-tab-active');
+            $gaTabs.find('a.nav-tab').removeClass('nav-tab-active');
             $('div.tab-content').removeClass('active');
             //Activate only clicked tab
             var id = $(this).attr('id').replace('-tab', '');
@@ -32,13 +33,13 @@
             $(this).addClass('nav-tab-active');
             //Set return tab url
             setRedirectURL(id);
-        });
+        }));
 
         /**
          * Storing DOM element for faster processing
          * @type {*|{}|jQuery}
          */
-        var input = $("form#asga_form").find('input:hidden[name="_wp_http_referer"]');
+        var $input = $("form#asga_form").find('input:hidden[name="_wp_http_referer"]');
 
         /**
          * Set redirect url into form's input:hidden
@@ -46,10 +47,10 @@
          * @param url String
          */
         function setRedirectURL(url) {
-            if (typeof input === 'undefined')  return;
-            var split = input.val().split('?', 1);
+            if (typeof $input === 'undefined')  return;
+            var split = $input.val().split('?', 1);
             //Update the tab id in last while keeping base url same
-            input.val(split[0] + '?page=asga_options_page#top#' + url);
+            $input.val(split[0] + '?page=asga_options_page#top#' + url);
         }
     });
 })(window, jQuery);

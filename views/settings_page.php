@@ -52,7 +52,7 @@
                         <th scope="row"><?php _e('Google webmaster code',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><input type="text" size="25" autocomplete="off" placeholder="<?php _e('Optional',ASGA_TEXT_DOMAIN) ?>" name="asga_options[webmaster][google_code]" value="<?php echo esc_attr($options['webmaster']['google_code']); ?>">
                             <a href="https://www.google.com/webmasters/tools/home?hl=en" target="_blank"><i class="dashicons-before dashicons-external"></i></a>
-                            <p class="description"><?php _e('Paste your Google webmaster verification code here',ASGA_TEXT_DOMAIN) ?></p>
+                            <p class="description" style="color:#ba281e"><?php _e('This options has been deprecated and will be removed in next version',ASGA_TEXT_DOMAIN) ?></p>
                         </td>
                     </tr>
                 </table>
@@ -163,11 +163,11 @@
             <div id="ga-control" class="tab-content">
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><?php _e('Place tracking code',ASGA_TEXT_DOMAIN) ?> :</th>
+                        <th scope="row"><?php _e('Place tracking code in',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td>
                             <fieldset>
-                                <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;<?php _e('In document header',ASGA_TEXT_DOMAIN) ?></label><br>
-                                <label><input type="radio" name="asga_options[js_location]" value="2" <?php checked($options['js_location'], 2) ?>>&ensp;<?php _e('In document footer',ASGA_TEXT_DOMAIN) ?></label>
+                                <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;<?php _e('Document header',ASGA_TEXT_DOMAIN) ?></label><br>
+                                <label><input type="radio" name="asga_options[js_location]" value="2" <?php checked($options['js_location'], 2) ?>>&ensp;<?php _e('Document footer',ASGA_TEXT_DOMAIN) ?></label>
                             </fieldset>
                         </td>
                     </tr>

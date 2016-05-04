@@ -281,7 +281,7 @@ class Ank_Simplified_GA_Frontend
 
             $is_min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG == 1) ? '' : '.min';
             //depends on jquery
-            wp_enqueue_script('asga-event-tracking', plugins_url('/js/event-tracking' . $is_min . '.js', ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, true);
+            wp_enqueue_script('asga-event-tracking', plugins_url('/js/front-end' . $is_min . '.js', ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, true);
             //wp inbuilt hack to print js options object just before this script
             wp_localize_script('asga-event-tracking', '_asga_opt', $this->get_js_options());
         }
