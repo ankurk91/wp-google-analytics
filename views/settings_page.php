@@ -52,7 +52,7 @@
                         <th scope="row"><?php _e('Google webmaster code',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><input type="text" size="25" autocomplete="off" placeholder="<?php _e('Optional',ASGA_TEXT_DOMAIN) ?>" name="asga_options[webmaster][google_code]" value="<?php echo esc_attr($options['webmaster']['google_code']); ?>">
                             <a href="https://www.google.com/webmasters/tools/home?hl=en" target="_blank"><i class="dashicons-before dashicons-external"></i></a>
-                            <p class="description"><?php _e('Paste your Google webmaster verification code here',ASGA_TEXT_DOMAIN) ?></p>
+                            <p class="description" style="color:#ba281e"><?php _e('This options has been deprecated and will be removed in next version',ASGA_TEXT_DOMAIN) ?></p>
                         </td>
                     </tr>
                 </table>
