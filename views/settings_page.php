@@ -163,11 +163,11 @@
             <div id="ga-control" class="tab-content">
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><?php _e('Place tracking code',ASGA_TEXT_DOMAIN) ?> :</th>
+                        <th scope="row"><?php _e('Place tracking code in',ASGA_TEXT_DOMAIN) ?> :</th>
                         <td>
                             <fieldset>
-                                <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;<?php _e('In document header',ASGA_TEXT_DOMAIN) ?></label><br>
-                                <label><input type="radio" name="asga_options[js_location]" value="2" <?php checked($options['js_location'], 2) ?>>&ensp;<?php _e('In document footer',ASGA_TEXT_DOMAIN) ?></label>
+                                <label><input type="radio" name="asga_options[js_location]" value="1" <?php checked($options['js_location'], 1) ?>>&ensp;<?php _e('Document header',ASGA_TEXT_DOMAIN) ?></label><br>
+                                <label><input type="radio" name="asga_options[js_location]" value="2" <?php checked($options['js_location'], 2) ?>>&ensp;<?php _e('Document footer',ASGA_TEXT_DOMAIN) ?></label>
                             </fieldset>
                         </td>
                     </tr>

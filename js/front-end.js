@@ -4,10 +4,6 @@
 (function (window, document, jQuery) {
     'use strict';
 
-    //if options not exists then return early
-    if (typeof window._asga_opt === 'undefined') {
-        return;
-    }
     var asga_opt = window._asga_opt;
 
     //jQuery Filter Ref: http://api.jquery.com/filter/
