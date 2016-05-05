@@ -1,4 +1,6 @@
 <?php
+namespace Ank91\Plugins\Ank_Simplified_GA;
+?><?php
 /*
 Plugin Name: Ank Simplified Google Analytics
 Plugin URI: https://github.com/ank91/ank-simplified-ga
@@ -27,11 +29,11 @@ define('ASGA_TEXT_DOMAIN', 'ank-simplified-ga');
  */
 if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
     require 'inc/class-admin.php';
-    Ank91\Plugins\Ank_Simplified_GA\Ank_Simplified_GA_Admin::get_instance();
+    Ank_Simplified_GA_Admin::get_instance();
 
 } else {
     require 'inc/class-frontend.php';
-    Ank91\Plugins\Ank_Simplified_GA\Ank_Simplified_GA_Frontend::get_instance();
+    Ank_Simplified_GA_Frontend::get_instance();
 }
 
 

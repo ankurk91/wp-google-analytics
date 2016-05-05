@@ -442,7 +442,7 @@ class Ank_Simplified_GA_Admin
      */
     function enqueue_admin_js()
     {
-        $is_min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG == 1) ? '' : '.min';
+        $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
         wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, false);
     }
 

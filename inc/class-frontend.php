@@ -193,7 +193,7 @@ class Ank_Simplified_GA_Frontend
 
         if (is_404() && $options['log_404'] == 1) {
             $view_array['gaq'][] = "'_trackEvent','404',document.location.href,document.referrer";
-        }  else {
+        } else {
             $view_array['gaq'][] = "'_trackPageview'";
         }
 
@@ -279,7 +279,7 @@ class Ank_Simplified_GA_Frontend
                 wp_enqueue_script('jquery');
             }
 
-            $is_min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG == 1) ? '' : '.min';
+            $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
             //depends on jquery
             wp_enqueue_script('asga-event-tracking', plugins_url('/js/front-end' . $is_min . '.js', ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, true);
             //wp inbuilt hack to print js options object just before this script
@@ -298,7 +298,7 @@ class Ank_Simplified_GA_Frontend
     {
         $file_path = plugin_dir_path(ASGA_BASE_FILE) . 'views/' . $file;
         if (is_readable($file_path)) {
-            require($file_path);
+            require $file_path;
         } else {
             throw new \Exception('Unable to load template file - ' . esc_html($file_path) . ', (v' . ASGA_PLUGIN_VER . ')');
         }
