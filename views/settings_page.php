@@ -1,6 +1,6 @@
 <style type="text/css"> .tab-content { display: none } .tab-content.active { display: block } pre.xdebug-var-dump, pre.db-dump { max-height: 200px; overflow: auto; border: 1px solid #e2e2e2; padding: 5px; } </style>
 <div class="wrap">
-    <h2><?php _e('Ank Simplified Google Analytics',ASGA_TEXT_DOMAIN) ?> <small>: (v<?php echo ASGA_PLUGIN_VER; ?>)</small> </h2>
+    <h2><?php _e('Ank Simplified Google Analytics',ASGA_TEXT_DOMAIN) ?> <small>(v<?php echo ASGA_PLUGIN_VER; ?>)</small> </h2>
 
     <h2 class="nav-tab-wrapper" id="ga-tabs">
         <a class="nav-tab" id="ga-general-tab" href="#top#ga-general"><?php _e('General',ASGA_TEXT_DOMAIN) ?></a>

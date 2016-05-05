@@ -17,7 +17,7 @@ if (!defined('WP_UNINSTALL_PLUGIN'))
  */
 function uninstall_ank_simplified_ga($option_name)
 {
-    if (is_multisite() === false) {
+    if (false === is_multisite()) {
         delete_option($option_name);
     } else {
         global $wpdb;
