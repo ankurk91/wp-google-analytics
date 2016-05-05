@@ -27,3 +27,7 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 #### TO DO List
 * OAuth implementation (idea dropped)
 * Options page Tooltip help system (partially done)
+
+#### License
+
+[License](License.txt)
