@@ -17,7 +17,7 @@
         settings_fields(self::PLUGIN_OPTION_GROUP);
         ?>
         <div class="tab-wrapper">
-            <div id="ga-general" class="tab-content">
+            <section id="ga-general" class="tab-content">
                 <table class="form-table">
                     <tr>
                         <th scope="row"><?php _e('Google Analytics tracking ID',ASGA_TEXT_DOMAIN) ?> :</th>
@@ -56,8 +56,8 @@
                         </td>
                     </tr>
                 </table>
-            </div>
-            <div id="ga-advanced" class="tab-content">
+            </section>
+            <section id="ga-advanced" class="tab-content">
                 <table class="form-table">
                     <tr>
                         <th scope="row"><?php _e('Demographics and Interest Reports',ASGA_TEXT_DOMAIN) ?> :</th>
@@ -101,8 +101,8 @@
                         </td>
                     </tr>
                 </table>
-            </div>
-            <div id="ga-events" class="tab-content">
+            </section>
+            <section id="ga-events" class="tab-content">
                 <table class="form-table">
                     <tr>
                         <th scope="row"><?php _e('Event tracking',ASGA_TEXT_DOMAIN) ?>  :</th>
@@ -159,8 +159,8 @@
                         </td>
                     </tr>
                 </table>
-            </div>
-            <div id="ga-control" class="tab-content">
+            </section>
+            <section id="ga-control" class="tab-content">
                 <table class="form-table">
                     <tr>
                         <th scope="row"><?php _e('Place tracking code in',ASGA_TEXT_DOMAIN) ?> :</th>
@@ -187,8 +187,8 @@
                         </td>
                     </tr>
                 </table>
-            </div>
-            <div id="ga-troubleshoot" class="tab-content">
+            </section>
+            <section id="ga-troubleshoot" class="tab-content">
                 <table class="form-table">
                     <tr>
                         <th scope="row"><?php _e('Debug mode',ASGA_TEXT_DOMAIN) ?> :</th>
@@ -203,7 +203,7 @@
                         <td><pre class="db-dump"><?php print_r($options); ?></pre></td>
                     </tr>
                 </table>
-            </div>
+            </section>
         </div> <!--.tab-wrapper -->
         <?php submit_button() ?>
     </form>
