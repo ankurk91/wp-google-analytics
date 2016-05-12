@@ -73,7 +73,7 @@ class Ank_Simplified_GA_Admin
     function do_upon_plugin_activation()
     {
 
-        //if db options not exists then update with defaults
+        //If db options not exists then update with defaults
         if (get_option(ASGA_OPTION_NAME) == false) {
             update_option(ASGA_OPTION_NAME, $this->get_default_options());
         }
@@ -91,7 +91,6 @@ class Ank_Simplified_GA_Admin
 
     /**
      * Adds a 'Settings' link for this plugin on plugin listing page
-     *
      * @param $links
      * @return array  Links array
      */
@@ -115,9 +114,9 @@ class Ank_Simplified_GA_Admin
     function add_to_settings_menu()
     {
         $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', 'Google Analytics', 'manage_options', self::PLUGIN_SLUG, array($this, 'load_options_page'));
-        /*add help stuff via tab*/
+        //Add help stuff via tab
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
-        /*we can load additional css/js to our option page here */
+        //We can load additional css/js to our option page here
         add_action('admin_print_scripts-' . $page_hook_suffix, array($this, 'add_admin_assets'));
 
     }
@@ -157,11 +156,10 @@ class Ank_Simplified_GA_Admin
             )
 
         );
-        //ignored roles by default
+        //Ignored some roles by default
         $ignored_roles = array('networkAdmin', 'administrator', 'editor');
-        //store roles as well
+        //Store roles as well
         foreach ($this->get_all_roles() as $role) {
-            //ignore some roles by-default
             if (in_array($role['id'], $ignored_roles)) {
                 $defaults['ignore_role_' . $role['id']] = 1;
             } else {
@@ -183,13 +181,13 @@ class Ank_Simplified_GA_Admin
     {
 
         $out = array();
-        //always store plugin version to db
+        //Always store plugin version to db
         $out['plugin_ver'] = ASGA_PLUGIN_VER;
 
-        // Get the actual tracking ID
+        //Get the actual tracking ID
         if (!preg_match('|^UA-\d{4,}-\d+$|', (string)$in['ga_id'])) {
             $out['ga_id'] = '';
-            //warn user that the entered id is not valid
+            //Warn user that the entered id is not valid
             add_settings_error(ASGA_OPTION_NAME, 'ga_id', __('Your GA tracking ID seems invalid. Please validate.', ASGA_TEXT_DOMAIN));
         } else {
             $out['ga_id'] = sanitize_text_field($in['ga_id']);
@@ -222,7 +220,7 @@ class Ank_Simplified_GA_Admin
 
         }
 
-        // Google webmaster code
+        //Google webmaster code
         $out['webmaster']['google_code'] = sanitize_text_field($in['webmaster']['google_code']);
         //Extensions to track as downloads
         $out['track_download_ext'] = sanitize_text_field($in['track_download_ext']);
@@ -256,7 +254,7 @@ class Ank_Simplified_GA_Admin
      */
     function add_help_menu_tab()
     {
-        /*get current screen object*/
+        /*Get current screen object*/
         $curr_screen = get_current_screen();
 
         $curr_screen->add_help_tab(
@@ -301,7 +299,7 @@ class Ank_Simplified_GA_Admin
             )
         );
 
-        /*add a help sidebar with links */
+        //Add a help sidebar with links
         $curr_screen->set_help_sidebar(
             '<p><strong>Quick Links</strong></p>' .
             '<p><a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">Plugin FAQ</a></p>' .
@@ -337,7 +335,7 @@ class Ank_Simplified_GA_Admin
             );
         }
 
-        //append a custom role if multi-site is enabled
+        //Append a custom role if multi-site is enabled
         if (is_multisite()) {
             $return_roles[] = array(
                 'id' => 'networkAdmin',
@@ -389,13 +387,13 @@ class Ank_Simplified_GA_Admin
      */
     private function get_safe_options()
     {
-        //get fresh options from db
+        //Get fresh options from db
         $db_options = get_option(ASGA_OPTION_NAME);
-        //be fail safe, if not array then array_merge may fail
+        //Be fail safe, if not array then array_merge may fail
         if (is_array($db_options) === false) {
             $db_options = array();
         }
-        //if options not exists in db then init with defaults , also always append default options to existing options
+        //If options not exists in db then init with defaults , also always append default options to existing options
         $db_options = empty($db_options) ? $this->get_default_options() : array_merge($this->get_default_options(), $db_options);
         return $db_options;
 
@@ -406,17 +404,17 @@ class Ank_Simplified_GA_Admin
      */
     function perform_upgrade()
     {
-        //get fresh options from db
+        //Get fresh options from db
         $db_options = get_option(ASGA_OPTION_NAME);
-        //check if we need to proceed , if no return early
+        //Check if we need to proceed , if no return early
         if ($this->can_proceed_to_upgrade($db_options) === false) return;
-        //get default options
+        //Get default options
         $default_options = $this->get_default_options();
-        //merge with db options , preserve old
+        //Merge with db options , preserve old
         $new_options = (empty($db_options)) ? $default_options : array_merge($default_options, $db_options);
-        //update plugin version
+        //Update plugin version
         $new_options['plugin_ver'] = ASGA_PLUGIN_VER;
-        //write options back to db
+        //Write options back to db
         update_option(ASGA_OPTION_NAME, $new_options);
 
     }
