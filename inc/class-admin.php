@@ -118,7 +118,7 @@ class Ank_Simplified_GA_Admin
         /*add help stuff via tab*/
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
         /*we can load additional css/js to our option page here */
-        add_action('admin_print_scripts-' . $page_hook_suffix, array($this, 'enqueue_admin_js'));
+        add_action('admin_print_scripts-' . $page_hook_suffix, array($this, 'add_admin_assets'));
 
     }
 
@@ -438,11 +438,12 @@ class Ank_Simplified_GA_Admin
     }
 
     /**
-     * Print option page javascript
+     * Print option page javascript,css
      */
-    function enqueue_admin_js()
+    function add_admin_assets()
     {
         $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
+        wp_enqueue_style('asga-admin', plugins_url('/css/option-page' . $is_min . '.css', ASGA_BASE_FILE), array(), ASGA_PLUGIN_VER);
         wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, false);
     }
 
