@@ -8,7 +8,7 @@
 
     jQuery(function ($) {
         //if there no active tab found , set first tab as active
-        if (requestedTab === '') requestedTab = $('div.tab-content').attr('id');
+        if (requestedTab === '') requestedTab = $('section.tab-content').attr('id');
         $('#' + requestedTab).addClass('active');
         $('#' + requestedTab + '-tab').addClass('nav-tab-active');
         //Set return tab on page load
@@ -23,10 +23,10 @@
          * Bind a click event to all tabs
          */
         $gaTabs.find('a.nav-tab').on('click', (function (e) {
-            e.preventDefault();
+            e.stopPropagation();
             //Hide all tabs
             $gaTabs.find('a.nav-tab').removeClass('nav-tab-active');
-            $('div.tab-content').removeClass('active');
+            $('section.tab-content').removeClass('active');
             //Activate only clicked tab
             var id = $(this).attr('id').replace('-tab', '');
             $('#' + id).addClass('active');
