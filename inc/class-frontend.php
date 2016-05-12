@@ -63,23 +63,23 @@ class Ank_Simplified_GA_Frontend
      */
     private function init()
     {
-        //get action's priority
+        //Get action's priority
         $js_priority = absint($this->asga_options['js_priority']);
 
-        //decide where to print code
+        //Decide where to print code
         if ($this->asga_options['js_location'] == 1) {
             add_action('wp_head', array($this, 'decide_tracking_code'), $js_priority);
         } else {
             add_action('wp_footer', array($this, 'decide_tracking_code'), $js_priority);
         }
 
-        //check for webmaster code
+        //Check for webmaster code
         if (!empty($this->asga_options['webmaster']['google_code'])) {
             add_action('wp_head', array($this, 'print_webmaster_code'), 9);
         }
 
         if ($this->need_to_load_event_tracking_js()) {
-            //load event tracking js file
+            //Load event tracking js file
             add_action('wp_footer', array($this, 'add_event_tracking_js'));
         }
 
@@ -92,44 +92,38 @@ class Ank_Simplified_GA_Frontend
     function decide_tracking_code()
     {
 
-        //get database options
+        //Get database options
         $options = $this->asga_options;
 
-        //check if to proceed or not, return early with a message if not
+        //Check if to proceed or not, return early with a message if not
         $tracking_status = $this->is_tracking_possible();
 
-        /**
-         * If tracking status is not true, then it should be a string (reason why false)
-         */
+        //If tracking status is not true, then it should be a string (reason why false)
         if ($tracking_status !== true) {
             $this->load_view('ga_disabled.php', array('reason' => $tracking_status));
             return;
         }
+        //Finalize some db options
+        $options['ga_id'] = esc_js($options['ga_id']);
+        $options['ga_domain'] = empty($options['ga_domain']) ? 'auto' : esc_js($options['ga_domain']);
 
-        $ga_array = array();
-        //get tracking id
-        $ga_array['id'] = esc_js($options['ga_id']);
-        //decide sub-domain
-        $ga_array['domain'] = empty($options['ga_domain']) ? 'auto' : esc_js($options['ga_domain']);
-
-        //these flags will be used in view
+        //These flags will be used in view
         $view_array = array(
             'gaq' => array()
         );
 
-        //check for debug mode
+        //Check for debug mode
         $view_array['debug_mode'] = $this->check_debug_mode($options);
-
         $view_array['js_load_later'] = (absint($options['js_load_later']) === 1);
 
 
         if ($options['ua_enabled'] == 1) {
-            //if universal is enabled
-            $this->print_universal_code($view_array, $ga_array);
+            //If universal is enabled
+            $this->print_universal_code($view_array, $options);
 
         } else {
-            //classic ga is enabled
-            $this->print_classic_code($view_array, $ga_array);
+            //Classic ga is enabled
+            $this->print_classic_code($view_array, $options);
 
         }
 
@@ -138,18 +132,19 @@ class Ank_Simplified_GA_Frontend
     /**
      * Prepare classic tracing code and print
      * @param $view_array array Array to be passed to view
-     * @param $ga array
+     * @param $options array
      */
-    private function print_classic_code($view_array, $ga)
+    private function print_classic_code($view_array, $options)
     {
-        $options = $this->asga_options;
 
         $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
+
         if ($view_array['debug_mode'] == true) {
             //Did u notice additional /u in url ?
             //@source https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug
             $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js'";
         }
+
         //@source https://support.google.com/analytics/answer/2444872
         if ($options['displayfeatures'] == 1) {
             $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js'";
@@ -157,10 +152,11 @@ class Ank_Simplified_GA_Frontend
                 $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc_debug.js'";
             }
         }
-        $view_array['gaq'][] = "'_setAccount', '" . $ga['id'] . "'";
 
-        if ($ga['domain'] !== 'auto') {
-            $view_array['gaq'][] = "'_setDomainName', '" . $ga['domain'] . "'";
+        $view_array['gaq'][] = "'_setAccount', '" . $options['ga_id'] . "'";
+
+        if ($options['ga_domain'] !== 'auto') {
+            $view_array['gaq'][] = "'_setDomainName', '" . $options['ga_domain'] . "'";
         }
 
         if ($options['allow_linker'] == 1) {
@@ -204,22 +200,21 @@ class Ank_Simplified_GA_Frontend
     /**
      * Prepare universal tracking code and print
      * @param $view_array array Array to be passed to view
-     * @param $ga array
+     * @param $options array
      */
-    private function print_universal_code($view_array, $ga)
+    private function print_universal_code($view_array, $options)
     {
-        $options = $this->asga_options;
 
         if ($options['allow_linker'] == 1 && $options['allow_anchor'] == 0) {
-            $view_array['gaq'][] = "'create', '" . $ga['id'] . "', '" . $ga['domain'] . "', {'allowLinker': true}";
+            $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'allowLinker': true}";
         } else {
             if ($options['allow_anchor'] == 1 && $options['allow_linker'] == 0) {
-                $view_array['gaq'][] = "'create', '" . $ga['id'] . "', '" . $ga['domain'] . "', {'allowAnchor': true}";
+                $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'allowAnchor': true}";
             } else {
                 if ($options['allow_linker'] == 1 && $options['allow_anchor'] == 1) {
-                    $view_array['gaq'][] = "'create', '" . $ga['id'] . "', '" . $ga['domain'] . "', {'allowLinker': true,'allowAnchor': true}";
+                    $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'allowLinker': true,'allowAnchor': true}";
                 } else {
-                    $view_array['gaq'][] = "'create', '" . $ga['id'] . "', '" . $ga['domain'] . "'";
+                    $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "'";
                 }
             }
         }
@@ -231,11 +226,11 @@ class Ank_Simplified_GA_Frontend
         if ($options['anonymise_ip'] == 1) {
             $view_array['gaq'][] = "'set', 'anonymizeIp', true";
         }
-        /* Enable demographics and interests reports */
+
         if ($options['displayfeatures'] == 1) {
             $view_array['gaq'][] = "'require', 'displayfeatures'";
         }
-        /* Enhanced Link Attribution */
+
         if ($options['ga_ela'] == 1) {
             $view_array['gaq'][] = "'require', 'linkid'";
         }
@@ -274,15 +269,15 @@ class Ank_Simplified_GA_Frontend
          */
         if ($this->is_tracking_possible() === true) {
 
-            //load jquery if not loaded by theme
+            //Load jquery if not loaded by theme
             if (wp_script_is('jquery', $list = 'enqueued') === false) {
                 wp_enqueue_script('jquery');
             }
 
             $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
-            //depends on jquery
+            //Depends on jquery
             wp_enqueue_script('asga-event-tracking', plugins_url('/js/front-end' . $is_min . '.js', ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, true);
-            //wp inbuilt hack to print js options object just before this script
+            //WP inbuilt hack to print js options object just before this script
             wp_localize_script('asga-event-tracking', '_asga_opt', $this->get_js_options());
         }
     }
