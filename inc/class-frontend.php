@@ -159,6 +159,10 @@ class Ank_Simplified_GA_Frontend
             $view_array['gaq'][] = "'_setDomainName', '" . $options['ga_domain'] . "'";
         }
 
+        if ($options['sample_rate'] !== '') {
+            $view_array['gaq'][] = "'_setSampleRate', '" . $options['sample_rate']."'";
+        }
+
         if ($options['allow_linker'] == 1) {
             $view_array['gaq'][] = "'_setAllowLinker', true";
         }
@@ -206,15 +210,15 @@ class Ank_Simplified_GA_Frontend
     {
 
         if ($options['allow_linker'] == 1 && $options['allow_anchor'] == 0) {
-            $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'allowLinker': true}";
+            $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'sampleRate': " . $options['sample_rate'] . ",'allowLinker': true}";
         } else {
             if ($options['allow_anchor'] == 1 && $options['allow_linker'] == 0) {
-                $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'allowAnchor': true}";
+                $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'sampleRate': " . $options['sample_rate'] . ",'allowAnchor': true}";
             } else {
                 if ($options['allow_linker'] == 1 && $options['allow_anchor'] == 1) {
-                    $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'allowLinker': true,'allowAnchor': true}";
+                    $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'sampleRate': " . $options['sample_rate'] . ",'allowLinker': true,'allowAnchor': true}";
                 } else {
-                    $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "'";
+                    $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'sampleRate': " . $options['sample_rate'] . "}";
                 }
             }
         }
