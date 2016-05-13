@@ -5,7 +5,7 @@
 
     <h2 class="nav-tab-wrapper" id="ga-tabs">
         <a class="nav-tab" id="ga-general-tab" href="#top#ga-general"><?php _e('General', ASGA_TEXT_DOMAIN) ?></a>
-        <a class="nav-tab" id="ga-events-tab" href="#top#ga-events"><?php _e('Track & Monitor', ASGA_TEXT_DOMAIN) ?></a>
+        <a class="nav-tab" id="ga-events-tab" href="#top#ga-events"><?php _e('Event Tracking', ASGA_TEXT_DOMAIN) ?></a>
         <a class="nav-tab" id="ga-advanced-tab" href="#top#ga-advanced"><?php _e('Advanced', ASGA_TEXT_DOMAIN) ?></a>
         <a class="nav-tab" id="ga-control-tab" href="#top#ga-control"><?php _e('Control', ASGA_TEXT_DOMAIN) ?></a>
         <a class="nav-tab" id="ga-troubleshoot-tab" href="#top#ga-troubleshoot"><?php _e('Troubleshoot', ASGA_TEXT_DOMAIN) ?></a>
@@ -140,7 +140,7 @@
             <section id="ga-events" class="tab-content">
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><?php _e('Event tracking', ASGA_TEXT_DOMAIN) ?> :</th>
+                        <th scope="row"><?php _e('Events to track', ASGA_TEXT_DOMAIN) ?> :</th>
                         <td>
                             <fieldset>
                                 <?php
@@ -178,7 +178,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><?php _e('Track outbound link ', ASGA_TEXT_DOMAIN) ?> :</th>
+                        <th><?php _e('Track outbound link type', ASGA_TEXT_DOMAIN) ?> :</th>
                         <td>
                             <select name="asga_options[track_outbound_link_type]">
                                 <option
@@ -186,20 +186,6 @@
                                 <option
                                     value="0" <?php selected($options['track_outbound_link_type'], 0) ?>><?php _e('Full URL', ASGA_TEXT_DOMAIN) ?></option>
                             </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?php _e('Stop analytics when', ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td>
-                            <fieldset>
-                                <?php
-                                foreach ($this->get_all_roles() as $role) {
-                                    echo '<label>';
-                                    echo '<input type="checkbox" name="asga_options[ignore_role_' . $role['id'] . ']" value="1" ' . checked($options['ignore_role_' . $role['id']], 1, 0) . '/>';
-                                    echo '&ensp;' . esc_attr($role['name']) . ' ' . __('is logged in', ASGA_TEXT_DOMAIN);
-                                    echo '</label><br />';
-                                }
-                                ?></fieldset>
                         </td>
                     </tr>
                 </table>
@@ -239,6 +225,20 @@
                             <p class="description"><?php _e('0 means highest priority', ASGA_TEXT_DOMAIN) ?></p>
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row"><?php _e('Stop analytics when', ASGA_TEXT_DOMAIN) ?> :</th>
+                        <td>
+                            <fieldset>
+                                <?php
+                                foreach ($this->get_all_roles() as $role) {
+                                    echo '<label>';
+                                    echo '<input type="checkbox" name="asga_options[ignore_role_' . $role['id'] . ']" value="1" ' . checked($options['ignore_role_' . $role['id']], 1, 0) . '/>';
+                                    echo '&ensp;' . esc_attr($role['name']) . ' ' . __('is logged in', ASGA_TEXT_DOMAIN);
+                                    echo '</label><br />';
+                                }
+                                ?></fieldset>
+                        </td>
+                    </tr>
                 </table>
             </section>
             <section id="ga-troubleshoot" class="tab-content">
@@ -269,8 +269,8 @@
     <hr>
     <p>
         <?php _e('Developed with ♥ by', ASGA_TEXT_DOMAIN) ?> - <a target="_blank" href="https://ank91.github.io/">Ankur Kumar</a> |
-        <?php _e('Fork on', ASGA_TEXT_DOMAIN) ?> <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a> |
+        <?php _e('Contribute on', ASGA_TEXT_DOMAIN) ?> <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a> |
         ★ <?php _e('Rate this on', ASGA_TEXT_DOMAIN) ?>
-        <a href="https://wordpress.org/support/view/plugin-reviews/ank-simplified-ga?filter=5" target="_blank"><?php _e('WordPress') ?></a>
+        <a href="https://wordpress.org/support/view/plugin-reviews/ank-simplified-ga#plugin-info" target="_blank"><?php _e('WordPress') ?></a>
     </p>
 </div> <!-- .wrap-->
