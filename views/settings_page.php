@@ -77,6 +77,14 @@
                         </td>
                     </tr>
                     <tr>
+                        <th scope="row"><?php _e('Sample rate', ASGA_TEXT_DOMAIN) ?> :</th>
+                        <td><input type="number" placeholder="100" name="asga_options[sample_rate]"
+                                   value="<?php echo esc_attr($options['sample_rate']); ?>">%
+                            <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#sampleRate"><i
+                                    class="dashicons-before dashicons-external"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row"><?php _e('Demographics and interest reports', ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><label><input type="checkbox" name="asga_options[displayfeatures]"
                                           value="1" <?php checked($options['displayfeatures'], 1) ?>><?php _e('Enable advertising features', ASGA_TEXT_DOMAIN) ?>
