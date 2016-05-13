@@ -29,7 +29,7 @@ Track your WordPress website with Google Analytics service.
 * Multi-site ready
     * Each sub site need to be configured separately
     * Each sub site will store its own configuration in database, there is no global settings for this plugin
-* Translation ready, you are welcome [here](https://github.com/ank91/ank-simplified-ga)
+* Translation ready, you are welcome [here](https://translate.wordpress.org/projects/wp-plugins/ank-simplified-ga)
 * Google webmaster site verification (deprecated)
 	* No need to install another plugin for Google webmaster verification
 	* Insert your verification code to generate meta tag
