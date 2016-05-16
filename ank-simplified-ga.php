@@ -1,6 +1,6 @@
 <?php
 namespace Ank91\Plugins\Ank_Simplified_GA;
-?><?php
+
 /*
 Plugin Name: Ank Simplified Google Analytics
 Plugin URI: https://github.com/ank91/ank-simplified-ga
