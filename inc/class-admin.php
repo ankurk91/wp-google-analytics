@@ -17,22 +17,22 @@ class Ank_Simplified_GA_Admin
     private function __construct()
     {
 
-        /* To save default options upon activation*/
+        // To save default options upon activation
         register_activation_hook(plugin_basename(ASGA_BASE_FILE), array($this, 'do_upon_plugin_activation'));
 
-        /* For register setting*/
+        // For register setting
         add_action('admin_init', array($this, 'register_plugin_settings'));
 
-        /* Settings link on plugin listing page*/
+        // Settings link on plugin listing page
         add_filter('plugin_action_links_' . plugin_basename(ASGA_BASE_FILE), array($this, 'add_plugin_actions_links'), 10, 2);
 
-        /* Add settings link under admin->settings menu */
+        // Add settings link under admin->settings menu
         add_action('admin_menu', array($this, 'add_to_settings_menu'));
 
-        /* Show warning if debug mode is on  */
+        // Show warning if debug mode is on
         add_action('admin_notices', array($this, 'show_admin_notice'));
 
-        /* Check for database upgrades*/
+        // Check for database upgrades
         add_action('plugins_loaded', array($this, 'perform_upgrade'));
 
         add_action('plugins_loaded', array($this, 'load_text_domain'));
@@ -113,7 +113,14 @@ class Ank_Simplified_GA_Admin
      */
     function add_to_settings_menu()
     {
-        $page_hook_suffix = add_submenu_page('options-general.php', 'Ank Simplified Google Analytics', 'Google Analytics', 'manage_options', self::PLUGIN_SLUG, array($this, 'load_options_page'));
+        $page_hook_suffix = add_submenu_page(
+            'options-general.php',
+            'Ank Simplified Google Analytics', //page title
+            'Google Analytics',  //menu name
+            'manage_options',
+            self::PLUGIN_SLUG,
+            array($this, 'load_options_page'));
+
         //Add help stuff via tab
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
         //We can load additional css/js to our option page here
@@ -157,9 +164,11 @@ class Ank_Simplified_GA_Admin
             )
 
         );
+
         //Ignored some roles by default
         $ignored_roles = array('networkAdmin', 'administrator', 'editor');
-        //Store roles as well
+
+        //Store roles to db
         foreach ($this->get_all_roles() as $role) {
             if (in_array($role['id'], $ignored_roles)) {
                 $defaults['ignore_role_' . $role['id']] = 1;
@@ -203,6 +212,8 @@ class Ank_Simplified_GA_Admin
         $out['js_priority'] = (empty($in['js_priority'])) ? 20 : absint($in['js_priority']);
 
         $out['ga_domain'] = sanitize_text_field(($in['ga_domain']));
+        //http://stackoverflow.com/questions/9549866/php-regex-to-remove-http-from-string
+        $out['ga_domain'] = preg_replace('#^https?://#', '', $out['ga_domain']);
 
         $out['sample_rate'] = floatval(($in['sample_rate']));
         //Sample rate should be between 1 to 100
@@ -246,15 +257,152 @@ class Ank_Simplified_GA_Admin
             wp_die(__('You do not have sufficient permissions to access this page.', ASGA_TEXT_DOMAIN));
         }
 
-        $file_path = plugin_dir_path(ASGA_BASE_FILE) . 'views/settings_page.php';
+        $this->load_view('settings_page.php');
 
+    }
+
+    /**
+     * Return all roles plus superAdmin if multi-site is enabled
+     * @return array
+     */
+    private function get_all_roles()
+    {
+        global $wp_roles;
+        $return_roles = array();
+
+        if (!isset($wp_roles))
+            $wp_roles = new \WP_Roles();
+
+        $role_list = $wp_roles->roles;
+
+        /**
+         * Filter: 'editable_roles' - Allows filtering of the roles shown within the plugin (and elsewhere in WP as it's a WP filter)
+         *
+         * @api array $role_list
+         */
+        $editable_roles = apply_filters('editable_roles', $role_list);
+
+        foreach ($editable_roles as $id => $role) {
+            $return_roles[] = array(
+                'id' => $id,
+                'name' => translate_user_role($role['name']),
+            );
+        }
+
+        //Append a custom role if multi-site is enabled
+        if (is_multisite()) {
+            $return_roles[] = array(
+                'id' => 'networkAdmin',
+                'name' => __('Network Administrator', ASGA_TEXT_DOMAIN)
+            );
+        }
+
+        return $return_roles;
+    }
+
+    /**
+     * Show a warning notice if debug mode is on
+     */
+    function show_admin_notice()
+    {
+        //show only for this plugin option page
+        if (strpos(get_current_screen()->id, self::PLUGIN_SLUG) === false) return;
+
+        $options = $this->get_safe_options();
+
+        //if debug mode is off return early
+        if ($options['debug_mode'] == 0) return;
+        //id ga id is not set return early
+        if (empty($options['ga_id'])) return;
+
+        $this->load_view('admin_notice.php', array());
+
+    }
+
+
+    /**
+     * Get fail safe options
+     * @return array
+     */
+    private function get_safe_options()
+    {
+        //Get fresh options from db
+        $db_options = get_option(ASGA_OPTION_NAME);
+
+        //Be fail safe, if not array then array_merge may fail
+        if (is_array($db_options) === false) {
+            $db_options = array();
+        }
+
+        //If options not exists in db then init with defaults , also always append default options to existing options
+        $db_options = empty($db_options) ? $this->get_default_options() : array_merge($this->get_default_options(), $db_options);
+        return $db_options;
+
+    }
+
+    /**
+     * Upgrade plugin database options
+     */
+    function perform_upgrade()
+    {
+        //Get fresh options from db
+        $db_options = get_option(ASGA_OPTION_NAME);
+        //Check if we need to proceed , if no return early
+        if ($this->should_proceed_to_upgrade($db_options) === false) return;
+        //Get default options
+        $default_options = $this->get_default_options();
+        //Merge with db options , preserve old
+        $new_options = (empty($db_options)) ? $default_options : array_merge($default_options, $db_options);
+        //Update plugin version
+        $new_options['plugin_ver'] = ASGA_PLUGIN_VER;
+        //Write options back to db
+        update_option(ASGA_OPTION_NAME, $new_options);
+
+    }
+
+    /**
+     * Check if we need to upgrade database options or not
+     * @param $db_options
+     * @return bool
+     */
+    private function should_proceed_to_upgrade($db_options)
+    {
+
+        if (empty($db_options) || !is_array($db_options)) return true;
+
+        if (!isset($db_options['plugin_ver'])) return true;
+
+        return version_compare($db_options['plugin_ver'], ASGA_PLUGIN_VER, '<');
+
+    }
+
+    /**
+     * Print option page javascript,css
+     */
+    function add_admin_assets()
+    {
+        $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
+        wp_enqueue_style('asga-admin', plugins_url('/css/option-page' . $is_min . '.css', ASGA_BASE_FILE), array(), ASGA_PLUGIN_VER);
+        wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, false);
+    }
+
+
+    /**
+     * Load view and show it to front-end
+     * @param $file string File name
+     * @param $options array Array to be passed to view, not an unused variable
+     * @throws \Exception
+     */
+    private function load_view($file, $options = array())
+    {
+        $file_path = plugin_dir_path(ASGA_BASE_FILE) . 'views/' . $file;
         if (is_readable($file_path)) {
             require $file_path;
         } else {
-            throw new \Exception("Unable to load template file - '" . esc_html($file_path) . "'");
+            throw new \Exception('Unable to load template file - ' . esc_html($file_path));
         }
-
     }
+
 
     /**
      * Function will add help tab to our option page
@@ -315,142 +463,5 @@ class Ank_Simplified_GA_Admin
         );
     }
 
-    /**
-     * Return all roles plus superAdmin if multi-site is enabled
-     * @return array
-     */
-    private function get_all_roles()
-    {
-        global $wp_roles;
-        $return_roles = array();
-
-        if (!isset($wp_roles))
-            $wp_roles = new \WP_Roles();
-
-        $role_list = $wp_roles->roles;
-
-        /**
-         * Filter: 'editable_roles' - Allows filtering of the roles shown within the plugin (and elsewhere in WP as it's a WP filter)
-         *
-         * @api array $role_list
-         */
-        $editable_roles = apply_filters('editable_roles', $role_list);
-
-        foreach ($editable_roles as $id => $role) {
-            $return_roles[] = array(
-                'id' => $id,
-                'name' => translate_user_role($role['name']),
-            );
-        }
-
-        //Append a custom role if multi-site is enabled
-        if (is_multisite()) {
-            $return_roles[] = array(
-                'id' => 'networkAdmin',
-                'name' => __('Network Administrator', ASGA_TEXT_DOMAIN)
-            );
-        }
-
-        return $return_roles;
-    }
-
-    /**
-     * Show a warning notice if debug mode is on
-     */
-    function show_admin_notice()
-    {
-        if ($this->check_admin_notice() === true) {
-            ?>
-            <div id="asga_message" class="notice notice-warning is-dismissible">
-                <p>
-                    <b><?php _e("Google Analytics debug mode is enabled for this site. Don't forget to disable this option in production.", ASGA_TEXT_DOMAIN) ?></b>
-                </p>
-            </div>
-            <?php
-        }
-    }
-
-    /**
-     * Check if to show admin notice or not
-     * @return bool
-     */
-    private function check_admin_notice()
-    {
-        //show only for this plugin option page
-        if (strpos(get_current_screen()->id, self::PLUGIN_SLUG) === false) return false;
-
-        $options = $this->get_safe_options();
-        //id ga id is not set return early
-        if (empty($options['ga_id'])) return false;
-        //if debug mode is off return early
-        if ($options['debug_mode'] == 0) return false;
-        //else return true
-        return true;
-
-    }
-
-    /**
-     * Get fail safe options
-     * @return array
-     */
-    private function get_safe_options()
-    {
-        //Get fresh options from db
-        $db_options = get_option(ASGA_OPTION_NAME);
-        //Be fail safe, if not array then array_merge may fail
-        if (is_array($db_options) === false) {
-            $db_options = array();
-        }
-        //If options not exists in db then init with defaults , also always append default options to existing options
-        $db_options = empty($db_options) ? $this->get_default_options() : array_merge($this->get_default_options(), $db_options);
-        return $db_options;
-
-    }
-
-    /**
-     * Upgrade plugin database options
-     */
-    function perform_upgrade()
-    {
-        //Get fresh options from db
-        $db_options = get_option(ASGA_OPTION_NAME);
-        //Check if we need to proceed , if no return early
-        if ($this->can_proceed_to_upgrade($db_options) === false) return;
-        //Get default options
-        $default_options = $this->get_default_options();
-        //Merge with db options , preserve old
-        $new_options = (empty($db_options)) ? $default_options : array_merge($default_options, $db_options);
-        //Update plugin version
-        $new_options['plugin_ver'] = ASGA_PLUGIN_VER;
-        //Write options back to db
-        update_option(ASGA_OPTION_NAME, $new_options);
-
-    }
-
-    /**
-     * Check if we need to upgrade database options or not
-     * @param $db_options
-     * @return bool
-     */
-    private function can_proceed_to_upgrade($db_options)
-    {
-
-        if (empty($db_options) || !is_array($db_options)) return true;
-
-        if (!isset($db_options['plugin_ver'])) return true;
-
-        return version_compare($db_options['plugin_ver'], ASGA_PLUGIN_VER, '<');
-
-    }
-
-    /**
-     * Print option page javascript,css
-     */
-    function add_admin_assets()
-    {
-        $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
-        wp_enqueue_style('asga-admin', plugins_url('/css/option-page' . $is_min . '.css', ASGA_BASE_FILE), array(), ASGA_PLUGIN_VER);
-        wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, false);
-    }
 
 } //end class

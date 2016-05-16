@@ -12,7 +12,7 @@ class Ank_Simplified_GA_Frontend
      * Stores database options
      * @var array
      */
-    private $asga_options = array();
+    private $db_options = array();
     /**
      * A flag to store tracking status
      * null means status not calculated yet
@@ -55,7 +55,7 @@ class Ank_Simplified_GA_Frontend
      */
     private function set_db_options()
     {
-        $this->asga_options = get_option(ASGA_OPTION_NAME);
+        $this->db_options = get_option(ASGA_OPTION_NAME);
     }
 
     /**
@@ -64,17 +64,17 @@ class Ank_Simplified_GA_Frontend
     private function init()
     {
         //Get action's priority
-        $js_priority = absint($this->asga_options['js_priority']);
+        $js_priority = absint($this->db_options['js_priority']);
 
         //Decide where to print code
-        if ($this->asga_options['js_location'] == 1) {
+        if ($this->db_options['js_location'] == 1) {
             add_action('wp_head', array($this, 'decide_tracking_code'), $js_priority);
         } else {
             add_action('wp_footer', array($this, 'decide_tracking_code'), $js_priority);
         }
 
-        //Check for webmaster code
-        if (!empty($this->asga_options['webmaster']['google_code'])) {
+        //Check for webmaster code, (deprecated)
+        if (!empty($this->db_options['webmaster']['google_code'])) {
             add_action('wp_head', array($this, 'print_webmaster_code'), 9);
         }
 
@@ -92,8 +92,8 @@ class Ank_Simplified_GA_Frontend
     function decide_tracking_code()
     {
 
-        //Get database options
-        $options = $this->asga_options;
+        //Store database options into a local variable
+        $options = $this->db_options;
 
         //Check if to proceed or not, return early with a message if not
         $tracking_status = $this->is_tracking_possible();
@@ -113,7 +113,7 @@ class Ank_Simplified_GA_Frontend
         );
 
         //Check for debug mode
-        $view_array['debug_mode'] = $this->check_debug_mode($options);
+        $view_array['debug_mode'] = $this->check_debug_mode();
         $view_array['js_load_later'] = (absint($options['js_load_later']) === 1);
 
 
@@ -160,7 +160,7 @@ class Ank_Simplified_GA_Frontend
         }
 
         if ($options['sample_rate'] !== '') {
-            $view_array['gaq'][] = "'_setSampleRate', '" . $options['sample_rate']."'";
+            $view_array['gaq'][] = "'_setSampleRate', '" . $options['sample_rate'] . "'";
         }
 
         if ($options['allow_linker'] == 1) {
@@ -259,7 +259,7 @@ class Ank_Simplified_GA_Frontend
     function print_webmaster_code()
     {
 
-        $this->load_view('google_webmaster.php', array('code' => $this->asga_options['webmaster']['google_code']));
+        $this->load_view('google_webmaster.php', array('code' => $this->db_options['webmaster']['google_code']));
 
     }
 
@@ -306,16 +306,13 @@ class Ank_Simplified_GA_Frontend
 
     /**
      * Check if to enable debugging mode
-     * @param $options - Options array
      * @return bool
      */
-    private function check_debug_mode($options)
+    private function check_debug_mode()
     {
         //debug mode is only for logged-in admins/network admins
         if (current_user_can('manage_options') || is_super_admin()) {
-            if ($options['debug_mode'] == 1) {
-                return true;
-            }
+            return ($this->db_options['debug_mode'] == 1);
         }
         return false;
     }
@@ -333,26 +330,24 @@ class Ank_Simplified_GA_Frontend
             return $this->tracking_possible;
         }
 
-        $options = $this->asga_options;
-
         if (is_preview()) {
             $this->tracking_possible = 'GA Tracking is disabled in preview mode';
         } //if GA id is not set return early with a message
-        else if (empty($options['ga_id'])) {
+        else if (empty($this->db_options['ga_id'])) {
             $this->tracking_possible = 'GA ID is not set';
         } //if a user is logged in
         else if (is_user_logged_in()) {
 
             if (is_multisite() && is_super_admin()) {
                 //if a network admin is logged in
-                if (isset($options['ignore_role_networkAdmin']) && ($options['ignore_role_networkAdmin'] == 1)) {
+                if (isset($this->db_options['ignore_role_networkAdmin']) && ($this->db_options['ignore_role_networkAdmin'] == 1)) {
                     $this->tracking_possible = 'GA Tracking is disabled for networkAdmin';
                 }
             } else {
                 //If a normal user is logged in
                 $role = array_shift(wp_get_current_user()->roles);
-                if (isset($options['ignore_role_' . $role]) && ($options['ignore_role_' . $role] == 1)) {
-                    $this->tracking_possible = 'GA Tracking is disabled for this role';
+                if (isset($this->db_options['ignore_role_' . $role]) && ($this->db_options['ignore_role_' . $role] == 1)) {
+                    $this->tracking_possible = 'GA Tracking is disabled for "' . $role . '" role';
                 }
             }
         }
@@ -370,16 +365,15 @@ class Ank_Simplified_GA_Frontend
      */
     private function get_js_options()
     {
-        $db_options = $this->asga_options;
-        $js_options = array(
-            'mail_links' => esc_js($db_options['track_mail_links']),
-            'outgoing_links' => esc_js($db_options['track_outbound_links']),
-            'download_links' => esc_js($db_options['track_download_links']),
-            'download_ext' => esc_js($db_options['track_download_ext']),
-            'outbound_link_type' => esc_js($db_options['track_outbound_link_type']),
-            'non_interactive' => esc_js($db_options['track_non_interactive']),
+        return array(
+            'mail_links' => esc_js($this - $this->db_options['track_mail_links']),
+            'outgoing_links' => esc_js($this->db_options['track_outbound_links']),
+            'download_links' => esc_js($this->db_options['track_download_links']),
+            'download_ext' => esc_js($this->db_options['track_download_ext']),
+            'outbound_link_type' => esc_js($this->db_options['track_outbound_link_type']),
+            'non_interactive' => esc_js($this->db_options['track_non_interactive']),
         );
-        return $js_options;
+
     }
 
     /**
@@ -388,7 +382,7 @@ class Ank_Simplified_GA_Frontend
      */
     private function need_to_load_event_tracking_js()
     {
-        $db = $this->asga_options;
-        return ($db['track_mail_links'] == 1 || $db['track_outbound_links'] == 1 || $db['track_download_links'] == 1);
+        return ($this->db_options['track_mail_links'] == 1 || $this->db_options['track_outbound_links'] == 1 || $this->db_options['track_download_links'] == 1);
     }
+
 } //end class

@@ -62,6 +62,58 @@
                     </tr>
                 </table>
             </section>
+            <section id="ga-events" class="tab-content">
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><?php _e('Events to track', ASGA_TEXT_DOMAIN) ?> :</th>
+                        <td>
+                            <fieldset>
+                                <?php
+                                $events = array(
+                                    'log_404' => __('Log 404 pages as events', ASGA_TEXT_DOMAIN),
+                                    'track_mail_links' => __('Track email links as events', ASGA_TEXT_DOMAIN),
+                                    'track_outbound_links' => __('Track outbound links as events', ASGA_TEXT_DOMAIN),
+                                    'track_download_links' => __('Track downloads as events', ASGA_TEXT_DOMAIN),
+                                );
+                                //loop through each event item
+                                foreach ($events as $event => $label) {
+                                    echo '<label>';
+                                    echo '<input type="checkbox" name="asga_options[' . $event . ']" value="1" ' . checked($options[$event], 1, 0) . '/>';
+                                    echo '&ensp;' . $label . '</label><br>';
+                                }
+                                ?></fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php _e('Non interactive events', ASGA_TEXT_DOMAIN) ?> :</th>
+                        <td><label><input type="checkbox" name="asga_options[track_non_interactive]"
+                                          value="1" <?php checked($options['track_non_interactive'], 1) ?>><?php _e('Events should not affect bounce rate', ASGA_TEXT_DOMAIN) ?>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Extensions for downloads', ASGA_TEXT_DOMAIN) ?> :</th>
+                        <td>
+                            <input size="25" type="text" placeholder="doc,docx,xls,xlsx,pdf,zip,rar,exe"
+                                   name="asga_options[track_download_ext]"
+                                   value="<?php echo esc_attr($options['track_download_ext']); ?>">
+                            <p class="description"><?php _e('Please use comma (,) separated values', ASGA_TEXT_DOMAIN) ?> </p>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Track outbound link type', ASGA_TEXT_DOMAIN) ?> :</th>
+                        <td>
+                            <select name="asga_options[track_outbound_link_type]">
+                                <option
+                                    value="1" <?php selected($options['track_outbound_link_type'], 1) ?>><?php _e('Just the domain', ASGA_TEXT_DOMAIN) ?></option>
+                                <option
+                                    value="0" <?php selected($options['track_outbound_link_type'], 0) ?>><?php _e('Full URL', ASGA_TEXT_DOMAIN) ?></option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </section>
             <section id="ga-advanced" class="tab-content">
                 <table class="form-table">
                     <tr>
@@ -69,10 +121,13 @@
                         <td><input type="text" size="25" placeholder="auto" name="asga_options[ga_domain]"
                                    value="<?php echo esc_attr($options['ga_domain']); ?>">
                             <?php
-                            //print sub-domain url if multi-site is enabled
-                            if (!is_main_site()) {
-                                printf('<br><p class="description"><code>%s</code></p>', get_blogaddress_by_id(get_current_blog_id()));
+                            if (is_multisite()) {
+                                $url = get_blogaddress_by_id(get_current_blog_id());
+                            } else {
+                                $url = home_url();
                             }
+                            //print current domain
+                            printf('<br><p class="description">Use <code>%s</code> or leave empty</p>', preg_replace('#^https?://#', '', $url));
                             ?>
                         </td>
                     </tr>
@@ -140,60 +195,7 @@
                                       style="resize: vertical;max-height: 300px;"><?php echo stripslashes($options['custom_trackers']) ?></textarea>
                             <p class="description"><?php _e('To be added before the', ASGA_TEXT_DOMAIN) ?>
                                 <code><?php _e('pageview', ASGA_TEXT_DOMAIN) ?></code> <?php _e('call', ASGA_TEXT_DOMAIN) ?>
-                                .</p>
-                        </td>
-                    </tr>
-                </table>
-            </section>
-            <section id="ga-events" class="tab-content">
-                <table class="form-table">
-                    <tr>
-                        <th scope="row"><?php _e('Events to track', ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td>
-                            <fieldset>
-                                <?php
-                                $events = array(
-                                    'log_404' => __('Log 404 pages as events', ASGA_TEXT_DOMAIN),
-                                    'track_mail_links' => __('Track email links as events', ASGA_TEXT_DOMAIN),
-                                    'track_outbound_links' => __('Track outbound links as events', ASGA_TEXT_DOMAIN),
-                                    'track_download_links' => __('Track downloads as events', ASGA_TEXT_DOMAIN),
-                                );
-                                //loop through each event item
-                                foreach ($events as $event => $label) {
-                                    echo '<label>';
-                                    echo '<input type="checkbox" name="asga_options[' . $event . ']" value="1" ' . checked($options[$event], 1, 0) . '/>';
-                                    echo '&ensp;' . $label . '</label><br>';
-                                }
-                                ?></fieldset>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?php _e('Non interactive events', ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td><label><input type="checkbox" name="asga_options[track_non_interactive]"
-                                          value="1" <?php checked($options['track_non_interactive'], 1) ?>><?php _e('Events should not affect bounce rate', ASGA_TEXT_DOMAIN) ?>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><?php _e('Extensions for downloads', ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td>
-                            <input size="25" type="text" placeholder="doc,docx,xls,xlsx,pdf,zip,rar,exe"
-                                   name="asga_options[track_download_ext]"
-                                   value="<?php echo esc_attr($options['track_download_ext']); ?>">
-                            <p class="description"><?php _e('Please use comma (,) separated values', ASGA_TEXT_DOMAIN) ?>
-                                .</p>
-                        <td>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><?php _e('Track outbound link type', ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td>
-                            <select name="asga_options[track_outbound_link_type]">
-                                <option
-                                    value="1" <?php selected($options['track_outbound_link_type'], 1) ?>><?php _e('Just the domain', ASGA_TEXT_DOMAIN) ?></option>
-                                <option
-                                    value="0" <?php selected($options['track_outbound_link_type'], 0) ?>><?php _e('Full URL', ASGA_TEXT_DOMAIN) ?></option>
-                            </select>
+                                </p>
                         </td>
                     </tr>
                 </table>
@@ -259,8 +261,7 @@
                                    href="https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug"><i
                                         class="dashicons-before dashicons-external"></i></a> </label>
 
-                            <p class="description"><?php _e("This should only be used temporarily or during development, don't forget to disable it in production", 'asga') ?>
-                                .</p>
+                            <p class="description"><?php _e("This should only be used temporarily or during development, don't forget to disable it in production", 'asga') ?> </p>
                         </td>
                     </tr>
                     <tr>
