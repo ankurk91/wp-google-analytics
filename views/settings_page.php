@@ -174,6 +174,15 @@
                         </td>
                     </tr>
                     <tr>
+                        <th scope="row"><?php _e('Tag RSS links with campaign variables', ASGA_TEXT_DOMAIN) ?> :</th>
+                        <td><label><input type="checkbox" name="asga_options[tag_rss_links]"
+                                          value="1" <?php checked($options['tag_rss_links'], 1) ?>><?php _e('Check to enable', ASGA_TEXT_DOMAIN) ?>
+                                <a target="_blank"
+                                   href="https://support.google.com/analytics/answer/1033863?hl=en"><i
+                                        class="dashicons-before dashicons-external"></i></a> </label>
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row"><?php _e('Anonymize IP', ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><label><input type="checkbox" name="asga_options[anonymise_ip]"
                                           value="1" <?php checked($options['anonymise_ip'], 1) ?>><?php _e('Anonymizes IP addresses', ASGA_TEXT_DOMAIN) ?>

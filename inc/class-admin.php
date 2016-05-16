@@ -153,6 +153,7 @@ class Ank_Simplified_GA_Admin
             'custom_trackers' => '',
             'allow_linker' => 0,
             'allow_anchor' => 0,
+            'tag_rss_links' => 1,
             'track_mail_links' => 0,
             'track_outbound_links' => 0,
             'track_outbound_link_type' => 1,
@@ -224,7 +225,7 @@ class Ank_Simplified_GA_Admin
 
         $out['custom_trackers'] = trim($in['custom_trackers']);
 
-        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'debug_mode', 'force_ssl', 'allow_linker', 'allow_anchor', 'track_mail_links', 'track_outbound_links', 'track_download_links', 'track_outbound_link_type', 'track_non_interactive');
+        $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'debug_mode', 'force_ssl', 'allow_linker', 'allow_anchor', 'tag_rss_links', 'track_mail_links', 'track_outbound_links', 'track_download_links', 'track_outbound_link_type', 'track_non_interactive');
         //add rolls to checkbox_items array
         foreach ($this->get_all_roles() as $role) {
             $checkbox_items[] = 'ignore_role_' . $role['id'];
