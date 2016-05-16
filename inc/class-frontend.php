@@ -83,6 +83,10 @@ class Ank_Simplified_GA_Frontend
             add_action('wp_footer', array($this, 'add_event_tracking_js'));
         }
 
+        if ($this->db_options['tag_rss_links'] == 1) {
+            add_filter('the_permalink_rss', array($this, 'rss_link_tagger'), 99);
+        }
+
     }
 
 
@@ -383,6 +387,29 @@ class Ank_Simplified_GA_Frontend
     private function need_to_load_event_tracking_js()
     {
         return ($this->db_options['track_mail_links'] == 1 || $this->db_options['track_outbound_links'] == 1 || $this->db_options['track_download_links'] == 1);
+    }
+
+    /**
+     * Add the UTM source parameters in the RSS feeds to track traffic*
+     * @param string $guid *
+     * @source https://github.com/awesomemotive/google-analytics-for-wordpress/blob/trunk/frontend/class-frontend.php#L42
+     * @return string
+     */
+    public function rss_link_tagger($guid)
+    {
+        global $post;
+        if (is_feed()) {
+            if ($this->db_options['allow_anchor'] == 1) {
+                $delimiter = '#';
+            } else {
+                $delimiter = '?';
+                if (strpos($guid, $delimiter) > 0) {
+                    $delimiter = '&amp;';
+                }
+            }
+            return $guid . $delimiter . 'utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=' . urlencode($post->post_name);
+        }
+        return $guid;
     }
 
 } //end class
