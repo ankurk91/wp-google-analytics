@@ -366,7 +366,7 @@ class Ank_Simplified_GA_Frontend
     private function get_js_options()
     {
         return array(
-            'mail_links' => esc_js($this - $this->db_options['track_mail_links']),
+            'mail_links' => esc_js($this->db_options['track_mail_links']),
             'outgoing_links' => esc_js($this->db_options['track_outbound_links']),
             'download_links' => esc_js($this->db_options['track_download_links']),
             'download_ext' => esc_js($this->db_options['track_download_ext']),
