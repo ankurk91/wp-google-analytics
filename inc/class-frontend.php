@@ -149,7 +149,7 @@ class Ank_Simplified_GA_Frontend
             $view_array['gaq'][] = "'_setDomainName', '" . $options['ga_domain'] . "'";
         }
 
-        if ($options['sample_rate'] !== '') {
+        if ($options['sample_rate'] != 100) {
             $view_array['gaq'][] = "'_setSampleRate', '" . $options['sample_rate'] . "'";
         }
 
@@ -216,8 +216,8 @@ class Ank_Simplified_GA_Frontend
             $create_args['allowAnchor'] = true;
         }
 
-        if (intval($options['sample_rate']) != 100) {
-            $create_args['sampleRate'] = intval($options['sample_rate']);
+        if ($options['sample_rate'] != 100) {
+            $create_args['sampleRate'] = $options['sample_rate'];
         }
 
         //@source https://developers.google.com/analytics/devguides/collection/analyticsjs/creating-trackers#specifying_fields_at_creation_time
