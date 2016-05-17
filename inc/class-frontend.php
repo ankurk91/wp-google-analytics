@@ -22,8 +22,32 @@ class Ank_Simplified_GA_Frontend
 
     private function __construct()
     {
-        $this->set_db_options();
-        $this->init();
+        //Store database options in a local array
+        $this->db_options = get_option(ASGA_OPTION_NAME);
+
+        //Get action's priority
+        $js_priority = absint($this->db_options['js_priority']);
+
+        //Decide where to print code
+        if ($this->db_options['js_location'] == 1) {
+            add_action('wp_head', array($this, 'print_tracking_code'), $js_priority);
+        } else {
+            add_action('wp_footer', array($this, 'print_tracking_code'), $js_priority);
+        }
+
+        //Check for webmaster code, (deprecated)
+        if (!empty($this->db_options['webmaster']['google_code'])) {
+            add_action('wp_head', array($this, 'print_webmaster_code'), 9);
+        }
+
+        if ($this->need_to_load_event_tracking_js()) {
+            //Load event tracking js file
+            add_action('wp_footer', array($this, 'add_event_tracking_js'));
+        }
+
+        if ($this->db_options['tag_rss_links'] == 1) {
+            add_filter('the_permalink_rss', array($this, 'rss_link_tagger'), 99);
+        }
 
     }
 
@@ -51,52 +75,11 @@ class Ank_Simplified_GA_Frontend
     }
 
     /**
-     * Store database options in a local array
-     */
-    private function set_db_options()
-    {
-        $this->db_options = get_option(ASGA_OPTION_NAME);
-    }
-
-    /**
-     * Init front end part
-     */
-    private function init()
-    {
-        //Get action's priority
-        $js_priority = absint($this->db_options['js_priority']);
-
-        //Decide where to print code
-        if ($this->db_options['js_location'] == 1) {
-            add_action('wp_head', array($this, 'decide_tracking_code'), $js_priority);
-        } else {
-            add_action('wp_footer', array($this, 'decide_tracking_code'), $js_priority);
-        }
-
-        //Check for webmaster code, (deprecated)
-        if (!empty($this->db_options['webmaster']['google_code'])) {
-            add_action('wp_head', array($this, 'print_webmaster_code'), 9);
-        }
-
-        if ($this->need_to_load_event_tracking_js()) {
-            //Load event tracking js file
-            add_action('wp_footer', array($this, 'add_event_tracking_js'));
-        }
-
-        if ($this->db_options['tag_rss_links'] == 1) {
-            add_filter('the_permalink_rss', array($this, 'rss_link_tagger'), 99);
-        }
-
-    }
-
-
-    /**
      * Prepare and print javascript code to front end
      */
-    function decide_tracking_code()
+    function print_tracking_code()
     {
-
-        //Store database options into a local variable
+        //Store database options into a local variable coz it is going to modified
         $options = $this->db_options;
 
         //Check if to proceed or not, return early with a message if not
@@ -107,6 +90,7 @@ class Ank_Simplified_GA_Frontend
             $this->load_view('ga_disabled.php', array('reason' => $tracking_status));
             return;
         }
+
         //Finalize some db options
         $options['ga_id'] = esc_js($options['ga_id']);
         $options['ga_domain'] = empty($options['ga_domain']) ? 'auto' : esc_js($options['ga_domain']);
@@ -119,15 +103,16 @@ class Ank_Simplified_GA_Frontend
         //Check for debug mode
         $view_array['debug_mode'] = $this->check_debug_mode();
         $view_array['js_load_later'] = (absint($options['js_load_later']) === 1);
-
-
+        
         if ($options['ua_enabled'] == 1) {
             //If universal is enabled
-            $this->print_universal_code($view_array, $options);
+            $view_array = $this->prepare_universal_code($view_array, $options);
+            $this->load_view('universal_script.php', $view_array);
 
         } else {
             //Classic ga is enabled
-            $this->print_classic_code($view_array, $options);
+            $view_array = $this->prepare_classic_code($view_array, $options);
+            $this->load_view('classic_script.php', $view_array);
 
         }
 
@@ -137,8 +122,9 @@ class Ank_Simplified_GA_Frontend
      * Prepare classic tracing code and print
      * @param $view_array array Array to be passed to view
      * @param $options array
+     * @return array
      */
-    private function print_classic_code($view_array, $options)
+    private function prepare_classic_code($view_array, $options)
     {
 
         $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
@@ -201,7 +187,7 @@ class Ank_Simplified_GA_Frontend
             $view_array['gaq'][] = "'_trackPageview'";
         }
 
-        $this->load_view('classic_script.php', $view_array);
+        return $view_array;
 
     }
 
@@ -209,8 +195,9 @@ class Ank_Simplified_GA_Frontend
      * Prepare universal tracking code and print
      * @param $view_array array Array to be passed to view
      * @param $options array
+     * @return array
      */
-    private function print_universal_code($view_array, $options)
+    private function prepare_universal_code($view_array, $options)
     {
         $create_args = array(
             'trackingId' => $options['ga_id'],
@@ -260,7 +247,7 @@ class Ank_Simplified_GA_Frontend
             $view_array['gaq'][] = "'send','pageview'";
         }
 
-        $this->load_view('universal_script.php', $view_array);
+        return $view_array;
     }
 
     /**
@@ -396,8 +383,9 @@ class Ank_Simplified_GA_Frontend
     }
 
     /**
-     * Add the UTM source parameters in the RSS feeds to track traffic*
-     * @param string $guid *
+     * Add the UTM source parameters in the RSS feeds links to track traffic
+     *
+     * @param string $guid
      * @source https://github.com/awesomemotive/google-analytics-for-wordpress/blob/trunk/frontend/class-frontend.php#L42
      * @return string
      */
