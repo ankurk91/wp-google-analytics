@@ -1,8 +1,8 @@
 === Ank Simplified Google Analytics ===
 Tags: google analytics, tracking, light weight, simple, easy, free , multi-site
 Requires at least: 3.8.0
-Tested up to: 4.5.1
-Stable tag: 1.0.2
+Tested up to: 4.5.2
+Stable tag: 1.1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -168,7 +168,7 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 
 = How do i enter Google Webmaster verification code ? =
 
-This feature has been deprecated.
+Note: This feature has been deprecated.
 
 Login to Google Webmaster [console](https://www.google.com/webmasters/tools/home?hl=en), get the verification code from there
 
@@ -196,6 +196,12 @@ You can search google like 'Linking google analytics to webmaster'
 
 
 == Changelog ==
+
+= 1.1.0 =
+* + Set Sample Rate
+* + Tag RSS links with campaign variables
+* * Improved 404 page tracking
+* * Refactor the code a lot
 
 = 1.0.2 =
 * Tested upto wp v4.5.1
