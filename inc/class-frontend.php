@@ -212,20 +212,25 @@ class Ank_Simplified_GA_Frontend
      */
     private function print_universal_code($view_array, $options)
     {
+        $create_args = array(
+            'trackingId' => $options['ga_id'],
+            'cookieDomain' => $options['ga_domain']
+        );
 
-        if ($options['allow_linker'] == 1 && $options['allow_anchor'] == 0) {
-            $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'sampleRate': " . $options['sample_rate'] . ",'allowLinker': true}";
-        } else {
-            if ($options['allow_anchor'] == 1 && $options['allow_linker'] == 0) {
-                $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'sampleRate': " . $options['sample_rate'] . ",'allowAnchor': true}";
-            } else {
-                if ($options['allow_linker'] == 1 && $options['allow_anchor'] == 1) {
-                    $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'sampleRate': " . $options['sample_rate'] . ",'allowLinker': true,'allowAnchor': true}";
-                } else {
-                    $view_array['gaq'][] = "'create', '" . $options['ga_id'] . "', '" . $options['ga_domain'] . "', {'sampleRate': " . $options['sample_rate'] . "}";
-                }
-            }
+        if ($options['allow_linker'] == 1) {
+            $create_args['allowLinker'] = true;
         }
+
+        if ($options['allow_anchor'] == 1) {
+            $create_args['allowAnchor'] = true;
+        }
+
+        if (intval($options['sample_rate']) != 100) {
+            $create_args['sampleRate'] = intval($options['sample_rate']);
+        }
+
+        //@source https://developers.google.com/analytics/devguides/collection/analyticsjs/creating-trackers#specifying_fields_at_creation_time
+        $view_array['gaq'][] = "'create', " . json_encode($create_args, JSON_HEX_QUOT);
 
         if ($options['force_ssl'] == 1) {
             $view_array['gaq'][] = "'set', 'forceSSL', true";
@@ -242,6 +247,7 @@ class Ank_Simplified_GA_Frontend
         if ($options['ga_ela'] == 1) {
             $view_array['gaq'][] = "'require', 'linkid'";
         }
+
         if ($options['custom_trackers'] !== '') {
             $view_array['gaq'][] = array(
                 'custom_trackers' => $options['custom_trackers']
