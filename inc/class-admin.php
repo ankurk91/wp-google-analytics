@@ -147,7 +147,7 @@ class Ank_Simplified_GA_Admin
             'ga_ela' => 0,
             'anonymise_ip' => 0,
             'ga_domain' => '',
-            'sample_rate' => '100',
+            'sample_rate' => 100,
             'debug_mode' => 0,
             'force_ssl' => 1,
             'custom_trackers' => '',
@@ -219,7 +219,7 @@ class Ank_Simplified_GA_Admin
         $out['sample_rate'] = floatval(($in['sample_rate']));
         //Sample rate should be between 1 to 100
         if ($out['sample_rate'] <= 0 || $out['sample_rate'] > 100) {
-            $out['sample_rate'] = '100';
+            $out['sample_rate'] = 100;
             add_settings_error(ASGA_OPTION_NAME, 'sample_rate', __('Sample rate should be between 1 to 100.', ASGA_TEXT_DOMAIN));
         }
 

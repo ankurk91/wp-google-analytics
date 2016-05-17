@@ -11,7 +11,7 @@
         <a class="nav-tab" id="ga-troubleshoot-tab" href="#top#ga-troubleshoot"><?php _e('Troubleshoot', ASGA_TEXT_DOMAIN) ?></a>
     </h2><!--.nav-tab-wrapper-->
 
-    <form action="<?php echo admin_url('options.php') ?>" method="post" id="asga_form">
+    <form action="<?php echo admin_url('options.php') ?>" method="post" id="asga_form" novalidate>
         <?php
         $options = $this->get_safe_options();
         //wp inbuilt nonce field , etc
@@ -133,7 +133,7 @@
                     </tr>
                     <tr>
                         <th scope="row"><?php _e('Sample rate', ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td><input type="number" placeholder="100" name="asga_options[sample_rate]"
+                        <td><input type="number" step="any" min="0" placeholder="100" name="asga_options[sample_rate]"
                                    value="<?php echo esc_attr($options['sample_rate']); ?>">%
                             <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#sampleRate"><i
                                     class="dashicons-before dashicons-external"></i></a>
