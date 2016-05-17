@@ -103,7 +103,7 @@ class Ank_Simplified_GA_Frontend
         //Check for debug mode
         $view_array['debug_mode'] = $this->check_debug_mode();
         $view_array['js_load_later'] = (absint($options['js_load_later']) === 1);
-        
+
         if ($options['ua_enabled'] == 1) {
             //If universal is enabled
             $view_array = $this->prepare_universal_code($view_array, $options);
@@ -181,8 +181,12 @@ class Ank_Simplified_GA_Frontend
             );
         }
 
-        if (is_404() && $options['log_404'] == 1) {
-            $view_array['gaq'][] = "'_trackEvent','404',document.location.href,document.referrer";
+        if (is_404()) {
+            if ($options['log_404'] == 1) {
+                $view_array['gaq'][] = "'_trackEvent','error','404','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer,1,true";
+            } else {
+                $view_array['gaq'][] = "'_trackPageview','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer";
+            }
         } else {
             $view_array['gaq'][] = "'_trackPageview'";
         }
@@ -241,8 +245,12 @@ class Ank_Simplified_GA_Frontend
             );
         }
 
-        if (is_404() && $options['log_404'] == 1) {
-            $view_array['gaq'][] = "'send','event','404',document.location.href,document.referrer";
+        if (is_404()) {
+            if ($options['log_404'] == 1) {
+                $view_array['gaq'][] = "'send','event','error','404','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer, 1, {nonInteraction: true}";
+            } else {
+                $view_array['gaq'][] = "'send','pageview','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer";
+            }
         } else {
             $view_array['gaq'][] = "'send','pageview'";
         }
