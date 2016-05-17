@@ -304,7 +304,7 @@ class Ank_Simplified_GA_Frontend
         if (is_readable($file_path)) {
             require $file_path;
         } else {
-            throw new \Exception('Unable to load template file - ' . esc_html($file_path) . ', (v' . ASGA_PLUGIN_VER . ')');
+            throw new \Exception('Unable to load template file - ' . esc_html($file_path));
         }
     }
 
