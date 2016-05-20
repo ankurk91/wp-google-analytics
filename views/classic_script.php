@@ -6,15 +6,10 @@ var _gaq = _gaq || [];
 if($options['js_load_later'] === true){ ?>
 function _loadGA() {
 <?php }
-echo $options['ela_plugin_url'];
 
-foreach($options['gaq'] as $item){
-if(!is_array($item)){
-    echo "_gaq.push([" . $item . "]);\n";
-} else{
-    echo $item['custom_trackers']."\n";
-}
-}
+echo $options['custom_trackers']."\n";
+echo "_gaq.push(\n".implode(','."\n",$options['gaq'])."\n);\n";
+
 ?>
 (function () {
 var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
