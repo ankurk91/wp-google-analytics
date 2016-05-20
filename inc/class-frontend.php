@@ -143,53 +143,47 @@ class Ank_Simplified_GA_Frontend
             }
         }
 
-        $view_array['gaq'][] = "'_setAccount', '" . $options['ga_id'] . "'";
+        $view_array['gaq'][] = "['_setAccount', '" . $options['ga_id'] . "']";
 
         if ($options['ga_domain'] !== 'auto') {
-            $view_array['gaq'][] = "'_setDomainName', '" . $options['ga_domain'] . "'";
+            $view_array['gaq'][] = "['_setDomainName', '" . $options['ga_domain'] . "']";
         }
 
         if ($options['sample_rate'] != 100) {
-            $view_array['gaq'][] = "'_setSampleRate', '" . $options['sample_rate'] . "'";
+            $view_array['gaq'][] = "['_setSampleRate', '" . $options['sample_rate'] . "']";
         }
 
         if ($options['allow_linker'] == 1) {
-            $view_array['gaq'][] = "'_setAllowLinker', true";
+            $view_array['gaq'][] = "['_setAllowLinker', true]";
         }
 
         if ($options['allow_anchor'] == 1) {
-            $view_array['gaq'][] = "'_setAllowAnchor', true";
+            $view_array['gaq'][] = "['_setAllowAnchor', true]";
         }
 
         if ($options['force_ssl'] == 1) {
-            $view_array['gaq'][] = "'_gat._forceSSL'";
+            $view_array['gaq'][] = "['_gat._forceSSL']";
         }
 
         if ($options['anonymise_ip'] == 1) {
-            $view_array['gaq'][] = "'_gat._anonymizeIp'";
+            $view_array['gaq'][] = "['_gat._anonymizeIp']";
         }
 
-        $view_array['ela_plugin_url'] = false;
         if ($options['ga_ela'] == 1) {
-            $view_array['ela_plugin_url'] = "var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';\n";
-            $view_array['gaq'][] = "['_require', 'inpage_linkid', pluginUrl]";
-        }
-
-        if ($options['custom_trackers'] !== '') {
-            $view_array['gaq'][] = array(
-                'custom_trackers' => $options['custom_trackers']
-            );
+            $view_array['gaq'][] = "['_require', 'inpage_linkid', '//www.google-analytics.com/plugins/ga/inpage_linkid.js']";
         }
 
         if (is_404()) {
             if ($options['log_404'] == 1) {
-                $view_array['gaq'][] = "'_trackEvent','error','404','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer,1,true";
+                $view_array['gaq'][] = "['_trackEvent','error','404','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer,1,true]";
             } else {
-                $view_array['gaq'][] = "'_trackPageview','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer";
+                $view_array['gaq'][] = "['_trackPageview','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer]";
             }
         } else {
-            $view_array['gaq'][] = "'_trackPageview'";
+            $view_array['gaq'][] = "['_trackPageview']";
         }
+
+        $view_array['custom_trackers'] = $options['custom_trackers'];
 
         return $view_array;
 
