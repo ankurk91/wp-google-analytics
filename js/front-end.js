@@ -6,6 +6,14 @@
 
     var asga_opt = window._asgaOpt;
 
+    /**
+     * Decides if event will be non-interactive or not
+     * @returns {boolean}
+     */
+    function isNonInteractive() {
+        return (asga_opt.nonInteractive == 1);
+    }
+
     //jQuery Filter Ref: http://api.jquery.com/filter/
     jQuery(function ($) {
 
@@ -48,13 +56,6 @@
 
     });
 
-    /**
-     * Decides if event will be non-interactive or not
-     * @returns {boolean}
-     */
-    var isNonInteractive = function () {
-        return (asga_opt.nonInteractive == 1);
-    };
 
     /**
      * Detect Analytics type and send event
@@ -74,12 +75,12 @@
             //Universal event tracking
             //https://developers.google.com/analytics/devguides/collection/analyticsjs/events
             ga('send', 'event', category, 'click', label, {
-                nonInteraction: isNonInteractive
+                nonInteraction: isNonInteractive()
             });
         } else if (window._gaq && _gaq._getAsyncTracker) {
             //Classic event tracking
             //https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide
-            _gaq.push(['_trackEvent', category, 'click', label, 1, isNonInteractive]);
+            _gaq.push(['_trackEvent', category, 'click', label, 1, isNonInteractive()]);
         } else {
             (window.console) ? console.info('Google analytics not loaded') : null
         }
