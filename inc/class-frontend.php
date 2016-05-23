@@ -13,12 +13,7 @@ class Ank_Simplified_GA_Frontend
      * @var array
      */
     private $db_options = array();
-    /**
-     * A flag to store tracking status
-     * null means status not calculated yet
-     * @var null
-     */
-    private $tracking_possible = null;
+
 
     private function __construct()
     {
@@ -83,11 +78,10 @@ class Ank_Simplified_GA_Frontend
         $options = $this->db_options;
 
         //Check if to proceed or not, return early with a message if not
-        $tracking_status = $this->is_tracking_possible();
+        $tracking_status = $this->is_tracking_possible(true);
 
-        //If tracking status is not true, then it should be a string (reason why false)
-        if ($tracking_status !== true) {
-            $this->load_view('ga_disabled.php', array('reason' => $tracking_status));
+        if ($tracking_status['status'] === false) {
+            $this->load_view('ga_disabled.php', $tracking_status);
             return;
         }
 
@@ -267,22 +261,20 @@ class Ank_Simplified_GA_Frontend
      */
     function add_event_tracking_js()
     {
-        /**
-         * Strictly checking for boolean true
-         */
-        if ($this->is_tracking_possible() === true) {
+        //if tracking not possible return early
+        if ($this->is_tracking_possible() === false) return;
 
-            //Load jquery if not loaded by theme
-            if (wp_script_is('jquery', $list = 'enqueued') === false) {
-                wp_enqueue_script('jquery');
-            }
-
-            $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
-            //Depends on jquery
-            wp_enqueue_script('asga-event-tracking', plugins_url('/js/front-end' . $is_min . '.js', ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, true);
-            //WP inbuilt hack to print js options object just before this script
-            wp_localize_script('asga-event-tracking', '_asgaOpt', $this->get_js_options());
+        //Load jquery if not loaded by theme
+        if (wp_script_is('jquery', $list = 'enqueued') === false) {
+            wp_enqueue_script('jquery');
         }
+
+        $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
+        //Depends on jquery
+        wp_enqueue_script('asga-event-tracking', plugins_url('/js/front-end' . $is_min . '.js', ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, true);
+        //WP inbuilt hack to print js options object just before this script
+        wp_localize_script('asga-event-tracking', '_asgaOpt', $this->get_js_options());
+
     }
 
 
@@ -318,43 +310,48 @@ class Ank_Simplified_GA_Frontend
 
     /**
      * Function determines whether to print tracking code or not
-     * @return mixed Return true if possible and string if not possible
+     * @param $reason bool
+     * @return bool|array
      */
-    private function is_tracking_possible()
+    private function is_tracking_possible($reason = false)
     {
-        /**
-         * If we have already calculated then return early
-         */
-        if ($this->tracking_possible !== null) {
-            return $this->tracking_possible;
-        }
+        $status = array(
+            'status' => false,
+            'reason' => ''
+        );
 
         if (is_preview()) {
-            $this->tracking_possible = 'GA Tracking is disabled in preview mode';
+            $status['reason'] = 'GA Tracking is disabled in preview mode';
         } //if GA id is not set return early with a message
         else if (empty($this->db_options['ga_id'])) {
-            $this->tracking_possible = 'GA ID is not set';
+            $status['reason'] = 'GA ID is not set';
         } //if a user is logged in
         else if (is_user_logged_in()) {
 
             if (is_multisite() && is_super_admin()) {
                 //if a network admin is logged in
                 if (isset($this->db_options['ignore_role_networkAdmin']) && ($this->db_options['ignore_role_networkAdmin'] == 1)) {
-                    $this->tracking_possible = 'GA Tracking is disabled for networkAdmin';
+                    $status['reason'] = 'GA Tracking is disabled for networkAdmin';
+                } else {
+                    $status['status'] = true;
                 }
             } else {
                 //If a normal user is logged in
                 $role = array_shift(wp_get_current_user()->roles);
                 if (isset($this->db_options['ignore_role_' . $role]) && ($this->db_options['ignore_role_' . $role] == 1)) {
-                    $this->tracking_possible = 'GA Tracking is disabled for "' . $role . '" role';
+                    $status['reason'] = 'GA Tracking is disabled for - ' . $role;
+                } else {
+                    $status['status'] = true;
                 }
             }
+        } else {
+            $status['status'] = true;
         }
-        //Be fail safe, don't return null
-        if ($this->tracking_possible === null) {
-            $this->tracking_possible = true;
+        //Don't return reason
+        if ($reason === false) {
+            return $status['status'];
         }
-        return $this->tracking_possible;
+        return $status;
 
     }
 
