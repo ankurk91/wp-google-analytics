@@ -22,14 +22,14 @@
                     return this.href.match(regExt);
                 }
             }).prop('download', '') //force download of these files
-                .click(function (e) {
+                .on('click.asga', function (e) {
                     logClickEvent('Downloads', this.href, e)
                 });
         }
 
         if (asga_opt.mail_links === '1') {
             //Track Mailto links
-            $('a[href^="mailto"]').click(function (e) {
+            $('a[href^="mailto"]').on('click.asga', function (e) {
                 //href should not include 'mailto'
                 logClickEvent('Email', this.href.replace(/^mailto\:/i, '').toLowerCase(), e)
             });
@@ -41,7 +41,7 @@
             $('a[href^="http"]').filter(function () {
                 return (this.hostname && this.hostname !== window.location.hostname)
             }).prop('target', '_blank')  // make sure these links open in new tab
-                .click(function (e) {
+                .on('click.asga', function (e) {
                     logClickEvent('Outbound', (asga_opt.outbound_link_type === '1') ? this.hostname : this.href, e);
                 });
         }
