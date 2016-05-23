@@ -281,7 +281,7 @@ class Ank_Simplified_GA_Frontend
             //Depends on jquery
             wp_enqueue_script('asga-event-tracking', plugins_url('/js/front-end' . $is_min . '.js', ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, true);
             //WP inbuilt hack to print js options object just before this script
-            wp_localize_script('asga-event-tracking', '_asga_opt', $this->get_js_options());
+            wp_localize_script('asga-event-tracking', '_asgaOpt', $this->get_js_options());
         }
     }
 
@@ -365,12 +365,12 @@ class Ank_Simplified_GA_Frontend
     private function get_js_options()
     {
         return array(
-            'mail_links' => esc_js($this->db_options['track_mail_links']),
-            'outgoing_links' => esc_js($this->db_options['track_outbound_links']),
-            'download_links' => esc_js($this->db_options['track_download_links']),
-            'download_ext' => esc_js($this->db_options['track_download_ext']),
-            'outbound_link_type' => esc_js($this->db_options['track_outbound_link_type']),
-            'non_interactive' => esc_js($this->db_options['track_non_interactive']),
+            'mailLinks' => esc_js($this->db_options['track_mail_links']),
+            'outgoingLinks' => esc_js($this->db_options['track_outbound_links']),
+            'downloadLinks' => esc_js($this->db_options['track_download_links']),
+            'downloadExt' => esc_js($this->db_options['track_download_ext']),
+            'outboundLinkType' => esc_js($this->db_options['track_outbound_link_type']),
+            'nonInteractive' => esc_js($this->db_options['track_non_interactive']),
         );
 
     }

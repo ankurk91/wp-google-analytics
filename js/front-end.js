@@ -4,15 +4,15 @@
 (function (window, document, jQuery) {
     'use strict';
 
-    var asga_opt = window._asga_opt;
+    var asga_opt = window._asgaOpt;
 
     //jQuery Filter Ref: http://api.jquery.com/filter/
     jQuery(function ($) {
 
-        if (asga_opt.download_links === '1') {
+        if (asga_opt.downloadLinks === '1') {
             //Track Downloads
             //https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
-            var exts = (asga_opt.download_ext === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asga_opt.download_ext.replace(/,/g, '|');
+            var exts = (asga_opt.downloadExt === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asga_opt.downloadExt.replace(/,/g, '|');
             //https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp
             var regExt = new RegExp(".*\\.(" + exts + ")(\\?.*)?$");
 
@@ -27,7 +27,7 @@
                 });
         }
 
-        if (asga_opt.mail_links === '1') {
+        if (asga_opt.mailLinks === '1') {
             //Track Mailto links
             $('a[href^="mailto"]').on('click.asga', function (e) {
                 //href should not include 'mailto'
@@ -35,14 +35,14 @@
             });
         }
 
-        if (asga_opt.outgoing_links === '1') {
+        if (asga_opt.outgoingLinks === '1') {
             //Track Outbound Links
             //https://css-tricks.com/snippets/jquery/target-only-external-links/
             $('a[href^="http"]').filter(function () {
                 return (this.hostname && this.hostname !== window.location.hostname)
             }).prop('target', '_blank')  // make sure these links open in new tab
                 .on('click.asga', function (e) {
-                    logClickEvent('Outbound', (asga_opt.outbound_link_type === '1') ? this.hostname : this.href, e);
+                    logClickEvent('Outbound', (asga_opt.outboundLinkType === '1') ? this.hostname : this.href, e);
                 });
         }
 
@@ -53,7 +53,7 @@
      * @returns {boolean}
      */
     var isNonInteractive = function () {
-        return (asga_opt.non_interactive == 1);
+        return (asga_opt.nonInteractive == 1);
     };
 
     /**
