@@ -345,12 +345,7 @@ class Ank_Simplified_GA_Frontend
         } else {
             $status['status'] = true;
         }
-        //Don't return reason
-        if ($reason === false) {
-            return $status['status'];
-        }
-        return $status;
-
+        return ($reason) ? $status : $status['status'];
     }
 
     /**
