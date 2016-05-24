@@ -313,8 +313,6 @@ class Ank_Simplified_GA_Admin
 
         //if debug mode is off return early
         if ($options['debug_mode'] == 0) return;
-        //id ga id is not set return early
-        if (empty($options['ga_id'])) return;
 
         $this->load_view('admin_notice.php', array());
 
@@ -442,6 +440,7 @@ class Ank_Simplified_GA_Admin
 
             )
         );
+        
         $curr_screen->add_help_tab(
             array(
                 'id' => 'asga-more-info',
