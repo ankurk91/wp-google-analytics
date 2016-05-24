@@ -139,9 +139,7 @@ class Ank_Simplified_GA_Frontend
 
         $view_array['gaq'][] = "['_setAccount', '" . $options['ga_id'] . "']";
 
-        if ($options['ga_domain'] !== 'auto') {
-            $view_array['gaq'][] = "['_setDomainName', '" . $options['ga_domain'] . "']";
-        }
+        $view_array['gaq'][] = "['_setDomainName', '" . $options['ga_domain'] . "']";
 
         if ($options['sample_rate'] != 100) {
             $view_array['gaq'][] = "['_setSampleRate', '" . $options['sample_rate'] . "']";
