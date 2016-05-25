@@ -37,7 +37,7 @@ class Ank_Simplified_GA_Frontend
 
         if ($this->need_to_load_event_tracking_js()) {
             //Load event tracking js file
-            add_action('wp_footer', array($this, 'add_event_tracking_js'));
+            add_action('wp_footer', array($this, 'add_event_tracking_js'), 9);
         }
 
         if ($this->db_options['tag_rss_links'] == 1) {
@@ -335,7 +335,7 @@ class Ank_Simplified_GA_Frontend
                 }
             } else {
                 //If a normal user is logged in
-                $role = array_shift(wp_get_current_user()->roles);
+                $role = $this->get_current_user_role();
                 if (isset($this->db_options['ignore_role_' . $role]) && ($this->db_options['ignore_role_' . $role] == 1)) {
                     $status['reason'] = 'GA Tracking is disabled for - ' . $role;
                 } else {
@@ -363,6 +363,16 @@ class Ank_Simplified_GA_Frontend
             'nonInteractive' => esc_js($this->db_options['track_non_interactive']),
         );
 
+    }
+
+    /**
+     * Better way to get logged in user role
+     * @return string
+     */
+    private function get_current_user_role()
+    {
+        $user = get_userdata(get_current_user_id());
+        return empty($user) ? '' : array_shift($user->roles);
     }
 
     /**
