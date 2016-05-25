@@ -1,5 +1,5 @@
 === Ank Simplified Google Analytics ===
-Tags: google analytics, tracking, light weight, simple, easy, free , multi-site
+Tags: google analytics, tracking, light weight, simple, easy, free, multi-site
 Requires at least: 3.8.0
 Tested up to: 4.5.2
 Stable tag: 1.1.0
@@ -45,6 +45,7 @@ Track your WordPress website with Google Analytics service.
 * Campaign tracking (AllowAnchor)
 * Sub-domain tracking
 * Force SSL
+* Sample Rate
 
 = Event Tracking =
 * Track 404 pages as events
@@ -161,7 +162,7 @@ So i recommend you to upgrade to latest WordPress today.
 
 = Is Google Analytics service free. =
 
-Yes, There is paid version of Google Analytics also.
+Yes, But there is paid version of Google Analytics also.
 
 Read more [here](https://developers.google.com/analytics/devguides/collection/analyticsjs/limits-quotas).
 
@@ -198,10 +199,11 @@ You can search google like 'Linking google analytics to webmaster'
 == Changelog ==
 
 = 1.1.0 =
-* + Set Sample Rate
-* + Tag RSS links with campaign variables
-* * Improved 404 page tracking
-* * Refactor the code a lot
+* New: Set Sample Rate
+* New: Tag RSS links with campaign variables
+* Fix: Improved 404 page tracking
+* Fix: Refactor the code a lot
+* Fix: Non interactive issue
 
 = 1.0.2 =
 * Tested upto wp v4.5.1
