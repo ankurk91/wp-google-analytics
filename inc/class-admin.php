@@ -210,7 +210,7 @@ class Ank_Simplified_GA_Admin
             $out[$item] = absint($in[$item]);
         }
 
-        $out['js_priority'] = (empty($in['js_priority'])) ? 20 : absint($in['js_priority']);
+        $out['js_priority'] = (trim($in['js_priority'])=='') ? 20 : absint($in['js_priority']);
 
         $out['ga_domain'] = sanitize_text_field(($in['ga_domain']));
         //http://stackoverflow.com/questions/9549866/php-regex-to-remove-http-from-string
