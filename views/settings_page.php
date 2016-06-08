@@ -48,6 +48,21 @@
                                     class="dashicons-before dashicons-external"></i></a>
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row"><?php _e('Set domain', ASGA_TEXT_DOMAIN) ?> :</th>
+                        <td><input type="text" size="25" placeholder="auto" name="asga_options[ga_domain]"
+                                   value="<?php echo esc_attr($options['ga_domain']); ?>">
+                            <?php
+                            if (is_multisite()) {
+                                $url = get_blogaddress_by_id(get_current_blog_id());
+                            } else {
+                                $url = home_url();
+                            }
+                            //print current domain
+                            printf('<br><p class="description">Use <code>%s</code> or leave empty</p>', preg_replace('#^https?://#', '', $url));
+                            ?>
+                        </td>
+                    </tr>
                 </table>
             </section>
             <section id="ga-events" class="tab-content">
@@ -104,21 +119,6 @@
             </section>
             <section id="ga-advanced" class="tab-content">
                 <table class="form-table">
-                    <tr>
-                        <th scope="row"><?php _e('Set domain', ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td><input type="text" size="25" placeholder="auto" name="asga_options[ga_domain]"
-                                   value="<?php echo esc_attr($options['ga_domain']); ?>">
-                            <?php
-                            if (is_multisite()) {
-                                $url = get_blogaddress_by_id(get_current_blog_id());
-                            } else {
-                                $url = home_url();
-                            }
-                            //print current domain
-                            printf('<br><p class="description">Use <code>%s</code> or leave empty</p>', preg_replace('#^https?://#', '', $url));
-                            ?>
-                        </td>
-                    </tr>
                     <tr>
                         <th scope="row"><?php _e('Sample rate', ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><input type="number" step="any" min="0" placeholder="100" name="asga_options[sample_rate]"
