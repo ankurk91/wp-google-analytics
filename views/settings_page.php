@@ -48,18 +48,6 @@
                                     class="dashicons-before dashicons-external"></i></a>
                         </td>
                     </tr>
-                    <tr>
-                        <th scope="row"><?php _e('Google webmaster code', ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td><input type="text" size="25" autocomplete="off"
-                                   placeholder="<?php _e('Optional', ASGA_TEXT_DOMAIN) ?>"
-                                   name="asga_options[webmaster][google_code]"
-                                   value="<?php echo esc_attr($options['webmaster']['google_code']); ?>">
-                            <a href="https://www.google.com/webmasters/tools/home?hl=en" target="_blank"><i
-                                    class="dashicons-before dashicons-external"></i></a>
-                            <p class="description"
-                               style="color:#ba281e"><?php _e('This options has been deprecated and will be removed in future', ASGA_TEXT_DOMAIN) ?></p>
-                        </td>
-                    </tr>
                 </table>
             </section>
             <section id="ga-events" class="tab-content">
@@ -270,7 +258,7 @@
                                    href="https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug"><i
                                         class="dashicons-before dashicons-external"></i></a> </label>
 
-                            <p class="description"><?php _e("This should only be used temporarily or during development, don't forget to disable it in production", 'asga') ?> </p>
+                            <p class="description"><?php _e("This should only be used temporarily or during development, don't forget to disable it in production", ASGA_TEXT_DOMAIN) ?> </p>
                         </td>
                     </tr>
                     <tr>
