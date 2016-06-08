@@ -29,12 +29,7 @@ class Ank_Simplified_GA_Frontend
         } else {
             add_action('wp_footer', array($this, 'print_tracking_code'), $js_priority);
         }
-
-        //Check for webmaster code, (deprecated)
-        if (!empty($this->db_options['webmaster']['google_code'])) {
-            add_action('wp_head', array($this, 'print_webmaster_code'), 9);
-        }
-
+        
         if ($this->need_to_load_event_tracking_js()) {
             //Load event tracking js file
             add_action('wp_footer', array($this, 'add_event_tracking_js'), 9);
@@ -243,17 +238,7 @@ class Ank_Simplified_GA_Frontend
 
         return $view_array;
     }
-
-    /**
-     * Print google webmaster meta tag to document header
-     */
-    function print_webmaster_code()
-    {
-
-        $this->load_view('google_webmaster.php', array('code' => $this->db_options['webmaster']['google_code']));
-
-    }
-
+    
     /**
      * Enqueue event tracking javascript file
      */
