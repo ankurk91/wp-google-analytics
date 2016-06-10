@@ -4,23 +4,23 @@
 (function (window, document, jQuery) {
     'use strict';
 
-    var asga_opt = window._asgaOpt;
+    var asgaOpt = window._asgaOpt;
 
     /**
      * Decides if event will be non-interactive or not
      * @returns {boolean}
      */
     function isNonInteractive() {
-        return (asga_opt.nonInteractive == 1);
+        return (asgaOpt.nonInteractive == 1);
     }
 
     //jQuery Filter Ref: http://api.jquery.com/filter/
     jQuery(function ($) {
 
-        if (asga_opt.downloadLinks === '1') {
+        if (asgaOpt.downloadLinks === '1') {
             //Track Downloads
             //https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
-            var exts = (asga_opt.downloadExt === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asga_opt.downloadExt.replace(/,/g, '|');
+            var exts = (asgaOpt.downloadExt === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asgaOpt.downloadExt.replace(/,/g, '|');
             //https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp
             var regExt = new RegExp(".*\\.(" + exts + ")(\\?.*)?$");
 
@@ -35,7 +35,7 @@
                 });
         }
 
-        if (asga_opt.mailLinks === '1') {
+        if (asgaOpt.mailLinks === '1') {
             //Track Mailto links
             $('a[href^="mailto"]').on('click.asga', function (e) {
                 //href should not include 'mailto'
@@ -43,14 +43,14 @@
             });
         }
 
-        if (asga_opt.outgoingLinks === '1') {
+        if (asgaOpt.outgoingLinks === '1') {
             //Track Outbound Links
             //https://css-tricks.com/snippets/jquery/target-only-external-links/
             $('a[href^="http"]').filter(function () {
                 return (this.hostname && this.hostname !== window.location.hostname)
             }).prop('target', '_blank')  // make sure these links open in new tab
                 .on('click.asga', function (e) {
-                    logClickEvent('Outbound', (asga_opt.outboundLinkType === '1') ? this.hostname : this.href, e);
+                    logClickEvent('Outbound', (asgaOpt.outboundLinkType === '1') ? this.hostname : this.href, e);
                 });
         }
 
@@ -71,7 +71,7 @@
         //if label is not set then exit
         if (typeof label === 'undefined' || label === '') return;
 
-        if (window.ga && ga.create) {
+        if (window.ga && ga.hasOwnProperty('loaded') && ga.loaded === true && ga.create) {
             //Universal event tracking
             //https://developers.google.com/analytics/devguides/collection/analyticsjs/events
             ga('send', 'event', category, 'click', label, {
