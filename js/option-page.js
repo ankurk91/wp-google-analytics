@@ -19,7 +19,7 @@
         setRedirectURL(requestedTab);
 
         //Bind a click event to all tabs
-        $gaTabs.find('a.nav-tab').on('click', (function (e) {
+        $gaTabs.find('a.nav-tab').on('click.asga', (function (e) {
             e.stopPropagation();
             //Hide all tabs
             $gaTabs.find('a.nav-tab').removeClass('nav-tab-active');
