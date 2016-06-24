@@ -29,12 +29,7 @@ class Ank_Simplified_GA_Frontend
         } else {
             add_action('wp_footer', array($this, 'print_tracking_code'), $js_priority);
         }
-
-        //Check for webmaster code, (deprecated)
-        if (!empty($this->db_options['webmaster']['google_code'])) {
-            add_action('wp_head', array($this, 'print_webmaster_code'), 9);
-        }
-
+        
         if ($this->need_to_load_event_tracking_js()) {
             //Load event tracking js file
             add_action('wp_footer', array($this, 'add_event_tracking_js'), 9);
@@ -243,17 +238,7 @@ class Ank_Simplified_GA_Frontend
 
         return $view_array;
     }
-
-    /**
-     * Print google webmaster meta tag to document header
-     */
-    function print_webmaster_code()
-    {
-
-        $this->load_view('google_webmaster.php', array('code' => $this->db_options['webmaster']['google_code']));
-
-    }
-
+    
     /**
      * Enqueue event tracking javascript file
      */
@@ -262,14 +247,9 @@ class Ank_Simplified_GA_Frontend
         //if tracking not possible return early
         if ($this->is_tracking_possible() === false) return;
 
-        //Load jquery if not loaded by theme
-        if (wp_script_is('jquery', $list = 'enqueued') === false) {
-            wp_enqueue_script('jquery');
-        }
-
         $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
-        //Depends on jquery
-        wp_enqueue_script('asga-event-tracking', plugins_url('/js/front-end' . $is_min . '.js', ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, true);
+        //no longer depends on jquery
+        wp_enqueue_script('asga-event-tracking', plugins_url('/js/front-end' . $is_min . '.js', ASGA_BASE_FILE), array(), ASGA_PLUGIN_VER, true);
         //WP inbuilt hack to print js options object just before this script
         wp_localize_script('asga-event-tracking', '_asgaOpt', $this->get_js_options());
 

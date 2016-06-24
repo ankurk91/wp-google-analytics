@@ -159,11 +159,7 @@ class Ank_Simplified_GA_Admin
             'track_outbound_link_type' => 1,
             'track_download_links' => 0,
             'track_download_ext' => 'doc*,xls*,ppt*,pdf,zip,rar,exe,mp3',
-            'track_non_interactive' => 1,
-            'webmaster' => array(
-                'google_code' => ''
-            )
-
+            'track_non_interactive' => 1
         );
 
         //Ignored some roles by default
@@ -240,8 +236,6 @@ class Ank_Simplified_GA_Admin
 
         }
 
-        //Google webmaster code
-        $out['webmaster']['google_code'] = sanitize_text_field($in['webmaster']['google_code']);
         //Extensions to track as downloads
         $out['track_download_ext'] = sanitize_text_field($in['track_download_ext']);
 

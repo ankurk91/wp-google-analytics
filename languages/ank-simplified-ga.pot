@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ank Simplified GA\n"
 "Report-Msgid-Bugs-To: https://github.com/ank91/ank-simplified-ga/issues\n"
-"POT-Creation-Date: 2016-05-19 09:44+0530\n"
+"POT-Creation-Date: 2016-06-08 11:12+0530\n"
 "PO-Revision-Date: 2016-01-13 17:06+0530\n"
 "Last-Translator: ank91\n"
 "Language-Team: \n"
@@ -27,19 +27,19 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: inc/class-admin.php:202
+#: inc/class-admin.php:198
 msgid "Your GA tracking ID seems invalid. Please validate."
 msgstr ""
 
-#: inc/class-admin.php:223
+#: inc/class-admin.php:219
 msgid "Sample rate should be between 1 to 100."
 msgstr ""
 
-#: inc/class-admin.php:258
+#: inc/class-admin.php:252
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: inc/class-admin.php:297
+#: inc/class-admin.php:291
 msgid "Network Administrator"
 msgstr ""
 
@@ -93,212 +93,200 @@ msgstr ""
 msgid "Classic"
 msgstr ""
 
-#: views/settings_page.php:52
-msgid "Google webmaster code"
-msgstr ""
-
-#: views/settings_page.php:54
-msgid "Optional"
-msgstr ""
-
-#: views/settings_page.php:60
-msgid "This options has been deprecated and will be removed in future"
-msgstr ""
-
-#: views/settings_page.php:68
+#: views/settings_page.php:56
 msgid "Events to track"
 msgstr ""
 
-#: views/settings_page.php:73
+#: views/settings_page.php:61
 msgid "Log 404 pages as events"
 msgstr ""
 
-#: views/settings_page.php:74
+#: views/settings_page.php:62
 msgid "Track email links as events"
 msgstr ""
 
-#: views/settings_page.php:75
+#: views/settings_page.php:63
 msgid "Track outbound links as events"
 msgstr ""
 
-#: views/settings_page.php:76
+#: views/settings_page.php:64
 msgid "Track downloads as events"
 msgstr ""
 
-#: views/settings_page.php:88
+#: views/settings_page.php:76
 msgid "Non interactive events"
 msgstr ""
 
-#: views/settings_page.php:90
+#: views/settings_page.php:78
 msgid "Events should not affect bounce rate"
 msgstr ""
 
-#: views/settings_page.php:95
+#: views/settings_page.php:83
 msgid "Extensions for downloads"
 msgstr ""
 
-#: views/settings_page.php:100
+#: views/settings_page.php:88
 msgid "Please use comma (,) separated values"
 msgstr ""
 
-#: views/settings_page.php:105
+#: views/settings_page.php:93
 msgid "Track outbound link type"
 msgstr ""
 
-#: views/settings_page.php:109
+#: views/settings_page.php:97
 msgid "Just the domain"
 msgstr ""
 
-#: views/settings_page.php:111
+#: views/settings_page.php:99
 msgid "Full URL"
 msgstr ""
 
-#: views/settings_page.php:120
+#: views/settings_page.php:108
 msgid "Set domain"
 msgstr ""
 
-#: views/settings_page.php:135
+#: views/settings_page.php:123
 msgid "Sample rate"
 msgstr ""
 
-#: views/settings_page.php:143
+#: views/settings_page.php:131
 msgid "Demographics and interest reports"
 msgstr ""
 
-#: views/settings_page.php:145
+#: views/settings_page.php:133
 msgid "Enable advertising features"
 msgstr ""
 
-#: views/settings_page.php:151
+#: views/settings_page.php:139
 msgid "Enhanced link attribution"
 msgstr ""
 
-#: views/settings_page.php:153 views/settings_page.php:179
+#: views/settings_page.php:141 views/settings_page.php:167
 msgid "Check to enable"
 msgstr ""
 
-#: views/settings_page.php:159
+#: views/settings_page.php:147
 msgid "Cross-domain user tracking"
 msgstr ""
 
-#: views/settings_page.php:161
+#: views/settings_page.php:149
 msgid "_setAllowLinker"
 msgstr ""
 
-#: views/settings_page.php:168
+#: views/settings_page.php:156
 msgid "Campaign tracking"
 msgstr ""
 
-#: views/settings_page.php:170
+#: views/settings_page.php:158
 msgid "_setAllowAnchor"
 msgstr ""
 
-#: views/settings_page.php:177
+#: views/settings_page.php:165
 msgid "Tag RSS links with campaign variables"
 msgstr ""
 
-#: views/settings_page.php:186
+#: views/settings_page.php:174
 msgid "Anonymize IP"
 msgstr ""
 
-#: views/settings_page.php:188
+#: views/settings_page.php:176
 msgid "Anonymizes IP addresses"
 msgstr ""
 
-#: views/settings_page.php:194
+#: views/settings_page.php:182
 msgid "Force SSL"
 msgstr ""
 
-#: views/settings_page.php:196
+#: views/settings_page.php:184
 msgid "Transmit data over secure (https) connection"
 msgstr ""
 
-#: views/settings_page.php:201
+#: views/settings_page.php:189
 msgid "Custom trackers"
 msgstr ""
 
-#: views/settings_page.php:205
+#: views/settings_page.php:193
 msgid "To be added before the"
 msgstr ""
 
-#: views/settings_page.php:206
+#: views/settings_page.php:194
 msgid "pageview"
 msgstr ""
 
-#: views/settings_page.php:206
+#: views/settings_page.php:194
 msgid "call"
 msgstr ""
 
-#: views/settings_page.php:215
+#: views/settings_page.php:203
 msgid "Place tracking code in"
 msgstr ""
 
-#: views/settings_page.php:219
+#: views/settings_page.php:207
 msgid "Document header"
 msgstr ""
 
-#: views/settings_page.php:222
+#: views/settings_page.php:210
 msgid "Document footer"
 msgstr ""
 
-#: views/settings_page.php:228
+#: views/settings_page.php:216
 msgid "Code execution"
 msgstr ""
 
-#: views/settings_page.php:232
+#: views/settings_page.php:220
 msgid "Immediately"
 msgstr ""
 
-#: views/settings_page.php:235
+#: views/settings_page.php:223
 msgid "On page load"
 msgstr ""
 
-#: views/settings_page.php:241
+#: views/settings_page.php:229
 msgid "Action priority"
 msgstr ""
 
-#: views/settings_page.php:244
+#: views/settings_page.php:232
 msgid "0 means highest priority"
 msgstr ""
 
-#: views/settings_page.php:248
+#: views/settings_page.php:236
 msgid "Stop analytics when"
 msgstr ""
 
-#: views/settings_page.php:255
+#: views/settings_page.php:243
 msgid "is logged in"
 msgstr ""
 
-#: views/settings_page.php:266
+#: views/settings_page.php:254
 msgid "Debug mode"
 msgstr ""
 
-#: views/settings_page.php:268
+#: views/settings_page.php:256
 msgid "Enable debugging mode for administrators"
 msgstr ""
 
-#: views/settings_page.php:273
+#: views/settings_page.php:261
 msgid ""
 "This should only be used temporarily or during development, don't forget to "
 "disable it in production"
 msgstr ""
 
-#: views/settings_page.php:277
+#: views/settings_page.php:265
 msgid "Debug database options"
 msgstr ""
 
-#: views/settings_page.php:289
+#: views/settings_page.php:277
 msgid "Developed with ♥ by"
 msgstr ""
 
-#: views/settings_page.php:290
+#: views/settings_page.php:278
 msgid "Contribute on"
 msgstr ""
 
-#: views/settings_page.php:291
+#: views/settings_page.php:279
 msgid "Rate this on"
 msgstr ""
 
-#: views/settings_page.php:292
+#: views/settings_page.php:280
 msgid "WordPress"
 msgstr ""

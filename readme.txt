@@ -2,7 +2,7 @@
 Tags: google analytics, tracking, light weight, simple, easy, free, multi-site
 Requires at least: 3.8.0
 Tested up to: 4.5.2
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -30,9 +30,6 @@ Track your WordPress website with Google Analytics service.
     * Each sub site need to be configured separately
     * Each sub site will store its own configuration in database, there is no global settings for this plugin
 * Translation ready, you are welcome [here](https://translate.wordpress.org/projects/wp-plugins/ank-simplified-ga)
-* Google webmaster site verification (deprecated)
-	* No need to install another plugin for Google webmaster verification
-	* Insert your verification code to generate meta tag
 * Choose where to place your tracking code
 	* Ability to place code in header or footer, control priority
 	* Ability to run tracking code when page loaded
@@ -167,18 +164,6 @@ Yes, But there is paid version of Google Analytics also.
 Read more [here](https://developers.google.com/analytics/devguides/collection/analyticsjs/limits-quotas).
 
 
-= How do i enter Google Webmaster verification code ? =
-
-Note: This feature has been deprecated.
-
-Login to Google Webmaster [console](https://www.google.com/webmasters/tools/home?hl=en), get the verification code from there
-
-Checkout this [link](http://googlewebmastercentral.blogspot.in/2011/02/linking-google-analytics-to-webmaster.html)
-OR
-You can search google like 'Linking google analytics to webmaster'
-
-
-
 = Future Plans ? =
 * OAuth
 * More options may be.
@@ -197,6 +182,11 @@ You can search google like 'Linking google analytics to webmaster'
 
 
 == Changelog ==
+= 1.2.0 =
+* Tested up to wp v4.5.3
+* Remove: Google Webmaster option
+* Event Tracking - No longer depends on jQuery
+* Event Tracking - Dropped IE8 support
 
 = 1.1.0 =
 * New: Set Sample Rate

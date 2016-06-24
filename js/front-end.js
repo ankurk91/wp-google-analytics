@@ -1,57 +1,71 @@
 /**
  * Ank-Simplified-GA event tracking
  */
-(function (window, document, jQuery) {
+(function (window, document) {
     'use strict';
+    //IE8 not supported
+    if (!window.addEventListener || !document.querySelectorAll) return;
 
-    var asga_opt = window._asgaOpt;
+    //Get dynamic options from page
+    var asgaOpt = window._asgaOpt;
 
-    /**
-     * Decides if event will be non-interactive or not
-     * @returns {boolean}
-     */
-    function isNonInteractive() {
-        return (asga_opt.nonInteractive == 1);
-    }
+    document.addEventListener("DOMContentLoaded", function (event) {
 
-    //jQuery Filter Ref: http://api.jquery.com/filter/
-    jQuery(function ($) {
-
-        if (asga_opt.downloadLinks === '1') {
-            //Track Downloads
+        //Track Downloads
+        if (asgaOpt.downloadLinks === '1') {
             //https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
-            var exts = (asga_opt.downloadExt === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asga_opt.downloadExt.replace(/,/g, '|');
+            var exts = (asgaOpt.downloadExt === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asgaOpt.downloadExt.replace(/,/g, '|');
+
             //https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp
             var regExt = new RegExp(".*\\.(" + exts + ")(\\?.*)?$");
 
-            $('a').filter(function () {
+            var downLinks = document.querySelectorAll('a');
+
+            Array.prototype.forEach.call(downLinks, function (link) {
                 //include only internal links for downloads
-                if (this.hostname && (this.hostname === window.location.hostname)) {
-                    return this.href.match(regExt);
+                if (link.hostname && (link.hostname === window.location.hostname) && link.href.match(regExt)) {
+                    link.addEventListener('click', function (e) {
+                        logClickEvent('Downloads', this.href, e)
+                    });
+
+                    //only add download attribute if does not have
+                    if (!link.hasAttribute('download'))
+                        link.setAttribute('download', '');
+
                 }
-            }).prop('download', '') //force download of these files
-                .on('click.asga', function (e) {
-                    logClickEvent('Downloads', this.href, e)
-                });
-        }
-
-        if (asga_opt.mailLinks === '1') {
-            //Track Mailto links
-            $('a[href^="mailto"]').on('click.asga', function (e) {
-                //href should not include 'mailto'
-                logClickEvent('Email', this.href.replace(/^mailto\:/i, '').toLowerCase(), e)
             });
+
         }
 
-        if (asga_opt.outgoingLinks === '1') {
-            //Track Outbound Links
-            //https://css-tricks.com/snippets/jquery/target-only-external-links/
-            $('a[href^="http"]').filter(function () {
-                return (this.hostname && this.hostname !== window.location.hostname)
-            }).prop('target', '_blank')  // make sure these links open in new tab
-                .on('click.asga', function (e) {
-                    logClickEvent('Outbound', (asga_opt.outboundLinkType === '1') ? this.hostname : this.href, e);
-                });
+        //Track Mailto links
+        if (asgaOpt.mailLinks === '1') {
+            var mailLinks = document.querySelectorAll('a[href^="mailto"]');
+
+            Array.prototype.forEach.call(mailLinks, function (link) {
+                link.addEventListener('click', function (e) {
+                    //label should not include 'mailto'
+                    logClickEvent('Email', this.href.replace(/^mailto\:/i, '').toLowerCase(), e)
+                })
+            });
+
+        }
+
+        //Track Outbound Links
+        if (asgaOpt.outgoingLinks === '1') {
+            var outLinks = document.querySelectorAll('a[href^="http"]');
+
+            Array.prototype.forEach.call(outLinks, function (link) {
+                //https://css-tricks.com/snippets/jquery/target-only-external-links/
+                if (link.hostname && link.hostname !== window.location.hostname) {
+                    link.addEventListener('click', function (e) {
+                        logClickEvent('Outbound', (asgaOpt.outboundLinkType === '1') ? this.hostname : this.href, e);
+                    });
+                    link.setAttribute('target', '_blank'); // make sure these links open in new tab
+
+                }
+
+            });
+
         }
 
     });
@@ -66,23 +80,24 @@
      */
     function logClickEvent(category, label, event) {
         //return early if event.preventDefault() was ever called on this event object.
-        if (event.isDefaultPrevented()) return;
+        if (event.defaultPrevented) return;
 
         //if label is not set then exit
         if (typeof label === 'undefined' || label === '') return;
 
-        if (window.ga && ga.create) {
+        if (window.ga && ga.hasOwnProperty('loaded') && ga.loaded === true && ga.create) {
             //Universal event tracking
             //https://developers.google.com/analytics/devguides/collection/analyticsjs/events
             ga('send', 'event', category, 'click', label, {
-                nonInteraction: isNonInteractive()
+                nonInteraction: (asgaOpt.nonInteractive == 1)
             });
         } else if (window._gaq && _gaq._getAsyncTracker) {
             //Classic event tracking
             //https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide
-            _gaq.push(['_trackEvent', category, 'click', label, 1, isNonInteractive()]);
+            _gaq.push(['_trackEvent', category, 'click', label, 1, (asgaOpt.nonInteractive == 1)]);
         } else {
             (window.console) ? console.info('Google analytics not loaded') : null
         }
     }
-})(window, document, jQuery);
+
+})(window, document);

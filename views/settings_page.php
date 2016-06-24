@@ -49,15 +49,18 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php _e('Google webmaster code', ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td><input type="text" size="25" autocomplete="off"
-                                   placeholder="<?php _e('Optional', ASGA_TEXT_DOMAIN) ?>"
-                                   name="asga_options[webmaster][google_code]"
-                                   value="<?php echo esc_attr($options['webmaster']['google_code']); ?>">
-                            <a href="https://www.google.com/webmasters/tools/home?hl=en" target="_blank"><i
-                                    class="dashicons-before dashicons-external"></i></a>
-                            <p class="description"
-                               style="color:#ba281e"><?php _e('This options has been deprecated and will be removed in future', ASGA_TEXT_DOMAIN) ?></p>
+                        <th scope="row"><?php _e('Set domain', ASGA_TEXT_DOMAIN) ?> :</th>
+                        <td><input type="text" size="25" placeholder="auto" name="asga_options[ga_domain]"
+                                   value="<?php echo esc_attr($options['ga_domain']); ?>">
+                            <?php
+                            if (is_multisite()) {
+                                $url = get_blogaddress_by_id(get_current_blog_id());
+                            } else {
+                                $url = home_url();
+                            }
+                            //print current domain
+                            printf('<br><p class="description">Use <code>%s</code> or leave empty</p>', preg_replace('#^https?://#', '', $url));
+                            ?>
                         </td>
                     </tr>
                 </table>
@@ -116,21 +119,6 @@
             </section>
             <section id="ga-advanced" class="tab-content">
                 <table class="form-table">
-                    <tr>
-                        <th scope="row"><?php _e('Set domain', ASGA_TEXT_DOMAIN) ?> :</th>
-                        <td><input type="text" size="25" placeholder="auto" name="asga_options[ga_domain]"
-                                   value="<?php echo esc_attr($options['ga_domain']); ?>">
-                            <?php
-                            if (is_multisite()) {
-                                $url = get_blogaddress_by_id(get_current_blog_id());
-                            } else {
-                                $url = home_url();
-                            }
-                            //print current domain
-                            printf('<br><p class="description">Use <code>%s</code> or leave empty</p>', preg_replace('#^https?://#', '', $url));
-                            ?>
-                        </td>
-                    </tr>
                     <tr>
                         <th scope="row"><?php _e('Sample rate', ASGA_TEXT_DOMAIN) ?> :</th>
                         <td><input type="number" step="any" min="0" placeholder="100" name="asga_options[sample_rate]"
@@ -270,7 +258,7 @@
                                    href="https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug"><i
                                         class="dashicons-before dashicons-external"></i></a> </label>
 
-                            <p class="description"><?php _e("This should only be used temporarily or during development, don't forget to disable it in production", 'asga') ?> </p>
+                            <p class="description"><?php _e("This should only be used temporarily or during development, don't forget to disable it in production", ASGA_TEXT_DOMAIN) ?> </p>
                         </td>
                     </tr>
                     <tr>
