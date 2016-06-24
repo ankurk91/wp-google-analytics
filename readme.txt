@@ -183,7 +183,10 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 
 == Changelog ==
 = 1.2.0 =
+* Tested up to wp v4.5.3
 * Remove: Google Webmaster option
+* Event Tracking - No longer depends on jQuery
+* Event Tracking - Dropped IE8 support
 
 = 1.1.0 =
 * New: Set Sample Rate
