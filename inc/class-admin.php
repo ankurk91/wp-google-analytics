@@ -1,6 +1,6 @@
 <?php
-
 namespace Ank91\Plugins\Ank_Simplified_GA;
+
 /**
  * Class Ank_Simplified_GA_Admin
  * @package Ank-Simplified-GA
@@ -10,7 +10,9 @@ class Ank_Simplified_GA_Admin
 
     private static $instances = array();
 
-    /* Store plugin option page slug, so that we can change it with ease */
+    /**
+     * Store plugin option page slug, so that we can change it with ease
+     */
     const PLUGIN_SLUG = 'asga_options_page';
     const PLUGIN_OPTION_GROUP = 'asga_plugin_options';
 
@@ -206,7 +208,7 @@ class Ank_Simplified_GA_Admin
             $out[$item] = absint($in[$item]);
         }
 
-        $out['js_priority'] = (trim($in['js_priority'])=='') ? 20 : absint($in['js_priority']);
+        $out['js_priority'] = (trim($in['js_priority']) == '') ? 20 : absint($in['js_priority']);
 
         $out['ga_domain'] = sanitize_text_field(($in['ga_domain']));
         //http://stackoverflow.com/questions/9549866/php-regex-to-remove-http-from-string
@@ -434,7 +436,7 @@ class Ank_Simplified_GA_Admin
 
             )
         );
-        
+
         $curr_screen->add_help_tab(
             array(
                 'id' => 'asga-more-info',

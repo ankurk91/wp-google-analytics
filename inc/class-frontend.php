@@ -1,6 +1,6 @@
 <?php
-
 namespace Ank91\Plugins\Ank_Simplified_GA;
+
 /**
  * Class Ank_Simplified_GA
  * @package Ank-Simplified-GA

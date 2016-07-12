@@ -1,6 +1,3 @@
-/**
- * Ank-Simplified-GA event tracking
- */
 (function (window, document) {
     'use strict';
     //IE8 not supported

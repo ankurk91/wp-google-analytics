@@ -15,7 +15,7 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 - - -
 
 ### Prerequisite
-* PHP v5.3.0 or above
+* PHP v5.3.2+ or v7.0.x
 * WordPress v3.8 or above
 
 #### Links
@@ -29,4 +29,4 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 
 #### License
 
-[License](License.txt)
+[License](LICENSE.txt)

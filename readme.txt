@@ -1,8 +1,8 @@
 === Ank Simplified Google Analytics ===
 Tags: google analytics, tracking, light weight, simple, easy, free, multi-site
 Requires at least: 3.8.0
-Tested up to: 4.5.2
-Stable tag: 1.2.0
+Tested up to: 4.5.3
+Stable tag: 1.2.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: ank91
@@ -182,6 +182,8 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 
 
 == Changelog ==
+= 1.2.1 =
+
 = 1.2.0 =
 * Tested up to wp v4.5.3
 * Remove: Google Webmaster option
