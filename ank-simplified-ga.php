@@ -1,13 +1,13 @@
 <?php
-namespace Ank91\Plugins\Ank_Simplified_GA;
+namespace Ankur\Plugins\Ank_Simplified_GA;
 
 /*
-Plugin Name: Ank Simplified Google Analytics
-Plugin URI: https://github.com/ank91/ank-simplified-ga
+Plugin Name: Simplified Google Analytics
+Plugin URI: https://github.com/ankurk91/wp-google-analytics
 Description: Simple, light weight, and non-bloated Google Analytics plugin for WordPress.
 Version: 1.2.1
 Author: Ankur Kumar
-Author URI: http://ank91.github.io/
+Author URI: http://ankurk91.github.io/
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: ank-simplified-ga
@@ -29,11 +29,11 @@ define('ASGA_TEXT_DOMAIN', 'ank-simplified-ga');
  */
 if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
     require 'inc/class-admin.php';
-    Ank_Simplified_GA_Admin::get_instance();
+    Admin::get_instance();
 
 } else {
     require 'inc/class-frontend.php';
-    Ank_Simplified_GA_Frontend::get_instance();
+    Frontend::get_instance();
 }
 
 

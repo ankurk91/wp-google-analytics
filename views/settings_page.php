@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h2><?php _e('Ank Simplified Google Analytics', ASGA_TEXT_DOMAIN) ?>
+    <h2><?php _e('Simplified Google Analytics', ASGA_TEXT_DOMAIN) ?>
         <small>(v<?php echo ASGA_PLUGIN_VER; ?>)</small>
     </h2>
 
@@ -274,8 +274,8 @@
     </form>
     <hr>
     <p>
-        <?php _e('Developed with ♥ by', ASGA_TEXT_DOMAIN) ?> - <a target="_blank" href="https://ank91.github.io/?utm_source=<?php echo rawurlencode(get_home_url()) ?>&amp;utm_medium=plugin_options_page&amp;utm_campaign=ank-simplified-ga">Ankur Kumar</a> |
-        <?php _e('Contribute on', ASGA_TEXT_DOMAIN) ?> <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a> |
+        <?php _e('Developed with ♥ by', ASGA_TEXT_DOMAIN) ?> - <a target="_blank" href="https://ankurk91.github.io/?utm_source=<?php echo rawurlencode(get_home_url()) ?>&amp;utm_medium=plugin_options_page&amp;utm_campaign=ank-simplified-ga">Ankur Kumar</a> |
+        <?php _e('Contribute on', ASGA_TEXT_DOMAIN) ?> <a href="https://github.com/ankurk91/wp-google-analytics" target="_blank">GitHub</a> |
         ★ <?php _e('Rate this on', ASGA_TEXT_DOMAIN) ?>
         <a href="https://wordpress.org/support/view/plugin-reviews/ank-simplified-ga#plugin-info" target="_blank"><?php _e('WordPress') ?></a>
     </p>

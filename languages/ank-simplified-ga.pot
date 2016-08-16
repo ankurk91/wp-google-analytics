@@ -3,10 +3,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ank Simplified GA\n"
-"Report-Msgid-Bugs-To: https://github.com/ank91/ank-simplified-ga/issues\n"
-"POT-Creation-Date: 2016-07-08 15:19+0530\n"
+"Report-Msgid-Bugs-To: https://github.com/ankurk91/wp-google-analytics/"
+"issues\n"
+"POT-Creation-Date: 2016-08-16 15:03+0530\n"
 "PO-Revision-Date: 2016-01-13 17:06+0530\n"
-"Last-Translator: ank91\n"
+"Last-Translator: ankurk91\n"
 "Language-Team: \n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
@@ -23,23 +24,23 @@ msgstr ""
 "X-Poedit-SearchPath-0: views\n"
 "X-Poedit-SearchPath-1: inc\n"
 
-#: inc/class-admin.php:104
+#: inc/class-admin.php:106
 msgid "Settings"
 msgstr ""
 
-#: inc/class-admin.php:198
+#: inc/class-admin.php:200
 msgid "Your GA tracking ID seems invalid. Please validate."
 msgstr ""
 
-#: inc/class-admin.php:219
+#: inc/class-admin.php:221
 msgid "Sample rate should be between 1 to 100."
 msgstr ""
 
-#: inc/class-admin.php:252
+#: inc/class-admin.php:254
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: inc/class-admin.php:291
+#: inc/class-admin.php:293
 msgid "Network Administrator"
 msgstr ""
 
@@ -50,7 +51,7 @@ msgid ""
 msgstr ""
 
 #: views/settings_page.php:2
-msgid "Ank Simplified Google Analytics"
+msgid "Simplified Google Analytics"
 msgstr ""
 
 #: views/settings_page.php:7

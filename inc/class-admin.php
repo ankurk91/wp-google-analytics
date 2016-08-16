@@ -1,11 +1,11 @@
 <?php
-namespace Ank91\Plugins\Ank_Simplified_GA;
+namespace Ankur\Plugins\Ank_Simplified_GA;
 
 /**
- * Class Ank_Simplified_GA_Admin
- * @package Ank-Simplified-GA
+ * Class Admin
+ * @package Ankur\Plugins\Ank_Simplified_GA
  */
-class Ank_Simplified_GA_Admin
+class Admin
 {
 
     private static $instances = array();
@@ -117,7 +117,7 @@ class Ank_Simplified_GA_Admin
     {
         $page_hook_suffix = add_submenu_page(
             'options-general.php',
-            'Ank Simplified Google Analytics', //page title
+            'Simplified Google Analytics', //page title
             'Google Analytics',  //menu name
             'manage_options',
             self::PLUGIN_SLUG,
@@ -445,7 +445,7 @@ class Ank_Simplified_GA_Admin
                     'A brief FAQ is available to solve your common issues, ' .
                     'click <a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">here</a> to read more.<br>' .
                     'Support is only available on WordPress Forums, click <a href="http://wordpress.org/support/plugin/ank-simplified-ga" target="_blank">here</a> to ask anything about this plugin.<br>' .
-                    'You can also browse the source code of this  plugin on <a href="https://github.com/ank91/ank-simplified-ga" target="_blank">GitHub</a>. ' .
+                    'You can also browse the source code of this  plugin on <a href="https://github.com/ankurk91/wp-google-analytics" target="_blank">GitHub</a>. ' .
                     '</p>'
 
             )
@@ -455,7 +455,7 @@ class Ank_Simplified_GA_Admin
         $curr_screen->set_help_sidebar(
             '<p><strong>Quick Links</strong></p>' .
             '<p><a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">Plugin FAQ</a></p>' .
-            '<p><a href="https://github.com/ank91/ank-simplified-ga" target="_blank">Plugin Home</a></p>'
+            '<p><a href="https://github.com/ankurk91/wp-google-analytics" target="_blank">Plugin Home</a></p>'
         );
     }
 

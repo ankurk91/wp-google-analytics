@@ -1,11 +1,11 @@
-=== Ank Simplified Google Analytics ===
+=== Simplified Google Analytics ===
 Tags: google analytics, tracking, light weight, simple, easy, free, multi-site
 Requires at least: 3.8.0
 Tested up to: 4.5.3
 Stable tag: 1.2.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Contributors: ank91
+Contributors: ankurk91
 
 The most simplified Google Analytics Plugin for WordPress.
 
@@ -65,7 +65,7 @@ Track your WordPress website with Google Analytics service.
 
 
 > <strong>Found bugs ?</strong><br>
-> I am happy to resolve bugs, report your bugs [here](https://github.com/ank91/ank-simplified-ga/issues)<br>
+> I am happy to resolve bugs, report your bugs [here](https://github.com/ankurk91/wp-google-analytics/issues)<br>
 > Please note that support is only available via WordPress forums.
 
 
@@ -182,7 +182,10 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 
 
 == Changelog ==
+
 = 1.2.1 =
+* Updated links
+* Change namespace
 
 = 1.2.0 =
 * Tested up to wp v4.5.3

@@ -1,11 +1,11 @@
 <?php
-namespace Ank91\Plugins\Ank_Simplified_GA;
+namespace Ankur\Plugins\Ank_Simplified_GA;
 
 /**
- * Class Ank_Simplified_GA
- * @package Ank-Simplified-GA
+ * Class Frontend
+ * @package Ankur\Plugins\Ank_Simplified_GA
  */
-class Ank_Simplified_GA_Frontend
+class Frontend
 {
     private static $instances = array();
     /**
