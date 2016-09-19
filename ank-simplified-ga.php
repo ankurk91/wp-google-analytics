@@ -2,14 +2,14 @@
 namespace Ankur\Plugins\Ank_Simplified_GA;
 
 /*
-Plugin Name: Simplified Google Analytics
+Plugin Name: Google Analytics Simplified
 Plugin URI: https://github.com/ankurk91/wp-google-analytics
 Description: Simple, light weight, and non-bloated Google Analytics plugin for WordPress.
-Version: 1.2.1
+Version: 1.2.2
 Author: Ankur Kumar
-Author URI: http://ankurk91.github.io/
-License: GPL2
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Author URI: https://ankurk91.github.io/
+License: MIT
+License URI: https://opensource.org/licenses/MIT
 Text Domain: ank-simplified-ga
 Domain Path: /languages
 */
@@ -17,10 +17,9 @@ Domain Path: /languages
 /* No direct access*/
 if (!defined('ABSPATH')) exit;
 
-define('ASGA_PLUGIN_VER', '1.2.1');
+define('ASGA_PLUGIN_VER', '1.2.2');
 define('ASGA_BASE_FILE', __FILE__);
 define('ASGA_OPTION_NAME', 'asga_options');
-define('ASGA_TEXT_DOMAIN', 'ank-simplified-ga');
 
 
 /**

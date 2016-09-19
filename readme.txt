@@ -1,10 +1,10 @@
-=== Simplified Google Analytics ===
+=== Google Analytics Simplified ===
 Tags: google analytics, tracking, light weight, simple, easy, free, multi-site
-Requires at least: 3.8.0
-Tested up to: 4.5.3
-Stable tag: 1.2.1
-License: GPLv2
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires at least: 4.0.0
+Tested up to: 4.6.1
+Stable tag: 1.2.2
+License: MIT
+License URI: https://opensource.org/licenses/MIT
 Contributors: ankurk91
 
 The most simplified Google Analytics Plugin for WordPress.
@@ -182,6 +182,9 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 
 
 == Changelog ==
+
+= 1.2.2 =
+* Fix text domain
 
 = 1.2.1 =
 * Updated links

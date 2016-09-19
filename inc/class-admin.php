@@ -66,7 +66,7 @@ class Admin
 
     public static function load_text_domain()
     {
-        load_plugin_textdomain(ASGA_TEXT_DOMAIN, false, dirname(plugin_basename(ASGA_BASE_FILE)) . '/languages/');
+        load_plugin_textdomain('ank-simplified-ga', false, dirname(plugin_basename(ASGA_BASE_FILE)) . '/languages/');
     }
 
     /*
@@ -103,7 +103,7 @@ class Admin
             $build_url = add_query_arg('page', self::PLUGIN_SLUG, 'options-general.php');
             array_unshift(
                 $links,
-                sprintf('<a href="%s">%s</a>', $build_url, __('Settings', ASGA_TEXT_DOMAIN))
+                sprintf('<a href="%s">%s</a>', $build_url, __('Settings', 'ank-simplified-ga'))
             );
         }
 
@@ -117,7 +117,7 @@ class Admin
     {
         $page_hook_suffix = add_submenu_page(
             'options-general.php',
-            'Simplified Google Analytics', //page title
+            'Google Analytics Simplified ', //page title
             'Google Analytics',  //menu name
             'manage_options',
             self::PLUGIN_SLUG,
@@ -197,7 +197,7 @@ class Admin
         if (!preg_match('|^UA-\d{4,}-\d+$|', (string)$in['ga_id'])) {
             $out['ga_id'] = '';
             //Warn user that the entered id is not valid
-            add_settings_error(ASGA_OPTION_NAME, 'ga_id', __('Your GA tracking ID seems invalid. Please validate.', ASGA_TEXT_DOMAIN));
+            add_settings_error(ASGA_OPTION_NAME, 'ga_id', __('Your GA tracking ID seems invalid. Please validate.', 'ank-simplified-ga'));
         } else {
             $out['ga_id'] = sanitize_text_field($in['ga_id']);
         }
@@ -218,7 +218,7 @@ class Admin
         //Sample rate should be between 1 to 100
         if ($out['sample_rate'] <= 0 || $out['sample_rate'] > 100) {
             $out['sample_rate'] = 100;
-            add_settings_error(ASGA_OPTION_NAME, 'sample_rate', __('Sample rate should be between 1 to 100.', ASGA_TEXT_DOMAIN));
+            add_settings_error(ASGA_OPTION_NAME, 'sample_rate', __('Sample rate should be between 1 to 100.', 'ank-simplified-ga'));
         }
 
         $out['custom_trackers'] = trim($in['custom_trackers']);
@@ -251,7 +251,7 @@ class Admin
     function load_options_page()
     {
         if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', ASGA_TEXT_DOMAIN));
+            wp_die(__('You don\'t have sufficient permissions to access this page.', 'ank-simplified-ga'));
         }
 
         $this->load_view('settings_page.php');
@@ -290,7 +290,7 @@ class Admin
         if (is_multisite()) {
             $return_roles[] = array(
                 'id' => 'networkAdmin',
-                'name' => __('Network Administrator', ASGA_TEXT_DOMAIN)
+                'name' => __('Network Administrator', 'ank-simplified-ga')
             );
         }
 

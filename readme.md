@@ -14,18 +14,18 @@ The most simplified WordPress Google Analytics Plugin with multi-site support.
 
 - - -
 
-### Prerequisite
+### Prerequisites
 * PHP v5.3.2+ or v7.0.x
-* WordPress v3.8 or above
+* WordPress v4.0 or above
 
-#### Links
+#### Quick Links
 * Change log is available [here](https://wordpress.org/plugins/ank-simplified-ga/changelog/)
 * FAQ is available [here](https://wordpress.org/plugins/ank-simplified-ga/faq/)
 
 
-#### TO DO List
+#### TODO List
 * OAuth implementation (idea dropped)
 * Options page Tooltip help system (partially done)
 
 #### License
-GPLv2 [License](LICENSE.txt)
+MIT [License](LICENSE.txt)
