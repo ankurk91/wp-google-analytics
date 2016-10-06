@@ -1,8 +1,8 @@
 === Google Analytics Simplified ===
 Tags: google analytics, tracking, light weight, simple, easy, free, multi-site
 Requires at least: 4.0.0
-Tested up to: 4.6.1
-Stable tag: 1.2.2
+Tested up to: 4.7.3
+Stable tag: 1.3.0
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 Contributors: ankurk91
@@ -183,8 +183,9 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 
 == Changelog ==
 
-= 1.2.2 =
+= 1.3.0 =
 * Fix text domain
+* Min WordPress requirement 4.0
 
 = 1.2.1 =
 * Updated links

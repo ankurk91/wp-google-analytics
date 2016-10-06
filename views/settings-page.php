@@ -233,7 +233,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php _e('Stop analytics when', 'ank-simplified-ga') ?> :</th>
+                        <th scope="row"><?php _e('Stop analytics when a', 'ank-simplified-ga') ?> :</th>
                         <td>
                             <fieldset>
                                 <?php
@@ -277,6 +277,6 @@
         <?php _e('Developed with ♥ by', 'ank-simplified-ga') ?> - <a target="_blank" href="https://ankurk91.github.io/?utm_source=<?php echo rawurlencode(get_home_url()) ?>&amp;utm_medium=plugin_options_page&amp;utm_campaign=ank-simplified-ga">Ankur Kumar</a> |
         <?php _e('Contribute on', 'ank-simplified-ga') ?> <a href="https://github.com/ankurk91/wp-google-analytics" target="_blank">GitHub</a> |
         ★ <?php _e('Rate this on', 'ank-simplified-ga') ?>
-        <a href="https://wordpress.org/support/view/plugin-reviews/ank-simplified-ga#plugin-info" target="_blank"><?php _e('WordPress') ?></a>
+        <a href="https://wordpress.org/support/plugin/ank-simplified-ga/reviews/?filter=5" target="_blank"><?php _e('WordPress') ?></a>
     </p>
 </div> <!-- .wrap-->

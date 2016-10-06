@@ -17,13 +17,13 @@ class Frontend
 
     private function __construct()
     {
-        //Store database options in a local array
+        // Store database options in a local array
         $this->db_options = get_option(ASGA_OPTION_NAME);
 
-        //Get action's priority
+        // Get action's priority
         $js_priority = absint($this->db_options['js_priority']);
 
-        //Decide where to print code
+        // Decide where to print code
         if ($this->db_options['js_location'] == 1) {
             add_action('wp_head', array($this, 'print_tracking_code'), $js_priority);
         } else {
@@ -31,7 +31,7 @@ class Frontend
         }
         
         if ($this->need_to_load_event_tracking_js()) {
-            //Load event tracking js file
+            // Load event tracking js file
             add_action('wp_footer', array($this, 'add_event_tracking_js'), 9);
         }
 
@@ -56,7 +56,7 @@ class Frontend
 
     protected function __clone()
     {
-        //don't not allow clones
+        // don't not allow clones
     }
 
     public function __wakeup()
@@ -69,39 +69,39 @@ class Frontend
      */
     function print_tracking_code()
     {
-        //Store database options into a local variable coz it is going to modified
+        // Store database options into a local variable coz it is going to modified
         $options = $this->db_options;
 
-        //Check if to proceed or not, return early with a message if not
+        // Check if to proceed or not, return early with a message if not
         $tracking_status = $this->is_tracking_possible(true);
 
         if ($tracking_status['status'] === false) {
-            $this->load_view('ga_disabled.php', $tracking_status);
+            $this->load_view('ga-disabled.php', $tracking_status);
             return;
         }
 
-        //Finalize some db options
+        // Finalize some db options
         $options['ga_id'] = esc_js($options['ga_id']);
         $options['ga_domain'] = empty($options['ga_domain']) ? 'auto' : esc_js($options['ga_domain']);
 
-        //These flags will be used in view
+        // These flags will be used in view
         $view_array = array(
             'gaq' => array()
         );
 
-        //Check for debug mode
+        // Check for debug mode
         $view_array['debug_mode'] = $this->check_debug_mode();
         $view_array['js_load_later'] = (absint($options['js_load_later']) === 1);
 
         if ($options['ua_enabled'] == 1) {
-            //If universal is enabled
+            // If universal is enabled
             $view_array = $this->prepare_universal_code($view_array, $options);
-            $this->load_view('universal_script.php', $view_array);
+            $this->load_view('universal-script.php', $view_array);
 
         } else {
-            //Classic ga is enabled
+            // Classic ga is enabled
             $view_array = $this->prepare_classic_code($view_array, $options);
-            $this->load_view('classic_script.php', $view_array);
+            $this->load_view('classic-script.php', $view_array);
 
         }
 
@@ -119,12 +119,12 @@ class Frontend
         $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
 
         if ($view_array['debug_mode'] == true) {
-            //Did u notice additional /u in url ?
-            //@source https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug
+            // Did u notice additional /u in url ?
+            // @source https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug
             $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js'";
         }
 
-        //@source https://support.google.com/analytics/answer/2444872
+        // @source https://support.google.com/analytics/answer/2444872
         if ($options['displayfeatures'] == 1) {
             $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js'";
             if ($view_array['debug_mode'] == true) {
@@ -201,7 +201,7 @@ class Frontend
             $create_args['sampleRate'] = $options['sample_rate'];
         }
 
-        //@source https://developers.google.com/analytics/devguides/collection/analyticsjs/creating-trackers#specifying_fields_at_creation_time
+        // @source https://developers.google.com/analytics/devguides/collection/analyticsjs/creating-trackers#specifying_fields_at_creation_time
         $view_array['gaq'][] = "'create', " . json_encode($create_args, JSON_HEX_QUOT);
 
         if ($options['force_ssl'] == 1) {
@@ -244,13 +244,13 @@ class Frontend
      */
     function add_event_tracking_js()
     {
-        //if tracking not possible return early
+        // if tracking not possible return early
         if ($this->is_tracking_possible() === false) return;
 
         $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
-        //no longer depends on jquery
-        wp_enqueue_script('asga-event-tracking', plugins_url('/js/front-end' . $is_min . '.js', ASGA_BASE_FILE), array(), ASGA_PLUGIN_VER, true);
-        //WP inbuilt hack to print js options object just before this script
+        // no longer depends on jquery
+        wp_enqueue_script('asga-event-tracking', plugins_url('/assets/front-end' . $is_min . '.js', ASGA_BASE_FILE), array(), ASGA_PLUGIN_VER, true);
+        // WP inbuilt hack to print js options object just before this script
         wp_localize_script('asga-event-tracking', '_asgaOpt', $this->get_js_options());
 
     }
@@ -279,7 +279,7 @@ class Frontend
      */
     private function check_debug_mode()
     {
-        //debug mode is only for logged-in admins/network admins
+        // debug mode is only for logged-in admins/network admins
         if (current_user_can('manage_options') || is_super_admin()) {
             return ($this->db_options['debug_mode'] == 1);
         }
@@ -300,21 +300,21 @@ class Frontend
 
         if (is_preview()) {
             $status['reason'] = 'GA Tracking is disabled in preview mode';
-        } //if GA id is not set return early with a message
+        } // if GA id is not set return early with a message
         else if (empty($this->db_options['ga_id'])) {
             $status['reason'] = 'GA ID is not set';
-        } //if a user is logged in
+        } // if a user is logged in
         else if (is_user_logged_in()) {
 
             if (is_multisite() && is_super_admin()) {
-                //if a network admin is logged in
+                // if a network admin is logged in
                 if (isset($this->db_options['ignore_role_networkAdmin']) && ($this->db_options['ignore_role_networkAdmin'] == 1)) {
                     $status['reason'] = 'GA Tracking is disabled for networkAdmin';
                 } else {
                     $status['status'] = true;
                 }
             } else {
-                //If a normal user is logged in
+                // If a normal user is logged in
                 $role = $this->get_current_user_role();
                 if (isset($this->db_options['ignore_role_' . $role]) && ($this->db_options['ignore_role_' . $role] == 1)) {
                     $status['reason'] = 'GA Tracking is disabled for - ' . $role;

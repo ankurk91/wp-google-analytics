@@ -75,7 +75,7 @@ class Admin
     function do_upon_plugin_activation()
     {
 
-        //If db options not exists then update with defaults
+        // If db options not exists then update with defaults
         if (get_option(ASGA_OPTION_NAME) == false) {
             update_option(ASGA_OPTION_NAME, $this->get_default_options());
         }
@@ -100,10 +100,10 @@ class Admin
     {
 
         if (current_user_can('manage_options')) {
-            $build_url = add_query_arg('page', self::PLUGIN_SLUG, 'options-general.php');
+            $url = add_query_arg('page', self::PLUGIN_SLUG, 'options-general.php');
             array_unshift(
                 $links,
-                sprintf('<a href="%s">%s</a>', $build_url, __('Settings', 'ank-simplified-ga'))
+                sprintf('<a href="%s">%s</a>', $url, __('Settings', 'ank-simplified-ga'))
             );
         }
 
@@ -123,9 +123,9 @@ class Admin
             self::PLUGIN_SLUG,
             array($this, 'load_options_page'));
 
-        //Add help stuff via tab
+        // Add help stuff via tab
         add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
-        //We can load additional css/js to our option page here
+        // We can load additional css/js to our option page here
         add_action('admin_print_scripts-' . $page_hook_suffix, array($this, 'add_admin_assets'));
 
     }
@@ -164,10 +164,10 @@ class Admin
             'track_non_interactive' => 1
         );
 
-        //Ignored some roles by default
+        // Ignored some roles by default
         $ignored_roles = array('networkAdmin', 'administrator', 'editor');
 
-        //Store roles to db
+        // Store roles to db
         foreach ($this->get_all_roles() as $role) {
             if (in_array($role['id'], $ignored_roles)) {
                 $defaults['ignore_role_' . $role['id']] = 1;
@@ -190,14 +190,15 @@ class Admin
     {
 
         $out = array();
+        $errors = array();
         //Always store plugin version to db
         $out['plugin_ver'] = ASGA_PLUGIN_VER;
 
-        //Get the actual tracking ID
+        // Get the actual tracking ID
         if (!preg_match('|^UA-\d{4,}-\d+$|', (string)$in['ga_id'])) {
             $out['ga_id'] = '';
-            //Warn user that the entered id is not valid
-            add_settings_error(ASGA_OPTION_NAME, 'ga_id', __('Your GA tracking ID seems invalid. Please validate.', 'ank-simplified-ga'));
+            // Warn user that the entered id is not valid
+            $errors[] = __('Your GA tracking ID seems invalid. Please validate.', 'ank-simplified-ga');
         } else {
             $out['ga_id'] = sanitize_text_field($in['ga_id']);
         }
@@ -211,20 +212,20 @@ class Admin
         $out['js_priority'] = (trim($in['js_priority']) == '') ? 20 : absint($in['js_priority']);
 
         $out['ga_domain'] = sanitize_text_field(($in['ga_domain']));
-        //http://stackoverflow.com/questions/9549866/php-regex-to-remove-http-from-string
+        // http://stackoverflow.com/questions/9549866/php-regex-to-remove-http-from-string
         $out['ga_domain'] = preg_replace('#^https?://#', '', $out['ga_domain']);
 
         $out['sample_rate'] = floatval(($in['sample_rate']));
-        //Sample rate should be between 1 to 100
+        // Sample rate should be between 1 to 100
         if ($out['sample_rate'] <= 0 || $out['sample_rate'] > 100) {
             $out['sample_rate'] = 100;
-            add_settings_error(ASGA_OPTION_NAME, 'sample_rate', __('Sample rate should be between 1 to 100.', 'ank-simplified-ga'));
+            $errors[] = __('Sample rate should be between 1 to 100.', 'ank-simplified-ga');
         }
 
         $out['custom_trackers'] = trim($in['custom_trackers']);
 
         $checkbox_items = array('ua_enabled', 'anonymise_ip', 'displayfeatures', 'ga_ela', 'log_404', 'debug_mode', 'force_ssl', 'allow_linker', 'allow_anchor', 'tag_rss_links', 'track_mail_links', 'track_outbound_links', 'track_download_links', 'track_outbound_link_type', 'track_non_interactive');
-        //add rolls to checkbox_items array
+        // Add rolls to checkbox_items array
         foreach ($this->get_all_roles() as $role) {
             $checkbox_items[] = 'ignore_role_' . $role['id'];
         }
@@ -238,9 +239,13 @@ class Admin
 
         }
 
-        //Extensions to track as downloads
+        // Extensions to be tracked as downloads
         $out['track_download_ext'] = sanitize_text_field($in['track_download_ext']);
 
+        // Show all form errors in a single notice
+        if (!empty($errors)) {
+            add_settings_error('ank-simplified-ga', 'ank-simplified-ga', implode('<br>', $errors));
+        }
 
         return $out;
     }
@@ -254,7 +259,7 @@ class Admin
             wp_die(__('You don\'t have sufficient permissions to access this page.', 'ank-simplified-ga'));
         }
 
-        $this->load_view('settings_page.php');
+        $this->load_view('settings-page.php');
 
     }
 
@@ -286,7 +291,7 @@ class Admin
             );
         }
 
-        //Append a custom role if multi-site is enabled
+        // Append a custom role if multi-site is enabled
         if (is_multisite()) {
             $return_roles[] = array(
                 'id' => 'networkAdmin',
@@ -302,15 +307,15 @@ class Admin
      */
     function show_admin_notice()
     {
-        //show only for this plugin option page
+        // Show only for this plugin option page
         if (strpos(get_current_screen()->id, self::PLUGIN_SLUG) === false) return;
 
         $options = $this->get_safe_options();
 
-        //if debug mode is off return early
+        // If debug mode is off return early
         if ($options['debug_mode'] == 0) return;
 
-        $this->load_view('admin_notice.php', array());
+        $this->load_view('admin-notice.php', array());
 
     }
 
@@ -321,15 +326,15 @@ class Admin
      */
     private function get_safe_options()
     {
-        //Get fresh options from db
+        // Get fresh options from db
         $db_options = get_option(ASGA_OPTION_NAME);
 
-        //Be fail safe, if not array then array_merge may fail
+        // Be fail safe, if not array then array_merge may fail
         if (is_array($db_options) === false) {
             $db_options = array();
         }
 
-        //If options not exists in db then init with defaults , also always append default options to existing options
+        // If options not exists in db then init with defaults , also always append default options to existing options
         $db_options = empty($db_options) ? $this->get_default_options() : array_merge($this->get_default_options(), $db_options);
         return $db_options;
 
@@ -340,17 +345,17 @@ class Admin
      */
     function perform_upgrade()
     {
-        //Get fresh options from db
+        // Get fresh options from db
         $db_options = get_option(ASGA_OPTION_NAME);
         //Check if we need to proceed , if no return early
         if ($this->should_proceed_to_upgrade($db_options) === false) return;
-        //Get default options
+        // Get default options
         $default_options = $this->get_default_options();
-        //Merge with db options , preserve old
+        // Merge with db options , preserve old
         $new_options = (empty($db_options)) ? $default_options : array_merge($default_options, $db_options);
-        //Update plugin version
+        // Update plugin version
         $new_options['plugin_ver'] = ASGA_PLUGIN_VER;
-        //Write options back to db
+        // Write options back to db
         update_option(ASGA_OPTION_NAME, $new_options);
 
     }
@@ -377,8 +382,8 @@ class Admin
     function add_admin_assets()
     {
         $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
-        wp_enqueue_style('asga-admin', plugins_url('/css/option-page' . $is_min . '.css', ASGA_BASE_FILE), array(), ASGA_PLUGIN_VER);
-        wp_enqueue_script('asga-admin', plugins_url("/js/option-page" . $is_min . ".js", ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, false);
+        wp_enqueue_style('asga-admin', plugins_url('/assets/option-page' . $is_min . '.css', ASGA_BASE_FILE), array(), ASGA_PLUGIN_VER);
+        wp_enqueue_script('asga-admin', plugins_url("/assets/option-page" . $is_min . ".js", ASGA_BASE_FILE), array('jquery'), ASGA_PLUGIN_VER, false);
     }
 
 
@@ -405,7 +410,7 @@ class Admin
      */
     function add_help_menu_tab()
     {
-        /*Get current screen object*/
+        // Get current screen object
         $curr_screen = get_current_screen();
 
         $curr_screen->add_help_tab(

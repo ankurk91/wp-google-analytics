@@ -1,25 +1,25 @@
 (function (window, document) {
     'use strict';
-    //IE8 not supported
+    // IE8 not supported
     if (!window.addEventListener || !document.querySelectorAll) return;
 
-    //Get dynamic options from page
+    // Get dynamic options from page
     var asgaOpt = window._asgaOpt;
 
     document.addEventListener("DOMContentLoaded", function (event) {
 
-        //Track Downloads
+        // Track Downloads
         if (asgaOpt.downloadLinks === '1') {
-            //https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+            // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
             var exts = (asgaOpt.downloadExt === '') ? 'doc*|xls*|ppt*|pdf|zip|rar|exe|mp3' : asgaOpt.downloadExt.replace(/,/g, '|');
 
-            //https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+            // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp
             var regExt = new RegExp(".*\\.(" + exts + ")(\\?.*)?$");
 
             var downLinks = document.querySelectorAll('a');
 
             Array.prototype.forEach.call(downLinks, function (link) {
-                //include only internal links for downloads
+                // include only internal links for downloads
                 if (link.hostname && (link.hostname === window.location.hostname) && link.href.match(regExt)) {
                     link.addEventListener('click', function (e) {
                         logClickEvent('Downloads', this.href, e)
@@ -34,25 +34,25 @@
 
         }
 
-        //Track Mailto links
+        // Track Mailto links
         if (asgaOpt.mailLinks === '1') {
             var mailLinks = document.querySelectorAll('a[href^="mailto"]');
 
             Array.prototype.forEach.call(mailLinks, function (link) {
                 link.addEventListener('click', function (e) {
-                    //label should not include 'mailto'
+                    // label should not include 'mailto'
                     logClickEvent('Email', this.href.replace(/^mailto\:/i, '').toLowerCase(), e)
                 })
             });
 
         }
 
-        //Track Outbound Links
+        // Track Outbound Links
         if (asgaOpt.outgoingLinks === '1') {
             var outLinks = document.querySelectorAll('a[href^="http"]');
 
             Array.prototype.forEach.call(outLinks, function (link) {
-                //https://css-tricks.com/snippets/jquery/target-only-external-links/
+                // https://css-tricks.com/snippets/jquery/target-only-external-links/
                 if (link.hostname && link.hostname !== window.location.hostname) {
                     link.addEventListener('click', function (e) {
                         logClickEvent('Outbound', (asgaOpt.outboundLinkType === '1') ? this.hostname : this.href, e);
@@ -76,21 +76,21 @@
      * @param event click event
      */
     function logClickEvent(category, label, event) {
-        //return early if event.preventDefault() was ever called on this event object.
+        // return early if event.preventDefault() was ever called on this event object.
         if (event.defaultPrevented) return;
 
-        //if label is not set then exit
+        // if label is not set then exit
         if (typeof label === 'undefined' || label === '') return;
 
         if (window.ga && ga.hasOwnProperty('loaded') && ga.loaded === true && ga.create) {
-            //Universal event tracking
-            //https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+            // Universal event tracking
+            // https://developers.google.com/analytics/devguides/collection/analyticsjs/events
             ga('send', 'event', category, 'click', label, {
                 nonInteraction: (asgaOpt.nonInteractive == 1)
             });
         } else if (window._gaq && _gaq._getAsyncTracker) {
-            //Classic event tracking
-            //https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide
+            // Classic event tracking
+            // https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide
             _gaq.push(['_trackEvent', category, 'click', label, 1, (asgaOpt.nonInteractive == 1)]);
         } else {
             (window.console) ? console.info('Google analytics not loaded') : null
