@@ -1,4 +1,5 @@
 <?php
+
 namespace Ankur\Plugins\Ank_Simplified_GA;
 
 /**
@@ -22,17 +23,18 @@ define('ASGA_BASE_FILE', __FILE__);
 define('ASGA_OPTION_NAME', 'asga_options');
 
 
+require 'inc/class-singleton.php';
 /**
  * Initiate required classes
  * Note: We are not using AJAX anywhere in this plugin
  */
 if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
     require 'inc/class-admin.php';
-    Admin::get_instance();
+    Admin::instance();
 
 } else {
     require 'inc/class-frontend.php';
-    Frontend::get_instance();
+    Frontend::instance();
 }
 
 

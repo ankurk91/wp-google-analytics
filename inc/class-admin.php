@@ -1,14 +1,15 @@
 <?php
+
 namespace Ankur\Plugins\Ank_Simplified_GA;
+
+use Ankur\Plugins\Ank_Google_Map\Singleton;
 
 /**
  * Class Admin
  * @package Ankur\Plugins\Ank_Simplified_GA
  */
-class Admin
+class Admin extends Singleton
 {
-
-    private static $instances = array();
 
     /**
      * Store plugin option page slug, so that we can change it with ease
@@ -16,9 +17,8 @@ class Admin
     const PLUGIN_SLUG = 'asga_options_page';
     const PLUGIN_OPTION_GROUP = 'asga_plugin_options';
 
-    private function __construct()
+    protected function __construct()
     {
-
         // To save default options upon activation
         register_activation_hook(plugin_basename(ASGA_BASE_FILE), array($this, 'do_upon_plugin_activation'));
 
@@ -41,28 +41,6 @@ class Admin
 
     }
 
-    /**
-     * Function to instantiate our class and make it a singleton
-     */
-    public static function get_instance()
-    {
-
-        $cls = get_called_class();
-        if (!isset(self::$instances[$cls])) {
-            self::$instances[$cls] = new static;
-        }
-        return self::$instances[$cls];
-    }
-
-    protected function __clone()
-    {
-        //don't not allow clones
-    }
-
-    public function __wakeup()
-    {
-        return new \Exception("Cannot unserialize singleton");
-    }
 
     public static function load_text_domain()
     {
@@ -72,7 +50,7 @@ class Admin
     /*
      * Save default settings upon plugin activation
      */
-    function do_upon_plugin_activation()
+    public function do_upon_plugin_activation()
     {
 
         // If db options not exists then update with defaults
@@ -85,7 +63,7 @@ class Admin
     /**
      * Register plugin settings, using WP settings API
      */
-    function register_plugin_settings()
+    public function register_plugin_settings()
     {
         register_setting(self::PLUGIN_OPTION_GROUP, ASGA_OPTION_NAME, array($this, 'validate_form_post'));
     }
@@ -96,7 +74,7 @@ class Admin
      * @param $links
      * @return array  Links array
      */
-    function add_plugin_actions_links($links)
+    public function add_plugin_actions_links($links)
     {
 
         if (current_user_can('manage_options')) {
@@ -113,7 +91,7 @@ class Admin
     /**
      * Adds link to Plugin Option page and do related stuff
      */
-    function add_to_settings_menu()
+    public function add_to_settings_menu()
     {
         $page_hook_suffix = add_submenu_page(
             'options-general.php',
@@ -186,7 +164,7 @@ class Admin
      * @param array $in - POST array
      * @returns array - Validated array
      */
-    function validate_form_post($in)
+    public function validate_form_post($in)
     {
 
         $out = array();
@@ -253,7 +231,7 @@ class Admin
     /**
      * Function will print our option page form
      */
-    function load_options_page()
+    public function load_options_page()
     {
         if (!current_user_can('manage_options')) {
             wp_die(__('You don\'t have sufficient permissions to access this page.', 'ank-simplified-ga'));
@@ -305,7 +283,7 @@ class Admin
     /**
      * Show a warning notice if debug mode is on
      */
-    function show_admin_notice()
+    public function show_admin_notice()
     {
         // Show only for this plugin option page
         if (strpos(get_current_screen()->id, self::PLUGIN_SLUG) === false) return;
@@ -343,7 +321,7 @@ class Admin
     /**
      * Upgrade plugin database options
      */
-    function perform_upgrade()
+    public function perform_upgrade()
     {
         // Get fresh options from db
         $db_options = get_option(ASGA_OPTION_NAME);
@@ -379,7 +357,7 @@ class Admin
     /**
      * Print option page javascript,css
      */
-    function add_admin_assets()
+    public function add_admin_assets()
     {
         $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
         wp_enqueue_style('asga-admin', plugins_url('/assets/option-page' . $is_min . '.css', ASGA_BASE_FILE), array(), ASGA_PLUGIN_VER);
@@ -408,7 +386,7 @@ class Admin
      * Function will add help tab to our option page
      * @require wp v3.3+
      */
-    function add_help_menu_tab()
+    public function add_help_menu_tab()
     {
         // Get current screen object
         $curr_screen = get_current_screen();

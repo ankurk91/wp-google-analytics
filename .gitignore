@@ -10,7 +10,7 @@
 *.sublime-workspace
 
 # logs
-logs/
+/logs/
 *.log
 npm-debug.log*
 error_log
@@ -51,5 +51,5 @@ bower_components/
 .svn/
 
 # composer
-vendor/
+/vendor/
 composer.phar

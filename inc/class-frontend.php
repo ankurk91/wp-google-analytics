@@ -1,13 +1,16 @@
 <?php
+
 namespace Ankur\Plugins\Ank_Simplified_GA;
+
+use Ankur\Plugins\Ank_Google_Map\Singleton;
 
 /**
  * Class Frontend
  * @package Ankur\Plugins\Ank_Simplified_GA
  */
-class Frontend
+class Frontend extends Singleton
 {
-    private static $instances = array();
+
     /**
      * Stores database options
      * @var array
@@ -15,7 +18,7 @@ class Frontend
     private $db_options = array();
 
 
-    private function __construct()
+    protected function __construct()
     {
         // Store database options in a local array
         $this->db_options = get_option(ASGA_OPTION_NAME);
@@ -29,7 +32,7 @@ class Frontend
         } else {
             add_action('wp_footer', array($this, 'print_tracking_code'), $js_priority);
         }
-        
+
         if ($this->need_to_load_event_tracking_js()) {
             // Load event tracking js file
             add_action('wp_footer', array($this, 'add_event_tracking_js'), 9);
@@ -42,32 +45,9 @@ class Frontend
     }
 
     /**
-     * Function to instantiate our class and make it a singleton
-     */
-    public static function get_instance()
-    {
-
-        $cls = get_called_class();
-        if (!isset(self::$instances[$cls])) {
-            self::$instances[$cls] = new static;
-        }
-        return self::$instances[$cls];
-    }
-
-    protected function __clone()
-    {
-        // don't not allow clones
-    }
-
-    public function __wakeup()
-    {
-        return new \Exception("Cannot unserialize singleton");
-    }
-
-    /**
      * Prepare and print javascript code to front end
      */
-    function print_tracking_code()
+    public function print_tracking_code()
     {
         // Store database options into a local variable coz it is going to modified
         $options = $this->db_options;
@@ -238,11 +218,11 @@ class Frontend
 
         return $view_array;
     }
-    
+
     /**
      * Enqueue event tracking javascript file
      */
-    function add_event_tracking_js()
+    public function add_event_tracking_js()
     {
         // if tracking not possible return early
         if ($this->is_tracking_possible() === false) return;
