@@ -15,19 +15,19 @@ class Frontend extends Singleton
      * Stores database options
      * @var array
      */
-    private $db_options = array();
+    private $db = array();
 
 
     protected function __construct()
     {
         // Store database options in a local array
-        $this->db_options = get_option(ASGA_OPTION_NAME);
+        $this->db = get_option(ASGA_OPTION_NAME);
 
         // Get action's priority
-        $js_priority = absint($this->db_options['js_priority']);
+        $js_priority = absint($this->db['js_priority']);
 
         // Decide where to print code
-        if ($this->db_options['js_location'] == 1) {
+        if ($this->db['js_location'] == 1) {
             add_action('wp_head', array($this, 'print_tracking_code'), $js_priority);
         } else {
             add_action('wp_footer', array($this, 'print_tracking_code'), $js_priority);
@@ -38,7 +38,7 @@ class Frontend extends Singleton
             add_action('wp_footer', array($this, 'add_event_tracking_js'), 9);
         }
 
-        if ($this->db_options['tag_rss_links'] == 1) {
+        if ($this->db['tag_rss_links'] == 1) {
             add_filter('the_permalink_rss', array($this, 'rss_link_tagger'), 99);
         }
 
@@ -50,7 +50,7 @@ class Frontend extends Singleton
     public function print_tracking_code()
     {
         // Store database options into a local variable coz it is going to modified
-        $options = $this->db_options;
+        $options = $this->db;
 
         // Check if to proceed or not, return early with a message if not
         $tracking_status = $this->is_tracking_possible(true);
@@ -89,80 +89,80 @@ class Frontend extends Singleton
 
     /**
      * Prepare classic tracing code and print
-     * @param $view_array array Array to be passed to view
+     * @param $data array Array to be passed to view
      * @param $options array
      * @return array
      */
-    private function prepare_classic_code($view_array, $options)
+    private function prepare_classic_code($data, $options)
     {
 
-        $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
+        $data['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'";
 
-        if ($view_array['debug_mode'] == true) {
+        if ($data['debug_mode'] == true) {
             // Did u notice additional /u in url ?
             // @source https://developers.google.com/analytics/resources/articles/gaTrackingTroubleshooting#gaDebug
-            $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js'";
+            $data['ga_src'] = "('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js'";
         }
 
         // @source https://support.google.com/analytics/answer/2444872
         if ($options['displayfeatures'] == 1) {
-            $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js'";
-            if ($view_array['debug_mode'] == true) {
-                $view_array['ga_src'] = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc_debug.js'";
+            $data['ga_src'] = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js'";
+            if ($data['debug_mode'] == true) {
+                $data['ga_src'] = "('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc_debug.js'";
             }
         }
 
-        $view_array['gaq'][] = "['_setAccount', '" . $options['ga_id'] . "']";
+        $data['gaq'][] = "['_setAccount', '" . $options['ga_id'] . "']";
 
-        $view_array['gaq'][] = "['_setDomainName', '" . $options['ga_domain'] . "']";
+        $data['gaq'][] = "['_setDomainName', '" . $options['ga_domain'] . "']";
 
         if ($options['sample_rate'] != 100) {
-            $view_array['gaq'][] = "['_setSampleRate', '" . $options['sample_rate'] . "']";
+            $data['gaq'][] = "['_setSampleRate', '" . $options['sample_rate'] . "']";
         }
 
         if ($options['allow_linker'] == 1) {
-            $view_array['gaq'][] = "['_setAllowLinker', true]";
+            $data['gaq'][] = "['_setAllowLinker', true]";
         }
 
         if ($options['allow_anchor'] == 1) {
-            $view_array['gaq'][] = "['_setAllowAnchor', true]";
+            $data['gaq'][] = "['_setAllowAnchor', true]";
         }
 
         if ($options['force_ssl'] == 1) {
-            $view_array['gaq'][] = "['_gat._forceSSL']";
+            $data['gaq'][] = "['_gat._forceSSL']";
         }
 
         if ($options['anonymise_ip'] == 1) {
-            $view_array['gaq'][] = "['_gat._anonymizeIp']";
+            $data['gaq'][] = "['_gat._anonymizeIp']";
         }
 
         if ($options['ga_ela'] == 1) {
-            $view_array['gaq'][] = "['_require', 'inpage_linkid', '//www.google-analytics.com/plugins/ga/inpage_linkid.js']";
+            $data['gaq'][] = "['_require', 'inpage_linkid', '//www.google-analytics.com/plugins/ga/inpage_linkid.js']";
         }
 
         if (is_404()) {
             if ($options['log_404'] == 1) {
-                $view_array['gaq'][] = "['_trackEvent','error','404','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer,1,true]";
+                $data['gaq'][] = "['_trackEvent','error','404','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer,1,true]";
             } else {
-                $view_array['gaq'][] = "['_trackPageview','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer]";
+                $data['gaq'][] = "['_trackPageview','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer]";
             }
         } else {
-            $view_array['gaq'][] = "['_trackPageview']";
+            $data['gaq'][] = "['_trackPageview']";
         }
 
-        $view_array['custom_trackers'] = $options['custom_trackers'];
+        $data['custom_trackers'] = $options['custom_trackers'];
 
-        return $view_array;
+        return $data;
 
     }
 
     /**
      * Prepare universal tracking code and print
-     * @param $view_array array Array to be passed to view
+     * @param $data array Array to be passed to view
      * @param $options array
      * @return array
      */
-    private function prepare_universal_code($view_array, $options)
+    private function prepare_universal_code($data, $options)
     {
         $create_args = array(
             'trackingId' => $options['ga_id'],
@@ -182,41 +182,41 @@ class Frontend extends Singleton
         }
 
         // @source https://developers.google.com/analytics/devguides/collection/analyticsjs/creating-trackers#specifying_fields_at_creation_time
-        $view_array['gaq'][] = "'create', " . json_encode($create_args, JSON_HEX_QUOT);
+        $data['gaq'][] = "'create', " . json_encode($create_args, JSON_HEX_QUOT);
 
         if ($options['force_ssl'] == 1) {
-            $view_array['gaq'][] = "'set', 'forceSSL', true";
+            $data['gaq'][] = "'set', 'forceSSL', true";
         }
 
         if ($options['anonymise_ip'] == 1) {
-            $view_array['gaq'][] = "'set', 'anonymizeIp', true";
+            $data['gaq'][] = "'set', 'anonymizeIp', true";
         }
 
         if ($options['displayfeatures'] == 1) {
-            $view_array['gaq'][] = "'require', 'displayfeatures'";
+            $data['gaq'][] = "'require', 'displayfeatures'";
         }
 
         if ($options['ga_ela'] == 1) {
-            $view_array['gaq'][] = "'require', 'linkid'";
+            $data['gaq'][] = "'require', 'linkid'";
         }
 
         if ($options['custom_trackers'] !== '') {
-            $view_array['gaq'][] = array(
+            $data['gaq'][] = array(
                 'custom_trackers' => $options['custom_trackers']
             );
         }
 
         if (is_404()) {
             if ($options['log_404'] == 1) {
-                $view_array['gaq'][] = "'send','event','error','404','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer, 1, {nonInteraction: true}";
+                $data['gaq'][] = "'send','event','error','404','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer, 1, {nonInteraction: true}";
             } else {
-                $view_array['gaq'][] = "'send','pageview','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer";
+                $data['gaq'][] = "'send','pageview','/404.html?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer";
             }
         } else {
-            $view_array['gaq'][] = "'send','pageview'";
+            $data['gaq'][] = "'send','pageview'";
         }
 
-        return $view_array;
+        return $data;
     }
 
     /**
@@ -224,11 +224,11 @@ class Frontend extends Singleton
      */
     public function add_event_tracking_js()
     {
-        // if tracking not possible return early
+        // If tracking not possible return early
         if ($this->is_tracking_possible() === false) return;
 
         $is_min = (defined('WP_DEBUG') && WP_DEBUG == true) ? '' : '.min';
-        // no longer depends on jquery
+        // No longer depends on jquery
         wp_enqueue_script('asga-event-tracking', plugins_url('/assets/front-end' . $is_min . '.js', ASGA_BASE_FILE), array(), ASGA_PLUGIN_VER, true);
         // WP inbuilt hack to print js options object just before this script
         wp_localize_script('asga-event-tracking', '_asgaOpt', $this->get_js_options());
@@ -259,9 +259,9 @@ class Frontend extends Singleton
      */
     private function check_debug_mode()
     {
-        // debug mode is only for logged-in admins/network admins
+        // Debug mode is only meant for logged-in admins/network admins
         if (current_user_can('manage_options') || is_super_admin()) {
-            return ($this->db_options['debug_mode'] == 1);
+            return ($this->db['debug_mode'] == 1);
         }
         return false;
     }
@@ -281,14 +281,14 @@ class Frontend extends Singleton
         if (is_preview()) {
             $status['reason'] = 'GA Tracking is disabled in preview mode';
         } // if GA id is not set return early with a message
-        else if (empty($this->db_options['ga_id'])) {
+        else if (empty($this->db['ga_id'])) {
             $status['reason'] = 'GA ID is not set';
         } // if a user is logged in
         else if (is_user_logged_in()) {
 
             if (is_multisite() && is_super_admin()) {
                 // if a network admin is logged in
-                if (isset($this->db_options['ignore_role_networkAdmin']) && ($this->db_options['ignore_role_networkAdmin'] == 1)) {
+                if (isset($this->db['ignore_role_networkAdmin']) && ($this->db['ignore_role_networkAdmin'] == 1)) {
                     $status['reason'] = 'GA Tracking is disabled for networkAdmin';
                 } else {
                     $status['status'] = true;
@@ -296,7 +296,7 @@ class Frontend extends Singleton
             } else {
                 // If a normal user is logged in
                 $role = $this->get_current_user_role();
-                if (isset($this->db_options['ignore_role_' . $role]) && ($this->db_options['ignore_role_' . $role] == 1)) {
+                if (isset($this->db['ignore_role_' . $role]) && ($this->db['ignore_role_' . $role] == 1)) {
                     $status['reason'] = 'GA Tracking is disabled for - ' . $role;
                 } else {
                     $status['status'] = true;
@@ -305,6 +305,7 @@ class Frontend extends Singleton
         } else {
             $status['status'] = true;
         }
+
         return ($reason) ? $status : $status['status'];
     }
 
@@ -315,12 +316,12 @@ class Frontend extends Singleton
     private function get_js_options()
     {
         return array(
-            'mailLinks' => esc_js($this->db_options['track_mail_links']),
-            'outgoingLinks' => esc_js($this->db_options['track_outbound_links']),
-            'downloadLinks' => esc_js($this->db_options['track_download_links']),
-            'downloadExt' => esc_js($this->db_options['track_download_ext']),
-            'outboundLinkType' => esc_js($this->db_options['track_outbound_link_type']),
-            'nonInteractive' => esc_js($this->db_options['track_non_interactive']),
+            'mailLinks' => esc_js($this->db['track_mail_links']),
+            'outgoingLinks' => esc_js($this->db['track_outbound_links']),
+            'downloadLinks' => esc_js($this->db['track_download_links']),
+            'downloadExt' => esc_js($this->db['track_download_ext']),
+            'outboundLinkType' => esc_js($this->db['track_outbound_link_type']),
+            'nonInteractive' => esc_js($this->db['track_non_interactive']),
         );
 
     }
@@ -341,7 +342,7 @@ class Frontend extends Singleton
      */
     private function need_to_load_event_tracking_js()
     {
-        return ($this->db_options['track_mail_links'] == 1 || $this->db_options['track_outbound_links'] == 1 || $this->db_options['track_download_links'] == 1);
+        return ($this->db['track_mail_links'] == 1 || $this->db['track_outbound_links'] == 1 || $this->db['track_download_links'] == 1);
     }
 
     /**
@@ -355,7 +356,7 @@ class Frontend extends Singleton
     {
         global $post;
         if (is_feed()) {
-            if ($this->db_options['allow_anchor'] == 1) {
+            if ($this->db['allow_anchor'] == 1) {
                 $delimiter = '#';
             } else {
                 $delimiter = '?';

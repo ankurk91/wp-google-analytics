@@ -12,7 +12,7 @@
             $sections = $('section.tab-content');
 
         // If there no active tab found , set first tab as active
-        if (requestedTab === '' || $('#' + requestedTab).length == 0) requestedTab = $sections.attr('id');
+        if (requestedTab === '' || $('#' + requestedTab).length === 0) requestedTab = $sections.attr('id');
         // Notice: we are not using cached DOM in next line
         $('#' + requestedTab).addClass('active');
         $('#' + requestedTab + '-tab').addClass('nav-tab-active');

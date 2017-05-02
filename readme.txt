@@ -1,7 +1,7 @@
 === Google Analytics Simplified ===
 Tags: google analytics, tracking, light weight, simple, easy, free, multi-site
 Requires at least: 4.0.0
-Tested up to: 4.7.3
+Tested up to: 4.7.4
 Stable tag: 1.3.0
 License: MIT
 License URI: https://opensource.org/licenses/MIT

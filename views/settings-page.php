@@ -233,7 +233,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php _e('Stop analytics when a', 'ank-simplified-ga') ?> :</th>
+                        <th scope="row"><?php _e('Stop analytics when', 'ank-simplified-ga') ?> :</th>
                         <td>
                             <fieldset>
                                 <?php

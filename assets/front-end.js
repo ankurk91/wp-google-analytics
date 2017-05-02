@@ -1,7 +1,5 @@
 (function (window, document) {
     'use strict';
-    // IE8 not supported
-    if (!window.addEventListener || !document.querySelectorAll) return;
 
     // Get dynamic options from page
     var asgaOpt = window._asgaOpt;
@@ -19,13 +17,13 @@
             var downLinks = document.querySelectorAll('a');
 
             Array.prototype.forEach.call(downLinks, function (link) {
-                // include only internal links for downloads
+                // Include only internal links for downloads
                 if (link.hostname && (link.hostname === window.location.hostname) && link.href.match(regExt)) {
                     link.addEventListener('click', function (e) {
                         logClickEvent('Downloads', this.href, e)
                     });
 
-                    //only add download attribute if does not have
+                    // Only add download attribute if does not have
                     if (!link.hasAttribute('download'))
                         link.setAttribute('download', '');
 
@@ -40,7 +38,7 @@
 
             Array.prototype.forEach.call(mailLinks, function (link) {
                 link.addEventListener('click', function (e) {
-                    // label should not include 'mailto'
+                    // Label should not include 'mailto'
                     logClickEvent('Email', this.href.replace(/^mailto\:/i, '').toLowerCase(), e)
                 })
             });
@@ -86,14 +84,14 @@
             // Universal event tracking
             // https://developers.google.com/analytics/devguides/collection/analyticsjs/events
             ga('send', 'event', category, 'click', label, {
-                nonInteraction: (asgaOpt.nonInteractive == 1)
+                nonInteraction: (asgaOpt.nonInteractive === '1')
             });
         } else if (window._gaq && _gaq._getAsyncTracker) {
             // Classic event tracking
             // https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide
-            _gaq.push(['_trackEvent', category, 'click', label, 1, (asgaOpt.nonInteractive == 1)]);
+            _gaq.push(['_trackEvent', category, 'click', label, 1, (asgaOpt.nonInteractive === '1')]);
         } else {
-            (window.console) ? console.info('Google analytics not loaded') : null
+            (window.console) ? console.info('Google analytics not loaded yet.') : null
         }
     }
 
