@@ -119,7 +119,6 @@ class Admin extends Singleton
             'plugin_ver' => ASGA_PLUGIN_VER,
             'ga_id' => '',
             'js_location' => 1,
-            'js_load_later' => 0,
             'js_priority' => 20,
             'log_404' => 0,
             'ua_enabled' => 1,
@@ -181,7 +180,7 @@ class Admin extends Singleton
             $out['ga_id'] = sanitize_text_field($in['ga_id']);
         }
 
-        $radio_items = array('js_location', 'js_load_later');
+        $radio_items = array('js_location');
 
         foreach ($radio_items as $item) {
             $out[$item] = absint($in[$item]);

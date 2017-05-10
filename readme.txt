@@ -183,6 +183,9 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 
 == Changelog ==
 
+* 1.4.0 =
+* Remove: Option to load JS on `window.load` event
+
 = 1.3.0 =
 * Fix text domain
 * Min WordPress requirement 4.0

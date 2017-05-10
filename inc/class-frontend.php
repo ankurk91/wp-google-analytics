@@ -71,7 +71,6 @@ class Frontend extends Singleton
 
         // Check for debug mode
         $view_array['debug_mode'] = $this->check_debug_mode();
-        $view_array['js_load_later'] = (absint($options['js_load_later']) === 1);
 
         if ($options['ua_enabled'] == 1) {
             // If universal is enabled

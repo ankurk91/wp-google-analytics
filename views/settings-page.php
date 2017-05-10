@@ -211,20 +211,7 @@
                                 </label>
                             </fieldset>
                         </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?php _e('Code execution', 'ank-simplified-ga') ?> :</th>
-                        <td>
-                            <fieldset>
-                                <label><input type="radio" name="asga_options[js_load_later]"
-                                              value="0" <?php checked($options['js_load_later'], 0) ?>>&ensp;<?php _e('Immediately', 'ank-simplified-ga') ?>
-                                </label><br>
-                                <label><input type="radio" name="asga_options[js_load_later]"
-                                              value="1" <?php checked($options['js_load_later'], 1) ?>>&ensp;<?php _e('On page load', 'ank-simplified-ga') ?>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
+                    </tr>                   
                     <tr>
                         <th scope="row"><?php _e('Action priority', 'ank-simplified-ga') ?> :</th>
                         <td><input type="number" size="25" placeholder="20" name="asga_options[js_priority]"
