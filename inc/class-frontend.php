@@ -368,4 +368,4 @@ class Frontend extends Singleton
         return $guid;
     }
 
-} //end class
+}

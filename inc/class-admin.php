@@ -54,7 +54,7 @@ class Admin extends Singleton
     {
 
         // If db options not exists then update with defaults
-        if (get_option(ASGA_OPTION_NAME) == false) {
+        if (get_option(ASGA_OPTION_NAME, false) === false) {
             update_option(ASGA_OPTION_NAME, $this->get_default_options());
         }
 
@@ -425,7 +425,7 @@ class Admin extends Singleton
                 'title' => 'More',
                 'content' => '<p><strong>Need more information ?</strong><br>' .
                     'A brief FAQ is available to solve your common issues, ' .
-                    'click <a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">here</a> to read more.<br>' .
+                    'click <a href="https://wordpress.org/plugins/ank-simplified-ga#faq" target="_blank">here</a> to read more.<br>' .
                     'Support is only available on WordPress Forums, click <a href="http://wordpress.org/support/plugin/ank-simplified-ga" target="_blank">here</a> to ask anything about this plugin.<br>' .
                     'You can also browse the source code of this  plugin on <a href="https://github.com/ankurk91/wp-google-analytics" target="_blank">GitHub</a>. ' .
                     '</p>'
@@ -436,10 +436,10 @@ class Admin extends Singleton
         //Add a help sidebar with links
         $curr_screen->set_help_sidebar(
             '<p><strong>Quick Links</strong></p>' .
-            '<p><a href="https://wordpress.org/plugins/ank-simplified-ga/faq/" target="_blank">Plugin FAQ</a></p>' .
+            '<p><a href="https://wordpress.org/plugins/ank-simplified-ga#faq" target="_blank">Plugin FAQ</a></p>' .
             '<p><a href="https://github.com/ankurk91/wp-google-analytics" target="_blank">Plugin Home</a></p>'
         );
     }
 
 
-} //end class
+}

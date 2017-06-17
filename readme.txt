@@ -1,8 +1,8 @@
 === Google Analytics Simplified ===
 Tags: google analytics, tracking, light weight, simple, easy, free, multi-site
 Requires at least: 4.0.0
-Tested up to: 4.7.4
-Stable tag: 1.3.0
+Tested up to: 4.8.0
+Stable tag: 1.4.0
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 Contributors: ankurk91
@@ -184,18 +184,19 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 == Changelog ==
 
 * 1.4.0 =
+* Compatible with WP v4.8.0
 * Remove: Option to load JS on `window.load` event
 
 = 1.3.0 =
 * Fix text domain
-* Min WordPress requirement 4.0
+* Minimum WordPress requirement 4.0
 
 = 1.2.1 =
 * Updated links
 * Change namespace
 
 = 1.2.0 =
-* Tested up to wp v4.5.3
+* Tested up to WP v4.5.3
 * Remove: Google Webmaster option
 * Event Tracking - No longer depends on jQuery
 * Event Tracking - Dropped IE8 support
@@ -208,11 +209,11 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 * Fix: Non interactive issue
 
 = 1.0.2 =
-* Tested upto wp v4.5.1
+* Tested upto WP v4.5.1
 * Deprecate 'Google Webmaster Code' options in favour of [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/)
 
 = 1.0.1 =
-* Tested up to wp v4.4.2
+* Tested up to WP v4.4.2
 * Minor updates and fixes
 
 = 1.0.0 =

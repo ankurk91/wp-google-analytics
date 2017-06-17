@@ -21,6 +21,7 @@ function uninstall_ank_simplified_ga($option_name)
         delete_option($option_name);
     } else {
         global $wpdb;
+        // LIMIT 100 is intentional
         $blog_ids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs LIMIT 100");
         $original_blog_id = get_current_blog_id();
 
