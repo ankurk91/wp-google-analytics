@@ -1,10 +1,10 @@
 <?php
 
-namespace Ankur\Plugins\Ank_Google_Map;
+namespace Ankur\Plugins\Ank_Simplified_GA;
 
 /**
  * Class Singleton
- * @package Ankur\Plugins\Ank_Google_Map
+ * @package Ankur\Plugins\Ank_Simplified_GA
  */
 class Singleton
 {

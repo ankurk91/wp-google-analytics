@@ -2,8 +2,6 @@
 
 namespace Ankur\Plugins\Ank_Simplified_GA;
 
-use Ankur\Plugins\Ank_Google_Map\Singleton;
-
 /**
  * Class Admin
  * @package Ankur\Plugins\Ank_Simplified_GA
