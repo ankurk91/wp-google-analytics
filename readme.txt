@@ -25,14 +25,12 @@ Track your WordPress website with Google Analytics service.
 * Simplest user interface
 	* Single page tab based interface
 	* Minimal and non confusing settings
-	* Help links to understand features
 * Multi-site ready
     * Each sub site need to be configured separately
     * Each sub site will store its own configuration in database, there is no global settings for this plugin
 * Translation ready, you are welcome [here](https://translate.wordpress.org/projects/wp-plugins/ank-simplified-ga)
-* Choose where to place your tracking code
-	* Ability to place code in header or footer, control priority
-	* Ability to run tracking code when page loaded
+* Ability to place code in header or footer, control priority
+
 
 = Google Analytics features covered =
 * Demographics & Interest Reports
@@ -88,7 +86,7 @@ Track your WordPress website with Google Analytics service.
 == Frequently Asked Questions ==
 
 
-= What is different with this plugin ? =
+= What is different with this plugin? =
 
 WordPress plugin directory already filled with many of these kind of plugins.
 But not all are optimized for performance.
@@ -108,34 +106,34 @@ There may be several reasons for this.
 * Try re-installing the plugin.
 
 
-= Changes does not reflect after saving settings ? =
+= Changes does not reflect after saving settings? =
 
 Are you using some Cache/Performance plugin (eg: WP Super Cache/W3 Total Cache) ?
 
 Then flush your WP cache after saving settings.
 
-= Where does it store settings and options ? =
+= Where does it store settings and options? =
 
 WP Database->wp-options->asga_options.
 
 Uses a Single Row, stored in array for faster access.
 
 
-= What if i uninstall/remove this plugin? =
+= What if I uninstall/remove this plugin? =
 
 No worry! It will remove its traces from database upon uninstall.
 
 It will also disable tracking by removing the code from front-end.
 
-= Where to find my GA Tracking ID ? =
+= Where to find my GA Tracking ID? =
 
 Just go [here](https://support.google.com/analytics/answer/1032385).
 
-= Am i using Classic or Universal Google Analytics ? =
+= Am i using Classic or Universal Google Analytics? =
 
 [This](https://support.google.com/analytics/answer/4457764) might help.
 
-= What is debugging mode, How do i use it ? =
+= What is debugging mode, How do i use it? =
 
 Debugging mode allows you to troubleshot problems with Google Analytics web tracking.
 Once you enable this mode. Open up your site homepage and press F12 to open developer tools,
@@ -147,7 +145,7 @@ Don't forget to disable this mode in production.
 
 This mode is only available for administrators only when they are logged-in to WordPress dashboard.
 
-= How does it work for multi-site ? =
+= How does it work for multi-site? =
 
 You need to configure the plugin for each of sub-site individually.
 
@@ -157,14 +155,14 @@ I uses latest version WordPress during development.
 So i recommend you to upgrade to latest WordPress today.
 
 
-= Is Google Analytics service free. =
+= Is Google Analytics service free? =
 
 Yes, But there is paid version of Google Analytics also.
 
 Read more [here](https://developers.google.com/analytics/devguides/collection/analyticsjs/limits-quotas).
 
 
-= Future Plans ? =
+= Future Plans? =
 * OAuth
 * More options may be.
 

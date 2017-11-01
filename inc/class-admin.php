@@ -20,7 +20,7 @@ class Admin extends Singleton
         // To save default options upon activation
         register_activation_hook(plugin_basename(ASGA_BASE_FILE), array($this, 'do_upon_plugin_activation'));
 
-        // For register setting
+        // Register setting
         add_action('admin_init', array($this, 'register_plugin_settings'));
 
         // Settings link on plugin listing page
@@ -52,6 +52,7 @@ class Admin extends Singleton
     {
 
         // If db options not exists then update with defaults
+        // Note: Always check against false
         if (get_option(ASGA_OPTION_NAME, false) === false) {
             update_option(ASGA_OPTION_NAME, $this->get_default_options());
         }
@@ -305,7 +306,7 @@ class Admin extends Singleton
         $db_options = get_option(ASGA_OPTION_NAME);
 
         // Be fail safe, if not array then array_merge may fail
-        if (is_array($db_options) === false) {
+        if (!is_array($db_options)) {
             $db_options = array();
         }
 
