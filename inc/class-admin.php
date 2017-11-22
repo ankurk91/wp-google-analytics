@@ -323,7 +323,7 @@ class Admin extends Singleton
     {
         // Get fresh options from db
         $db_options = get_option(ASGA_OPTION_NAME);
-        //Check if we need to proceed , if no return early
+        // Check if we need to proceed , if no return early
         if ($this->should_proceed_to_upgrade($db_options) === false) return;
         // Get default options
         $default_options = $this->get_default_options();

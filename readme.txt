@@ -1,8 +1,8 @@
 === Google Analytics Simplified ===
 Tags: google analytics, tracking, light weight, simple, easy, free, multi-site
 Requires at least: 4.0.0
-Tested up to: 4.8.2
-Stable tag: 1.4.1
+Tested up to: 4.9.0
+Stable tag: 1.4.2
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 Contributors: ankurk91
@@ -180,6 +180,9 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 
 
 == Changelog ==
+
+= 1.4.2 =
+* Tested with WP v4.9
 
 = 1.4.1 =
 * Fix: send `1` as value in events

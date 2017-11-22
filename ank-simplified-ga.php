@@ -6,7 +6,7 @@ namespace Ankur\Plugins\Ank_Simplified_GA;
  * Plugin Name: Google Analytics Simplified
  * Plugin URI: https://github.com/ankurk91/wp-google-analytics
  * Description: Simple, light weight, and non-bloated Google Analytics plugin for WordPress.
- * Version: 1.4.1
+ * Version: 1.4.2
  * Author: Ankur Kumar
  * Author URI: https://ankurk91.github.io/
  * License: MIT
@@ -18,7 +18,7 @@ namespace Ankur\Plugins\Ank_Simplified_GA;
 // No direct access
 if (!defined('ABSPATH')) exit;
 
-define('ASGA_PLUGIN_VER', '1.4.1');
+define('ASGA_PLUGIN_VER', '1.4.2');
 define('ASGA_BASE_FILE', __FILE__);
 define('ASGA_OPTION_NAME', 'asga_options');
 
