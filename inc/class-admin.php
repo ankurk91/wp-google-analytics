@@ -50,13 +50,9 @@ class Admin extends Singleton
      */
     public function do_upon_plugin_activation()
     {
-
-        // If db options not exists then update with defaults
-        // Note: Always check against false
         if (get_option(ASGA_OPTION_NAME, false) === false) {
             update_option(ASGA_OPTION_NAME, $this->get_default_options());
         }
-
     }
 
     /**
@@ -100,8 +96,6 @@ class Admin extends Singleton
             self::PLUGIN_SLUG,
             array($this, 'load_options_page'));
 
-        // Add help stuff via tab
-        add_action("load-$page_hook_suffix", array($this, 'add_help_menu_tab'));
         // We can load additional css/js to our option page here
         add_action('admin_print_scripts-' . $page_hook_suffix, array($this, 'add_admin_assets'));
 
@@ -378,67 +372,4 @@ class Admin extends Singleton
             throw new \Exception('Unable to load template file - ' . esc_html($file_path));
         }
     }
-
-
-    /**
-     * Function will add help tab to our option page
-     * @require wp v3.3+
-     */
-    public function add_help_menu_tab()
-    {
-        // Get current screen object
-        $curr_screen = get_current_screen();
-
-        $curr_screen->add_help_tab(
-            array(
-                'id' => 'asga-overview',
-                'title' => 'Basic',
-                'content' => '<p><strong>Do you have a Google Analytics Account ?</strong><br>' .
-                    'In order to use this plugin you need to have a Google Analytics Account. Create an account <a target="_blank" href="http://www.google.com/analytics">here</a>. It is FREE. <br>' .
-                    '<strong>How do i find my Google Analytics ID ?</strong><br>' .
-                    'Please check out this <a target="_blank" href="https://support.google.com/analytics/answer/1032385?hl=en">link</a><br>' .
-                    '<strong>How do i view my stats ?</strong><br>' .
-                    'Login to Google Analytics Account with your G-Mail ID to view stats.' .
-                    '</p>'
-
-            )
-        );
-
-        $curr_screen->add_help_tab(
-            array(
-                'id' => 'asga-troubleshoot',
-                'title' => 'Troubleshoot',
-                'content' => '<p><strong>Things to remember</strong><br>' .
-                    '<ul>' .
-                    '<li>If you are using a cache/performance plugin, you need to flush/delete your site cache after saving settings here.</li>' .
-                    '<li>It can take up to 24-48 hours after adding the tracking code before any analytical data appears in your Google Analytics account. </li>' .
-                    '</ul>' .
-                    '</p>'
-
-            )
-        );
-
-        $curr_screen->add_help_tab(
-            array(
-                'id' => 'asga-more-info',
-                'title' => 'More',
-                'content' => '<p><strong>Need more information ?</strong><br>' .
-                    'A brief FAQ is available to solve your common issues, ' .
-                    'click <a href="https://wordpress.org/plugins/ank-simplified-ga#faq" target="_blank">here</a> to read more.<br>' .
-                    'Support is only available on WordPress Forums, click <a href="http://wordpress.org/support/plugin/ank-simplified-ga" target="_blank">here</a> to ask anything about this plugin.<br>' .
-                    'You can also browse the source code of this  plugin on <a href="https://github.com/ankurk91/wp-google-analytics" target="_blank">GitHub</a>. ' .
-                    '</p>'
-
-            )
-        );
-
-        //Add a help sidebar with links
-        $curr_screen->set_help_sidebar(
-            '<p><strong>Quick Links</strong></p>' .
-            '<p><a href="https://wordpress.org/plugins/ank-simplified-ga#faq" target="_blank">Plugin FAQ</a></p>' .
-            '<p><a href="https://github.com/ankurk91/wp-google-analytics" target="_blank">Plugin Home</a></p>'
-        );
-    }
-
-
 }

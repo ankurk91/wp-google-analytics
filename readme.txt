@@ -1,8 +1,9 @@
 === Google Analytics Simplified ===
 Tags: google analytics, tracking, light weight, simple, easy, free, multi-site
-Requires at least: 4.0.0
-Tested up to: 4.9.0
-Stable tag: 1.4.2
+Requires at least: 5.0.0
+Requires PHP: 5.6.0
+Tested up to: 5.6.1
+Stable tag: 1.5.0
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 Contributors: ankurk91
@@ -60,20 +61,6 @@ Track your WordPress website with Google Analytics service.
 * Works only when a administrator user is logged in
 
 
-
-
-> <strong>Found bugs ?</strong><br>
-> I am happy to resolve bugs, report your bugs [here](https://github.com/ankurk91/wp-google-analytics/issues)<br>
-> Please note that support is only available via WordPress forums.
-
-
-> <strong>Still have questions ?</strong><br>
-> Head over to [FAQ](https://wordpress.org/plugins/ank-simplified-ga/faq/) section first.<br>
-> You can always use support [forums](https://wordpress.org/support/plugin/ank-simplified-ga).
-
-
-
-
 == Installation ==
 0. Remove existing Google Analytics plugin or disable them.
 1. Search for 'Ank Simplified GA' in WordPress Plugin Directory and Download the .zip file & extract it.
@@ -84,17 +71,6 @@ Track your WordPress website with Google Analytics service.
 
 
 == Frequently Asked Questions ==
-
-
-= What is different with this plugin? =
-
-WordPress plugin directory already filled with many of these kind of plugins.
-But not all are optimized for performance.
-Most of them lacks some features, while some of them cover unused features.
-
-This plugin was developed to provide most used feature in one place without compromising the speed.
-So give it a try , i am sure you will not regret for your decision.
-
 
 = Tracking code not shown up in front end =
 
@@ -112,18 +88,6 @@ Are you using some Cache/Performance plugin (eg: WP Super Cache/W3 Total Cache) 
 
 Then flush your WP cache after saving settings.
 
-= Where does it store settings and options? =
-
-WP Database->wp-options->asga_options.
-
-Uses a Single Row, stored in array for faster access.
-
-
-= What if I uninstall/remove this plugin? =
-
-No worry! It will remove its traces from database upon uninstall.
-
-It will also disable tracking by removing the code from front-end.
 
 = Where to find my GA Tracking ID? =
 
@@ -131,7 +95,7 @@ Just go [here](https://support.google.com/analytics/answer/1032385).
 
 = Am i using Classic or Universal Google Analytics? =
 
-[This](https://support.google.com/analytics/answer/4457764) might help.
+[This](https://support.google.com/analytics/answer/4457764) guide may help.
 
 = What is debugging mode, How do i use it? =
 
@@ -149,24 +113,6 @@ This mode is only available for administrators only when they are logged-in to W
 
 You need to configure the plugin for each of sub-site individually.
 
-= Did you test it with old version of WordPress ? =
-
-I uses latest version WordPress during development.
-So i recommend you to upgrade to latest WordPress today.
-
-
-= Is Google Analytics service free? =
-
-Yes, But there is paid version of Google Analytics also.
-
-Read more [here](https://developers.google.com/analytics/devguides/collection/analyticsjs/limits-quotas).
-
-
-= Future Plans? =
-* OAuth
-* More options may be.
-
-
 
 == Screenshots ==
 1. General Options
@@ -180,6 +126,10 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 
 
 == Changelog ==
+
+= 1.5.0 =
+* Tested on php 7.4 and WordPress 5.6
+* Requires php 5.6+
 
 = 1.4.2 =
 * Tested with WP v4.9
@@ -328,7 +278,5 @@ Read more [here](https://developers.google.com/analytics/devguides/collection/an
 * First beta
 
 
-
 == Other Notes ==
 
-You should be running minimum of v0.9.0 of this plugin.

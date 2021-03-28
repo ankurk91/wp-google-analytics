@@ -17,9 +17,10 @@ if (!defined('WP_UNINSTALL_PLUGIN'))
  */
 function uninstall_ank_simplified_ga($option_name)
 {
+    global $wpdb;
+
     if (is_multisite()) {
-        global $wpdb;
-        // LIMIT 100 is intentional
+        // LIMIT of 100 is intentional
         $blog_ids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs LIMIT 100");
         $original_blog_id = get_current_blog_id();
 

@@ -211,7 +211,7 @@
                                 </label>
                             </fieldset>
                         </td>
-                    </tr>                   
+                    </tr>
                     <tr>
                         <th scope="row"><?php _e('Action priority', 'ank-simplified-ga') ?> :</th>
                         <td><input type="number" size="25" placeholder="20" name="asga_options[js_priority]"
@@ -261,7 +261,7 @@
     </form>
     <hr>
     <p>
-        <?php _e('Developed with ♥ by', 'ank-simplified-ga') ?> - <a target="_blank" href="https://ankurk91.github.io/?utm_source=<?php echo rawurlencode(get_home_url()) ?>&amp;utm_medium=plugin_options_page&amp;utm_campaign=ank-simplified-ga">Ankur Kumar</a> |
+        <?php _e('Developed with ♥ by', 'ank-simplified-ga') ?> - <a target="_blank" href="https://twitter.com/ankurk91">Ankur Kumar</a> |
         <?php _e('Contribute on', 'ank-simplified-ga') ?> <a href="https://github.com/ankurk91/wp-google-analytics" target="_blank">GitHub</a> |
         ★ <?php _e('Rate this on', 'ank-simplified-ga') ?>
         <a href="https://wordpress.org/support/plugin/ank-simplified-ga/reviews/?filter=5" target="_blank"><?php _e('WordPress') ?></a>
